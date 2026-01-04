@@ -1,0 +1,29 @@
+project:
+  type: website
+  output-dir: docs  # Important for GitHub Pages
+
+website:
+  title: "Your Name | Portfolio"
+  description: "Data Scientist specializing in ML, NLP, and Vision"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: experience.qmd
+        text: Experience & CV
+      - href: blog.qmd
+        text: Blog
+    right:
+      - icon: github
+        href: https://github.com/RamuNalla
+      - icon: linkedin
+        href: https://linkedin.com/in/yourusername
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+
+editor: visual
