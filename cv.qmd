@@ -1,0 +1,13 @@
+---
+title: "Curriculum Vitae"
+---
+
+<div class="text-center">
+  <a href="your_cv_file.pdf" class="btn btn-outline-primary" target="_blank">
+    Download Full CV (PDF)
+  </a>
+</div>
+
+<br>
+
+<iframe width="100%" height="1000px" src="your_cv_file.pdf"></iframe>

@@ -1,19 +1,21 @@
 project:
   type: website
-  output-dir: docs  # Important for GitHub Pages
+  output-dir: docs
 
 website:
-  title: "Your Name | Portfolio"
-  description: "Data Scientist specializing in ML, NLP, and Vision"
+  title: "Ramu Nalla"
   navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - href: experience.qmd
-        text: Experience & CV
-      - href: blog.qmd
-        text: Blog
-    right:
+    search: true
+    collapse: true
+    right: 
+      - text: "About"
+        href: index.qmd
+      - text: "Projects"
+        href: projects.qmd
+      - text: "Posts"
+        href: posts.qmd
+      - text: "CV"
+        href: cv.qmd
       - icon: github
         href: https://github.com/RamuNalla
       - icon: linkedin
@@ -21,9 +23,7 @@ website:
 
 format:
   html:
-    theme:
-      light: cosmo
-      dark: darkly
+    theme: [cosmo, custom.scss] # Cosmo is a clean base for typography
     toc: true
-
-editor: visual
+    fontsize: 1.05rem
+    mainfont: "Inter" # Shreyansh uses clean sans-serif fonts

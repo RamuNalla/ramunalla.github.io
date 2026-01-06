@@ -1,15 +1,14 @@
 ---
-title: "ramunalla.github.io"
-listing:
-  contents: posts
-  feed: true
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-page-layout: full
-title-block-banner: true
+title: "About Me"
+about:
+  template: jolla
+  image: profile.jpg # Put your photo in the root folder
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/yourusername
+    - icon: github
+      text: Github
+      href: https://github.com/RamuNalla
 ---
-
-
+Welcome to my portfolio! I am a Data Scientist...

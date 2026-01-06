@@ -1,0 +1,12 @@
+---
+title: "Posts"
+subtitle: "Learnings in ML, NLP, and Computer Vision"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true      # This creates the sidebar filter
+  sort-ui: false
+  filter-ui: false
+  fields: [date, title, reading-time, description, categories]
+---

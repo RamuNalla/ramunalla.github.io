@@ -1,0 +1,58 @@
+/*-- scss:defaults --*/
+
+// THE SHREYANSH COLOR PALETTE
+$body-bg: #000000;             // Pure black background
+$body-color: #ffffff;          // Pure white text
+$link-color: #00a8ff;          // Accent blue for links
+$navbar-bg: #000000;           // Black navbar
+$navbar-fg: #ffffff;           // White navbar text
+$navbar-hl: #00a8ff;           // Highlight color for menu
+
+// TYPOGRAPHY
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+/*-- scss:rules --*/
+
+// Remove borders from navbar for that clean look
+.navbar {
+  border-bottom: 0.5px solid #222 !important; 
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+// Minimalist Headings
+h1, h2, h3, h4 {
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 1.5em;
+}
+
+// Style for the "Posts" listing to look like Shreyansh's
+.quarto-post {
+  border-bottom: 1px solid #222 !important;
+  padding-bottom: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.quarto-post .title {
+  color: #ffffff;
+  font-size: 1.4em;
+  text-decoration: none;
+  &:hover {
+    color: $link-color;
+  }
+}
+
+.quarto-post .metadata {
+  color: #888; // Grey dates/categories like Shreyansh
+}
+
+// Style the Project cards
+.card {
+  background-color: #111 !important; // Slightly lighter than black
+  border: 1px solid #222 !important;
+  transition: all 0.3s ease;
+  &:hover {
+    border-color: #444 !important;
+  }
+}
