@@ -6,24 +6,26 @@ website:
   title: "Ramu Nalla"
   navbar:
     search: true
-    collapse: true
-    right: 
+    right:
       - text: "About"
         href: index.qmd
-      - text: "Projects"
-        href: projects.qmd
       - text: "Posts"
         href: posts.qmd
+      - text: "Projects"
+        href: projects.qmd
       - text: "CV"
         href: cv.qmd
       - icon: github
         href: https://github.com/RamuNalla
       - icon: linkedin
         href: https://linkedin.com/in/yourusername
+  # This adds the moon/sun icon for dark mode toggle
+  theme:
+    light: [flatly, custom.scss]
+    dark: [darkly, custom.scss]
 
 format:
   html:
-    theme: [cosmo, custom.scss] # Cosmo is a clean base for typography
-    toc: true
-    fontsize: 1.05rem
-    mainfont: "Inter" # Shreyansh uses clean sans-serif fonts
+    toc: false
+    mainfont: "Inter"
+    link-external-newwindow: true

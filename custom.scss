@@ -1,58 +1,55 @@
 /*-- scss:defaults --*/
-
-// THE SHREYANSH COLOR PALETTE
-$body-bg: #000000;             // Pure black background
-$body-color: #ffffff;          // Pure white text
-$link-color: #00a8ff;          // Accent blue for links
-$navbar-bg: #000000;           // Black navbar
-$navbar-fg: #ffffff;           // White navbar text
-$navbar-hl: #00a8ff;           // Highlight color for menu
-
-// TYPOGRAPHY
-$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$link-color: #2698ba; // The Teal/Cyan color from the screenshot
 
 /*-- scss:rules --*/
 
-// Remove borders from navbar for that clean look
-.navbar {
-  border-bottom: 0.5px solid #222 !important; 
-  font-weight: 400;
-  letter-spacing: 0.5px;
+// Background colors
+.quarto-dark {
+  --quarto-body-bg: #1a1a1a; // Shreyansh's specific charcoal black
 }
 
-// Minimalist Headings
-h1, h2, h3, h4 {
+// The Oval Image Mask
+.profile-image-oval {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1.2; // Makes it slightly taller than wide
+  object-fit: cover;
+  border-radius: 50%; // Creates the oval/elliptical look
+  margin-top: 20px;
+}
+
+// Hero Title styling
+.hero-title {
+  font-size: 3.5rem;
   font-weight: 700;
-  color: #ffffff;
-  margin-top: 1.5em;
+  margin-bottom: 20px;
 }
 
-// Style for the "Posts" listing to look like Shreyansh's
-.quarto-post {
-  border-bottom: 1px solid #222 !important;
-  padding-bottom: 1.5em;
-  margin-bottom: 1.5em;
+.hero-name-light {
+  font-weight: 300;
+  color: #888;
 }
 
-.quarto-post .title {
-  color: #ffffff;
-  font-size: 1.4em;
-  text-decoration: none;
-  &:hover {
-    color: $link-color;
+// Latest Posts Listing
+.latest-posts-list {
+  margin-top: 50px;
+  .post-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 0px; // Minimalist, no lines
   }
-}
-
-.quarto-post .metadata {
-  color: #888; // Grey dates/categories like Shreyansh
-}
-
-// Style the Project cards
-.card {
-  background-color: #111 !important; // Slightly lighter than black
-  border: 1px solid #222 !important;
-  transition: all 0.3s ease;
-  &:hover {
-    border-color: #444 !important;
+  .post-date {
+    color: #888;
+    font-weight: 600;
+    min-width: 120px;
+  }
+  .post-title {
+    flex-grow: 1;
+    text-decoration: none;
+    font-weight: 500;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
