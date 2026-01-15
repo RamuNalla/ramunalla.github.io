@@ -191,3 +191,51 @@ tbody td a {
 tbody td a:hover {
   color: #7ab8e0;
 }
+
+/* Search and filter styling - dark backgrounds */
+.quarto-search-select,
+.quarto-listing-select,
+input[type="search"],
+select {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  color: #e0e0e0 !important;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+}
+
+.quarto-search-select:focus,
+select:focus,
+input[type="search"]:focus {
+  border-color: #5a9fd4 !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(90, 159, 212, 0.1);
+}
+
+.quarto-search-select::placeholder {
+  color: #666666;
+}
+
+/* Filter input styling */
+input[type="text"].filter-input,
+input[type="search"].filter-input {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  color: #e0e0e0 !important;
+}
+
+/* Order by / sort dropdown */
+.listing-options select,
+.listing-options .quarto-search-select {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #333 !important;
+}
+
+/* Listing controls - input styling */
+.quarto-listing-container input,
+.quarto-listing-container select {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #333 !important;
+}

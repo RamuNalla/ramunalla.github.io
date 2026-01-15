@@ -41,17 +41,17 @@ body {
 }
 
 #quarto-document-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-// Navbar styling
+// Navbar styling - reduced height
 .navbar {
   background-color: #1a1a1a !important;
   border-bottom: 1px solid #333 !important;
   backdrop-filter: blur(10px);
-  padding: 0.8rem 2rem !important;
+  padding: 0.5rem 2rem !important;
 }
 
 .navbar-brand {
@@ -72,9 +72,10 @@ body {
 
 // Hero title - Large and prominent with Georgia font
 h1.hero-title {
-  font-size: 3.8rem !important;
+  font-size: 3.2rem !important;
   font-weight: 700;
   font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  margin-top: 2rem !important;
   margin-bottom: 1.5rem;
   color: #ffffff !important;
   letter-spacing: -0.02em;
@@ -95,9 +96,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h2 {
-  font-size: 2.4rem !important;
-  margin-top: 3rem !important;
-  margin-bottom: 1.8rem !important;
+  font-size: 1.8rem !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
   font-weight: 700;
 }
 
@@ -141,7 +142,7 @@ em {
 // Profile image
 .profile-image-oval {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   height: auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
