@@ -1,5 +1,4 @@
 ---
-layout: full
 listing:
   id: latest-posts
   contents: posts
