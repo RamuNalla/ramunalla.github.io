@@ -1,1 +1,42 @@
-/* css styles */
+/* Dark theme customizations */
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+/* Ensure footer is dark */
+.footer {
+  background-color: #1a1a1a;
+  border-top: 1px solid #333;
+}
+
+/* Make code blocks readable in dark mode */
+code {
+  background-color: #242424;
+  color: #e8e8e8;
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
+}
+
+pre {
+  background-color: #242424;
+  border-left: 3px solid #5a9fd4;
+}
+
+/* Search styling */
+.quarto-search-select {
+  background-color: #242424;
+  border: 1px solid #444;
+  color: #cccccc;
+}
+
+/* Improve contrast for better readability */
+::selection {
+  background-color: #5a9fd4;
+  color: #ffffff;
+}
