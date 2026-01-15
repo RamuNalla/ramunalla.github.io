@@ -1,149 +1,245 @@
 /*-- scss:defaults --*/
-$body-bg: #1a1a1a;
-$body-color: #ffffff;
+
+// Dark theme colors
+$body-bg: #0f0f0f;
+$body-color: #e0e0e0;
 $navbar-bg: #1a1a1a;
 $navbar-fg: #ffffff;
 $link-color: #5a9fd4;
+$border-color: #333333;
+
+// Override defaults
+$primary: #5a9fd4;
+$secondary: #888888;
+$success: #5a9fd4;
 
 /*-- scss:rules --*/
 
-// 0. Overall page styling
-body {
-  background-color: #1a1a1a;
-  color: #cccccc;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+// Universal dark theme
+html {
+  background-color: #0f0f0f;
+  color-scheme: dark;
 }
 
-// 1. Hero title styling
+body {
+  background-color: #0f0f0f !important;
+  color: #e0e0e0 !important;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+}
+
+// Container and main content area
+.quarto-container {
+  background-color: #0f0f0f;
+  color: #e0e0e0;
+}
+
+// Navbar styling
+.navbar {
+  background-color: #1a1a1a !important;
+  border-bottom: 1px solid #333 !important;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.nav-link {
+  color: #b0b0b0 !important;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #ffffff !important;
+  }
+}
+
+// Hero title - Large and prominent
 h1.hero-title {
-  font-size: 3.5rem !important; 
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #ffffff;
+  font-size: 3.5rem !important;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #ffffff !important;
+  letter-spacing: -0.02em;
 }
 
 h1.hero-title span {
   color: #888888;
   font-weight: 400;
+  opacity: 0.8;
 }
 
-// 2. Body text and links
+// All headings
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2.2rem !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+h3 {
+  font-size: 1.4rem !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+// Paragraphs and text
 p {
-  font-size: 1.1rem;
-  line-height: 1.65;
-  color: #cccccc;
+  font-size: 1.05rem;
+  color: #d0d0d0 !important;
+  line-height: 1.7;
   margin-bottom: 1.25rem;
 }
 
+// Links
 a {
-  color: #5a9fd4;
+  color: #5a9fd4 !important;
   text-decoration: none;
+  transition: color 0.2s ease;
   
   &:hover {
-    color: #7ab8e0;
-    text-decoration: none;
+    color: #7ab8e0 !important;
   }
 }
 
+// Strong text (bold)
 strong {
   color: #ffffff;
   font-weight: 600;
 }
 
-// 3. Navbar styling
-.navbar {
-  background-color: #1a1a1a !important;
-  border-bottom: 1px solid #333 !important;
-  padding: 1rem 0;
-  
-  .navbar-title {
-    color: #ffffff;
-    font-weight: 600;
-  }
-  
-  .navbar-nav .nav-link {
-    color: #cccccc !important;
-    margin-left: 1.5rem;
-    font-size: 0.95rem;
-    
-    &:hover {
-      color: #ffffff !important;
-    }
-  }
+em {
+  color: #b0b0b0;
 }
 
-// 4. The circular profile image
+// Profile image
 .profile-image-oval {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
+  height: auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #2a2a2a;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 4px solid #2a2a2a;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  display: block;
   margin: 0 auto;
 }
 
-// 5. Section headings
-h2 {
-  color: #ffffff;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-h3 {
-  color: #ffffff;
-  font-weight: 600;
-}
-
-// 6. Table styling for Latest Posts
-.quarto-listing-table {
+// Grid styling
+.grid {
   background-color: transparent;
-  border: none;
+}
+
+.g-col-12 {
+  background-color: transparent;
+}
+
+// Table styling
+table {
+  background-color: transparent;
+  border-collapse: collapse;
+}
+
+thead {
+  border-bottom: 2px solid #333;
   
-  thead {
-    border-bottom: 1px solid #444;
-    
-    th {
-      color: #ffffff;
-      font-weight: 600;
-      padding: 0.75rem;
-      border: none;
-      background-color: transparent;
-    }
+  th {
+    background-color: transparent;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 1rem;
+    border: none;
+    text-align: left;
   }
-  
-  tbody {
-    tr {
-      border-bottom: 1px solid #333;
+}
+
+tbody {
+  tr {
+    border-bottom: 1px solid #2a2a2a;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: #1a1a1a;
+    }
+    
+    td {
+      color: #d0d0d0;
+      padding: 1rem;
+      border: none;
       
-      &:hover {
-        background-color: #242424;
-      }
-      
-      td {
-        color: #cccccc;
-        padding: 1rem 0.75rem;
-        border: none;
+      a {
+        color: #5a9fd4;
         
-        a {
-          color: #5a9fd4;
-          
-          &:hover {
-            color: #7ab8e0;
-          }
+        &:hover {
+          color: #7ab8e0;
         }
       }
     }
   }
 }
 
-// 7. Button and link styling
+// Code styling
+code {
+  background-color: #1a1a1a;
+  color: #e8e8e8;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.9em;
+  border: 1px solid #2a2a2a;
+}
+
+pre {
+  background-color: #1a1a1a;
+  border-left: 4px solid #5a9fd4;
+  border-radius: 4px;
+  padding: 1rem;
+  color: #e8e8e8;
+  overflow-x: auto;
+  
+  code {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+  }
+}
+
+// Blockquotes
+blockquote {
+  border-left: 4px solid #5a9fd4;
+  padding-left: 1rem;
+  color: #b0b0b0;
+  font-style: italic;
+}
+
+// Buttons
+.btn {
+  transition: all 0.2s ease;
+  font-weight: 600;
+  
+  &:not(.btn-link) {
+    background-color: #1a1a1a;
+    border: 1px solid #5a9fd4;
+    color: #5a9fd4;
+    
+    &:hover {
+      background-color: #5a9fd4;
+      color: #ffffff;
+    }
+  }
+}
+
 .btn-primary {
   background-color: #5a9fd4;
   border-color: #5a9fd4;
+  color: #ffffff;
   
   &:hover {
     background-color: #7ab8e0;
@@ -151,12 +247,96 @@ h3 {
   }
 }
 
-// 8. Container styling
-.container {
-  max-width: 1000px;
+// Search box
+.quarto-search-select {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: #e0e0e0;
+  border-radius: 4px;
+  
+  &:focus {
+    border-color: #5a9fd4;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(90, 159, 212, 0.1);
+  }
 }
 
-// 9. Hide the dark/light toggle for fixed dark mode
+// Input fields
+input[type="text"],
+input[type="email"],
+input[type="search"],
+textarea {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: #e0e0e0;
+  border-radius: 4px;
+  
+  &:focus {
+    border-color: #5a9fd4;
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: #666666;
+  }
+}
+
+// Footer
+footer {
+  background-color: #1a1a1a;
+  border-top: 1px solid #333;
+  color: #999999;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+// Selection
+::selection {
+  background-color: #5a9fd4;
+  color: #ffffff;
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a9fd4;
+  border-radius: 5px;
+  
+  &:hover {
+    background: #7ab8e0;
+  }
+}
+
+// Remove theme toggle
 .quarto-color-scheme-toggle {
-  display: none;
+  display: none !important;
+}
+
+// Listing controls
+.quarto-listing-container {
+  background-color: transparent;
+}
+
+.listing-options {
+  background-color: transparent;
+  border: none;
+}
+
+// Make sure all text content is visible
+.quarto-title-block-header {
+  background-color: transparent;
+  border-bottom: 1px solid #333;
+}
+
+// Ensure content areas stay dark
+main {
+  background-color: #0f0f0f;
 }

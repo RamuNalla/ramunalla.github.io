@@ -22,9 +22,9 @@ website:
 
 format:
   html:
-    theme: 
-      dark: [cosmo, custom.scss]
+    theme: [cosmo, custom.scss]
     fontsize: 1rem
     mainfont: "Inter"
     link-color: "#5a9fd4"
     toc: false
+    css: styles.css
