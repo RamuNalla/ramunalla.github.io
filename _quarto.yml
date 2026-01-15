@@ -19,13 +19,11 @@ website:
         href: https://github.com/RamuNalla
       - icon: linkedin
         href: https://linkedin.com/in/yourusername
-  # This adds the moon/sun icon for dark mode toggle
-  theme:
-    light: [flatly, custom.scss]
-    dark: [darkly, custom.scss]
 
 format:
   html:
+    theme:
+      light: [flatly, custom.scss]
+      dark: [darkly, custom.scss]
     toc: false
     mainfont: "Inter"
-    link-external-newwindow: true
