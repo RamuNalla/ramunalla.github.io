@@ -45,9 +45,12 @@ I enjoy blogging about Machine Learning, and I am currently working on a series 
 |------|--------|
 | Jan 15, 2026 | Launched personal portfolio website |
 
-<br>
+<br><br>
+
+::: {.footer-content}
 
 ::: {.footer-social-links}
+[✉️](mailto:your@email.com){title="Email"} [🐙](https://github.com/RamuNalla){title="GitHub"} [💼](https://linkedin.com/in/yourusername){title="LinkedIn"} [𝕏](https://twitter.com){title="X/Twitter"} [📷](https://instagram.com){title="Instagram"}
 :::
 
 ::: {.footer-text}
@@ -56,4 +59,6 @@ Best to reach out to me over email or DM me on LinkedIn or X (Twitter).
 
 ::: {.footer-copyright}
 © Copyright 2026 Ramu Nalla.
+:::
+
 :::
