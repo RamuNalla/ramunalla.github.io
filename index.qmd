@@ -5,16 +5,16 @@ listing:
   contents: posts
   sort: "date desc"
   type: table
-  max-items: 3
+  max-items: 10
   fields: [date, title]
   field-display-names:
-    date: "Date"
-    title: "Title"
+    date: ""
+    title: ""
 ---
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-7}
+::: {.g-col-12 .g-col-md-8}
 # Ramu <span style="font-weight: 300; color: #888;">Nalla</span> {.hero-title}
 
 I am a **Data Scientist** at HighLevel, where I focus on building and scaling Large Language Models (LLMs). My work involves NLP challenges, specializing in Transformers and ML systems engineering.
@@ -24,7 +24,7 @@ Before this, I worked as Senior ML Engineer at Enphase Energy, where I developed
 I enjoy blogging about Machine Learning, and I am currently working on a series of posts about **Deep Learning in Computer Vision**.
 :::
 
-::: {.g-col-12 .g-col-md-5 .text-center}
+::: {.g-col-12 .g-col-md-4 .text-center}
 ![](profile.jfif){.profile-image-oval}
 :::
 
@@ -37,4 +37,23 @@ I enjoy blogging about Machine Learning, and I am currently working on a series 
 ::: {#latest-posts}
 :::
 
-[View all posts →](posts.qmd)
+<br>
+
+# News
+
+| Date | Update |
+|------|--------|
+| Jan 15, 2026 | Launched personal portfolio website |
+
+<br>
+
+::: {.footer-social-links}
+:::
+
+::: {.footer-text}
+Best to reach out to me over email or DM me on LinkedIn or X (Twitter).
+:::
+
+::: {.footer-copyright}
+© Copyright 2026 Ramu Nalla.
+:::
