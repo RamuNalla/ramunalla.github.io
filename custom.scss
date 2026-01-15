@@ -1,55 +1,42 @@
 /*-- scss:defaults --*/
-$link-color: #2698ba; // The Teal/Cyan color from the screenshot
+$body-bg: #1a1a1a;
+$body-color: #eeeeee;
+$navbar-bg: #1a1a1a;
+$navbar-fg: #ffffff;
 
 /*-- scss:rules --*/
 
-// Background colors
-.quarto-dark {
-  --quarto-body-bg: #1a1a1a; // Shreyansh's specific charcoal black
+// 1. Force smaller heading sizes to match reference
+h1.hero-title {
+  font-size: 3rem !important; 
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
-// The Oval Image Mask
+// 2. Body text size and line spacing
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+// 3. The Bigger Oval Image
 .profile-image-oval {
   width: 100%;
-  max-width: 400px;
-  aspect-ratio: 1 / 1.2; // Makes it slightly taller than wide
+  max-width: 450px;           /* Larger image as requested */
+  aspect-ratio: 1 / 1.15;     /* Vertical oval ratio */
   object-fit: cover;
-  border-radius: 50%; // Creates the oval/elliptical look
-  margin-top: 20px;
+  border-radius: 50%;         /* The oval mask */
+  border: 1px solid #333;     /* Subtle border */
 }
 
-// Hero Title styling
-.hero-title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+// 4. Clean Navbar
+.navbar {
+  border-bottom: 1px solid #333;
+  padding: 1rem 0;
 }
 
-.hero-name-light {
-  font-weight: 300;
-  color: #888;
-}
-
-// Latest Posts Listing
-.latest-posts-list {
-  margin-top: 50px;
-  .post-entry {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 0px; // Minimalist, no lines
-  }
-  .post-date {
-    color: #888;
-    font-weight: 600;
-    min-width: 120px;
-  }
-  .post-title {
-    flex-grow: 1;
-    text-decoration: none;
-    font-weight: 500;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+// 5. Hide the dark/light toggle if you want a fixed look
+.quarto-color-scheme-toggle {
+  display: none;
 }

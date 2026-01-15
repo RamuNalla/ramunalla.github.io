@@ -22,8 +22,9 @@ website:
 
 format:
   html:
-    theme:
-      light: [flatly, custom.scss]
-      dark: [darkly, custom.scss]
-    toc: false
-    mainfont: "Inter"
+    theme: 
+      dark: [cosmo, custom.scss]
+    fontsize: 1rem              # Smaller, professional font size
+    mainfont: "Inter"           # Clean sans-serif
+    link-color: "#2698ba"       # The teal color from reference
+    toc: false                  # Keep homepage clean
