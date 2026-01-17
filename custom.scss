@@ -71,7 +71,7 @@ h1, h2, h3, h4, .hero-title, .navbar-brand {
 }
 
 h1.hero-title {
-  font-size: 3.2rem !important;
+  font-size: 3.9rem !important;
   font-weight: 700; 
   margin-bottom: 1.5rem;
   line-height: 1.1;
@@ -507,4 +507,21 @@ main h3, main h4 {
   font-weight: 600 !important;
   margin-top: 35px !important;
   margin-bottom: 15px !important;
+}
+
+/* --- FORCE HERO NAME SIZE --- */
+/* We target the H1, the class, AND the spans inside to override everything */
+h1.hero-title,
+h1.hero-title > span {
+  font-size: 4rem !important;   /* Adjust this number as needed */
+  line-height: 1.1 !important;  /* Keeps the lines tight */
+}
+
+/* Optional: Mobile Responsiveness */
+/* On small screens, shrink it slightly so it doesn't break layout */
+@media (max-width: 768px) {
+  h1.hero-title,
+  h1.hero-title > span {
+    font-size: 2.8rem !important;
+  }
 }
