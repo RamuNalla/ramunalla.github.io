@@ -1,51 +1,96 @@
 ---
-title: "Building a Minimal RAG Pipeline"
-description: "A step-by-step guide to implementing Retrieval-Augmented Generation (RAG) using Python and Vector Search concepts."
+title: "Building a Minimal RAG Pipeline from Scratch"
+description: "A look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic."
 author: "Ramu Nalla"
 date: "2026-01-17"
-categories: [NLP, LLMs, RAG, Tutorial]
+categories: [NLP, LLMs, RAG, Python]
 image: "image.jfif"
 draft: false
 ---
 
-# Introduction
+<div class="blog-manual-meta">Published by Ramu Nalla - January 17, 2026</div>
 
-Retrieval-Augmented Generation (RAG) has become the standard architecture for grounding Large Language Models (LLMs) on private data. In this post, I will demonstrate a minimal implementation of the retrieval step.
+![A conceptual visualization of the RAG workflow: Retrieval, Augmentation, and Generation.](image.jfif)
 
-## The Retrieval Mechanism
+---
 
-The most critical part of RAG is semantic search. We calculate the cosine similarity between the user's query vector and our document vectors.
+
+If you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: **hallucinations**. They sound confident, but they don't *know* your private data, and their knowledge cutoff is always in the past.
+
+Retrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a "frozen" LLM and your dynamic, private data.
+
+Before I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy.
+
+## The Core Concept
+
+RAG isn't a single algorithm; it's a workflow.
+
+1.  **Retrieval:** Find the most relevant documents for a user's question.
+2.  **Augmentation:** Paste those documents into the LLM's prompt context.
+3.  **Generation:** Ask the LLM to answer the question using *only* that context.
+
+The "magic" happens in step 1. How does a computer know that "neural network" and "deep learning" are related? The answer is **Vector Embeddings**.
+
+## The Code: "Vector Search" in Pure Python
+
+In a real production environment, we use embedding models (like OpenAI's `text-embedding-3-small`) to turn text into massive lists of numbers. For this demo, I'll manually create small 3-dimensional vectors to visualize the math.
+
+Here is the entire logic in one script:
 
 ```python
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-# 1. Dummy Knowledge Base
+# 1. Our "Knowledge Base"
+# In reality, this would be thousands of PDF chunks stored in a Vector DB.
 documents = [
-    "RAG improves LLM accuracy by providing external context.",
-    "LangChain is a framework for building applications with LLMs.",
-    "Vector databases store embeddings for efficient semantic search."
+    "RAG bridges the gap between LLMs and private data.",
+    "LangChain is a popular framework for building AI agents.",
+    "Vector databases like Pinecone store embeddings for fast retrieval."
 ]
 
-# 2. Mock Embeddings (3-dimensional vectors for demo)
+# 2. Mock Embeddings
+# Imagine these are the output of an embedding model.
+# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.
 doc_vectors = np.array([
-    [0.9, 0.1, 0.1], 
-    [0.2, 0.8, 0.2], 
-    [0.1, 0.2, 0.9]
+    [0.9, 0.1, 0.1],  # Embedding for Document 1
+    [0.2, 0.8, 0.2],  # Embedding for Document 2
+    [0.1, 0.2, 0.9]   # Embedding for Document 3
 ])
 
-# 3. User Query Vector
+# 3. The User's Query
+# "How do I use private data with LLMs?" 
+# This query is semantically similar to Document 1.
 query_vector = np.array([[0.85, 0.15, 0.1]]) 
 
-# 4. Calculate Similarity
+# 4. The Retrieval Step (Cosine Similarity)
+# We calculate the angle between the Query and every Document.
+# Higher score = Closer match.
 scores = cosine_similarity(query_vector, doc_vectors).flatten()
 
-# 5. Retrieve Top Result
+# 5. Get the Winner
 best_match_idx = np.argmax(scores)
-print(f"Query matched: '{documents[best_match_idx]}'")
-print(f"Confidence Score: {scores[best_match_idx]:.4f}")
+retrieved_doc = documents[best_match_idx]
+confidence = scores[best_match_idx]
+
+print(f"✅ User Query Mapped to: '{retrieved_doc}'")
+print(f"📊 Confidence Score: {confidence:.4f}")
 ```
 
-## Conclusion
+### What just happened?
 
-This is a simplified view of how retrieval works. In a production environment, we would scale this using tools like **Pinecone** or **Milvus**.
+When we ran `cosine_similarity`, Python calculated the angle between our query vector and the document vectors.
+
+* The query vector `[0.85, 0.15, 0.1]` was heavily weighted towards the first dimension.
+* Document 1 `[0.9, 0.1, 0.1]` was also weighted towards the first dimension.
+* Therefore, the math says: **"These two ideas are related."**
+
+## Moving to Production
+
+While this `numpy` example is great for intuition, it doesn't scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:
+
+1.  **Real Embeddings:** Replacing manual vectors with `sentence-transformers` or OpenAI embeddings.
+2.  **Vector Store:** Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.
+3.  **Reranking:** Adding a second step to double-check the relevance of the retrieved documents.
+
+I'll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!

@@ -78,30 +78,87 @@ h1.hero-title {
   font-style: normal; 
 }
 
-// 5. NAVBAR STYLING (Glassy)
+/* 5. NAVBAR STYLING (Perfect Vertical Center) */
 .navbar {
   background-color: rgba(15, 15, 15, 0.85) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  /* 1. Fixed Height */
+  height: 70px !important;
+  min-height: 70px !important;
+  padding: 0 25px !important; /* Horizontal padding only */
 }
 
-// Navbar Links
+/* 2. Containers - Force Full Height & Center */
+.navbar-container, 
+.container-fluid {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important; /* Vertical Center */
+  flex-wrap: nowrap !important;
+}
+
+/* 3. Brand Name - Strip Padding & Center */
+.navbar-brand {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  
+  /* CRITICAL: Remove Bootstrap's default padding that pushes text down */
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-right: 30px !important;
+  
+  /* Prevent Wrapping */
+  white-space: nowrap !important;
+  
+  /* Font Styling */
+  font-family: "Lora", serif !important;
+  font-weight: 700 !important; 
+  font-size: 1.4rem !important;
+  color: #fff !important;
+  line-height: 1 !important; /* Resets text alignment */
+}
+
+/* 4. Push Links to the Right */
+.navbar-collapse {
+  flex-grow: 1 !important;
+  display: flex !important;
+  justify-content: flex-end !important; /* Aligns links to right */
+  height: 100% !important;
+}
+
+/* 5. Links - Strip Padding & Center */
+.navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+
 .navbar-nav .nav-link {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  
+  /* CRITICAL: Remove Bootstrap's default padding */
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 20px !important;
+  
+  /* Font Styling */
   color: #e0e0e0 !important;
   font-weight: 500;
   font-size: 1.05rem;
-  margin-right: 15px;
-  
-  &:hover {
-    color: #5a9fd4 !important;
-  }
+  white-space: nowrap !important;
 }
 
-.navbar-brand {
-  font-weight: 700; 
-  font-size: 1.4rem;
-  letter-spacing: -0.02em;
+.navbar-nav .nav-link:hover {
+  color: #5a9fd4 !important;
 }
 
 // 6. PROFILE IMAGE
@@ -297,60 +354,157 @@ p code {
   border: 1px solid #444;
 }
 
-/* --- TABLE & LISTING VISUAL FIXES --- */
+/* --- ULTIMATE UNIFORMITY FIX (Latest Posts vs News) --- */
 
-/* 1. Remove ALL Lines/Borders */
+/* 1. Clean Slate for Tables */
 table, tbody, td, th, tr {
-  border-color: transparent !important;
   border: none !important;
+  border-color: transparent !important;
+  background: transparent !important;
 }
 
-/* 2. Hide Header Rows */
+/* 2. Hide The Headers (Date | Title) */
 .quarto-listing-table thead,  
 main table thead {            
   display: none !important;
 }
 
-/* 3. Perfect Column Alignment & Font Fixes */
-.quarto-listing-table tr td:first-child,  
-main table tr td:first-child {            
-  width: 150px !important;
-  min-width: 150px !important;
-  max-width: 150px !important;
-  padding-left: 0 !important;             
-  vertical-align: top !important;   
-  
-  /* Font Styling for DATE */
-  font-family: "Lora", serif !important;
-  font-weight: 700 !important;            
-  font-size: 1.05rem !important;         
-  color: #e0e0e0 !important;     
-  text-transform: none !important; 
+/* 3. COLUMN 1: THE DATE (Force Narrow Width) */
+/* This targets the first cell in BOTH tables */
+.quarto-listing-table tr td:first-child,
+main table tr td:first-child {
+  width: 150px !important;        /* Fixed width */
+  min-width: 150px !important;    /* Stop it from shrinking */
+  max-width: 150px !important;    /* Stop it from growing (Fixes the gap) */
+  padding: 10px 0 !important;     /* Consistent vertical spacing */
+  vertical-align: top !important;
 }
 
-/* Font Styling for TITLE/UPDATE */
+/* 4. DATE TEXT STYLING (Force Match) */
+/* We target the cell AND the inner span to override Quarto defaults */
+.quarto-listing-table tr td:first-child,
+.quarto-listing-table tr td:first-child .listing-date,
+main table tr td:first-child {
+  font-family: "Lora", serif !important;
+  font-size: 16px !important;     /* Explicit pixel size */
+  font-weight: 700 !important;    /* Bold */
+  color: #e0e0e0 !important;
+  line-height: 1.6 !important;    /* Identical line height */
+  letter-spacing: 0.5px !important; /* Slight spacing for readability */
+  text-transform: none !important;
+}
+
+/* 5. COLUMN 2: THE CONTENT (Title / Update) */
+/* We target the second cell in BOTH tables */
+.quarto-listing-table tr td:last-child,
+main table tr td:last-child {
+  padding: 10px 0 !important;     /* Match date padding */
+  padding-left: 20px !important;  /* Add a clean consistent gap */
+  vertical-align: top !important;
+  width: auto !important;         /* Let it fill the rest of the space */
+}
+
+/* 6. CONTENT TEXT STYLING (Force Match) */
+/* Ensure the Link (Post) looks exactly like the Text (News) */
 .listing-title,
 .listing-title a,
 main table tr td:last-child {
   font-family: "Lora", serif !important;
-  font-weight: 400 !important;           
-  font-size: 1.05rem !important;
+  font-size: 16px !important;     /* Must match Date size */
+  font-weight: 400 !important;    /* Normal weight */
   color: #d0d0d0 !important;
   text-decoration: none !important;
+  line-height: 1.6 !important;
 }
 
+/* Hover Effect for Titles */
 .listing-title a:hover {
   color: #5a9fd4 !important;
 }
 
-/* --- CONDITIONAL NAVBAR NAME --- */
-
-/* 1. Hide the Name (Navbar Brand) ONLY on the Home Page */
-body.home-page .navbar-brand {
-  display: none !important;
+/* --- COPYRIGHT TEXT SIZE FIX --- */
+.custom-copyright,
+.custom-copyright p {
+  font-size: 13px !important;    /* Much smaller font */
+  color: #888 !important;        /* Soft grey */
+  margin-top: 40px !important;   /* Push it down from the content above */
+  text-align: center !important; /* Optional: Center it */
 }
 
-/* 2. (Optional) Ensure it is visible on all other pages */
-body:not(.home-page) .navbar-brand {
-  display: inline-block !important;
+/* ==========================================================================
+   FINAL SIMPLIFIED BLOG STYLING
+   ========================================================================== */
+
+/* --- 1. MAIN TITLE (Brighter Electric Blue) --- */
+header#title-block-header .title {
+  color: #2563eb !important;      /* Brighter Blue */
+  margin-bottom: 10px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  font-size: 2.6rem !important;
+  text-align: left !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* ==========================================================================
+   FINAL MANUAL BLOG STYLING
+   ========================================================================== */
+
+/* --- 1. MAIN TITLE (Brighter Electric Blue) --- */
+header#title-block-header .title {
+  color: #2563eb !important;      /* Brighter Blue */
+  margin-bottom: 10px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  font-size: 2.6rem !important;
+  text-align: left !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* --- 2. HIDE DEFAULT QUARTO METADATA --- */
+/* This ensures no "glitchy" auto-text ever appears */
+.quarto-title-meta { display: none !important; }
+.quarto-title-meta-heading { display: none !important; }
+.quarto-title-meta-contents { display: none !important; }
+
+/* --- 3. THE MANUAL METADATA LINE --- */
+/* This styles the text you wrote in index.qmd */
+.blog-manual-meta {
+  font-family: "Inter", sans-serif !important;
+  font-size: 0.85rem !important;   /* Minimal font size */
+  color: #888 !important;          /* Subtle Grey */
+  margin-top: -10px !important;    /* Pull it closer to title */
+  margin-bottom: 30px !important;  /* Space before image */
+  text-transform: uppercase !important; /* Optional: Looks cleaner */
+  letter-spacing: 0.5px !important;
+}
+
+/* --- 4. HERO IMAGE (Auto-Style) --- */
+main .content > p:first-of-type img,
+main .content > figure:first-of-type img {
+  width: 100% !important;
+  border-radius: 6px !important;
+  margin-top: 5px !important;
+  margin-bottom: 40px !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+}
+
+/* --- 5. HEADINGS COLORS --- */
+/* H2 Sub-headings (Lighter Blue) */
+main h2 {
+  color: #60a5fa !important;
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
+  margin-top: 50px !important;
+  margin-bottom: 20px !important;
+  text-align: left !important;
+}
+
+/* Other Headings (White) */
+main h3, main h4 {
+  color: #ffffff !important;
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  margin-top: 35px !important;
+  margin-bottom: 15px !important;
 }

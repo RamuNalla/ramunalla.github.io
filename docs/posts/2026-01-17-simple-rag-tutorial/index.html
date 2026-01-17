@@ -8,9 +8,9 @@
 
 <meta name="author" content="Ramu Nalla">
 <meta name="dcterms.date" content="2026-01-17">
-<meta name="description" content="A step-by-step guide to implementing Retrieval-Augmented Generation (RAG) using Python and Vector Search concepts.">
+<meta name="description" content="A look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.">
 
-<title>Building a Minimal RAG Pipeline</title>
+<title>Building a Minimal RAG Pipeline from Scratch – Ramu Nalla</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f039a0265a0737baa4ef6820c20cac99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-299f052dbbadfc529dfa1560f3204659.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,6 +117,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Ramu Nalla</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -165,18 +170,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Building a Minimal RAG Pipeline</h1>
+<h1 class="title">Building a Minimal RAG Pipeline from Scratch</h1>
   <div class="quarto-categories">
     <div class="quarto-category">NLP</div>
     <div class="quarto-category">LLMs</div>
     <div class="quarto-category">RAG</div>
-    <div class="quarto-category">Tutorial</div>
+    <div class="quarto-category">Python</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    A step-by-step guide to implementing Retrieval-Augmented Generation (RAG) using Python and Vector Search concepts.
+    A look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.
   </div>
 </div>
 
@@ -205,46 +210,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>Retrieval-Augmented Generation (RAG) has become the standard architecture for grounding Large Language Models (LLMs) on private data. In this post, I will demonstrate a minimal implementation of the retrieval step.</p>
-<section id="the-retrieval-mechanism" class="level2">
-<h2 class="anchored" data-anchor-id="the-retrieval-mechanism">The Retrieval Mechanism</h2>
-<p>The most critical part of RAG is semantic search. We calculate the cosine similarity between the user’s query vector and our document vectors.</p>
+<div class="blog-manual-meta">
+Published by Ramu Nalla - January 17, 2026
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.jfif" class="img-fluid figure-img"></p>
+<figcaption>A conceptual visualization of the RAG workflow: Retrieval, Augmentation, and Generation.</figcaption>
+</figure>
+</div>
+<hr>
+<p>If you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: <strong>hallucinations</strong>. They sound confident, but they don’t <em>know</em> your private data, and their knowledge cutoff is always in the past.</p>
+<p>Retrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.</p>
+<p>Before I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy.</p>
+<section id="the-core-concept" class="level2">
+<h2 class="anchored" data-anchor-id="the-core-concept">The Core Concept</h2>
+<p>RAG isn’t a single algorithm; it’s a workflow.</p>
+<ol type="1">
+<li><strong>Retrieval:</strong> Find the most relevant documents for a user’s question.</li>
+<li><strong>Augmentation:</strong> Paste those documents into the LLM’s prompt context.</li>
+<li><strong>Generation:</strong> Ask the LLM to answer the question using <em>only</em> that context.</li>
+</ol>
+<p>The “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is <strong>Vector Embeddings</strong>.</p>
+</section>
+<section id="the-code-vector-search-in-pure-python" class="level2">
+<h2 class="anchored" data-anchor-id="the-code-vector-search-in-pure-python">The Code: “Vector Search” in Pure Python</h2>
+<p>In a real production environment, we use embedding models (like OpenAI’s <code>text-embedding-3-small</code>) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.</p>
+<p>Here is the entire logic in one script:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Dummy Knowledge Base</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RAG improves LLM accuracy by providing external context."</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LangChain is a framework for building applications with LLMs."</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Vector databases store embeddings for efficient semantic search."</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Mock Embeddings (3-dimensional vectors for demo)</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>doc_vectors <span class="op">=</span> np.array([</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.9</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>], </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>], </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.9</span>]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. User Query Vector</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>query_vector <span class="op">=</span> np.array([[<span class="fl">0.85</span>, <span class="fl">0.15</span>, <span class="fl">0.1</span>]]) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Our "Knowledge Base"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># In reality, this would be thousands of PDF chunks stored in a Vector DB.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RAG bridges the gap between LLMs and private data."</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LangChain is a popular framework for building AI agents."</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Vector databases like Pinecone store embeddings for fast retrieval."</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Mock Embeddings</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Imagine these are the output of an embedding model.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>doc_vectors <span class="op">=</span> np.array([</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.9</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>],  <span class="co"># Embedding for Document 1</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>],  <span class="co"># Embedding for Document 2</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.9</span>]   <span class="co"># Embedding for Document 3</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>])</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calculate Similarity</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> cosine_similarity(query_vector, doc_vectors).flatten()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Retrieve Top Result</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>best_match_idx <span class="op">=</span> np.argmax(scores)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Query matched: '</span><span class="sc">{</span>documents[best_match_idx]<span class="sc">}</span><span class="ss">'"</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Confidence Score: </span><span class="sc">{</span>scores[best_match_idx]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. The User's Query</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># "How do I use private data with LLMs?" </span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># This query is semantically similar to Document 1.</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>query_vector <span class="op">=</span> np.array([[<span class="fl">0.85</span>, <span class="fl">0.15</span>, <span class="fl">0.1</span>]]) </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. The Retrieval Step (Cosine Similarity)</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># We calculate the angle between the Query and every Document.</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Higher score = Closer match.</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> cosine_similarity(query_vector, doc_vectors).flatten()</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Get the Winner</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>best_match_idx <span class="op">=</span> np.argmax(scores)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>retrieved_doc <span class="op">=</span> documents[best_match_idx]</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>confidence <span class="op">=</span> scores[best_match_idx]</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"✅ User Query Mapped to: '</span><span class="sc">{</span>retrieved_doc<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📊 Confidence Score: </span><span class="sc">{</span>confidence<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-just-happened" class="level3">
+<h3 class="anchored" data-anchor-id="what-just-happened">What just happened?</h3>
+<p>When we ran <code>cosine_similarity</code>, Python calculated the angle between our query vector and the document vectors.</p>
+<ul>
+<li>The query vector <code>[0.85, 0.15, 0.1]</code> was heavily weighted towards the first dimension.</li>
+<li>Document 1 <code>[0.9, 0.1, 0.1]</code> was also weighted towards the first dimension.</li>
+<li>Therefore, the math says: <strong>“These two ideas are related.”</strong></li>
+</ul>
 </section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>This is a simplified view of how retrieval works. In a production environment, we would scale this using tools like <strong>Pinecone</strong> or <strong>Milvus</strong>.</p>
+</section>
+<section id="moving-to-production" class="level2">
+<h2 class="anchored" data-anchor-id="moving-to-production">Moving to Production</h2>
+<p>While this <code>numpy</code> example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:</p>
+<ol type="1">
+<li><strong>Real Embeddings:</strong> Replacing manual vectors with <code>sentence-transformers</code> or OpenAI embeddings.</li>
+<li><strong>Vector Store:</strong> Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.</li>
+<li><strong>Reranking:</strong> Adding a second step to double-check the relevance of the retrieved documents.</li>
+</ol>
+<p>I’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

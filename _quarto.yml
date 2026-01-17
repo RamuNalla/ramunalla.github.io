@@ -3,9 +3,10 @@ project:
   output-dir: docs
 
 website:
-  title: ""
+  title: "Ramu Nalla"       # <--- CHANGE THIS (Was "")
   favicon: favicon.svg
   navbar:
+    background: primary     # Add this line to ensure the navbar has a background color
     search: false
     right:
       - text: "About"
@@ -29,5 +30,5 @@ format:
     fontsize: 1rem
     mainfont: "Georgia"
     link-color: "#5a9fd4"
-    highlight-style: dracula   # <--- ADD THIS LINE
+    highlight-style: dracula
     toc: false
