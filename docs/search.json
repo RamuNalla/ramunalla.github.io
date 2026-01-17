@@ -30,15 +30,64 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Ramu Nalla",
+    "title": "RAMU Nalla",
     "section": "",
-    "text": "I am a Data Scientist at HighLevel, where I focus on building and scaling Large Language Models (LLMs). My work involves NLP challenges, specializing in Transformers and ML systems engineering.\nBefore this, I worked as Senior ML Engineer at Enphase Energy, where I developed AI models to enhance business intelligence. I earned my B.Tech from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about Deep Learning in Computer Vision.\n\n\n\n\n\n\n\nLatest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nMay 20, 2024\n\n\nMy First Blog Post\n\n\n\n\n\n\nNo matching items\n\n\n\n\nNews\n\n\n\nDate\nUpdate\n\n\n\n\nJan 15, 2026\nLaunched personal portfolio website\n\n\n\n\n\n\n✉️ 🐙 💼 𝕏 📷\n\n\nBest to reach out to me over email or DM me on LinkedIn or X (Twitter).\n\n\n© Copyright 2026 Ramu Nalla."
+    "text": "I am a Senior Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
   },
   {
     "objectID": "posts.html",
     "href": "posts.html",
-    "title": "Posts",
+    "title": "My Blogs",
     "section": "",
-    "text": "My First Blog Post\n\n\n\nML\n\nIntro\n\n\n\n\n\n\n\n\n\nMay 20, 2024\n\n1 min\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline\n\n1 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nTutorial\n\n\n\nA step-by-step guide to implementing Retrieval-Augmented Generation (RAG) using Python and Vector Search concepts.\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\n\n\n\n\nMy First Blog Post\n\n1 min\n\n\nML\n\nIntro\n\n\n\n\n\n\n\nMay 20, 2024\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#latest-thinking",
+    "href": "index.html#latest-thinking",
+    "title": "Ramu Nalla",
+    "section": "Latest Thinking",
+    "text": "Latest Thinking\n\n\n\n\n\nMy First Blog Post\n\n\n\n\n\n\n\n\nMay 20, 2024\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#updates",
+    "href": "index.html#updates",
+    "title": "Ramu Nalla",
+    "section": "Updates",
+    "text": "Updates\n\n\n\nDate\nEvent\n\n\n\n\nJan 17, 2026\n🚀 Updated portfolio architecture\n\n\nJan 15, 2026\n🎉 Launched personal website\n\n\n\n\n\n\n✉️ 🐙 💼 𝕏\n\n\n© 2026 Ramu Nalla. Built with Quarto & Python."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "RAMU Nalla",
+    "section": "Latest Posts",
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 17, 2026\n\n\nBuilding a Minimal RAG Pipeline\n\n\n\n\n\n\nMay 20, 2024\n\n\nMy First Blog Post\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "RAMU Nalla",
+    "section": "News",
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nJan 17, 2026\nUpdated personal portfolio website\n\n\nJan 15, 2026\nLaunched personal portfolio website\n\n\n\n\n\n\n    \n\n\nBest to reach out to me over email or DM me on LinkedIn.\n\n\n© Copyright 2026 Ramu Nalla."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "title": "Building a Minimal RAG Pipeline",
+    "section": "",
+    "text": "Retrieval-Augmented Generation (RAG) has become the standard architecture for grounding Large Language Models (LLMs) on private data. In this post, I will demonstrate a minimal implementation of the retrieval step.\n\n\nThe most critical part of RAG is semantic search. We calculate the cosine similarity between the user’s query vector and our document vectors.\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Dummy Knowledge Base\ndocuments = [\n    \"RAG improves LLM accuracy by providing external context.\",\n    \"LangChain is a framework for building applications with LLMs.\",\n    \"Vector databases store embeddings for efficient semantic search.\"\n]\n\n# 2. Mock Embeddings (3-dimensional vectors for demo)\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1], \n    [0.2, 0.8, 0.2], \n    [0.1, 0.2, 0.9]\n])\n\n# 3. User Query Vector\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. Calculate Similarity\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Retrieve Top Result\nbest_match_idx = np.argmax(scores)\nprint(f\"Query matched: '{documents[best_match_idx]}'\")\nprint(f\"Confidence Score: {scores[best_match_idx]:.4f}\")\n\n\n\nThis is a simplified view of how retrieval works. In a production environment, we would scale this using tools like Pinecone or Milvus."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-retrieval-mechanism",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-retrieval-mechanism",
+    "title": "Building a Minimal RAG Pipeline",
+    "section": "",
+    "text": "The most critical part of RAG is semantic search. We calculate the cosine similarity between the user’s query vector and our document vectors.\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Dummy Knowledge Base\ndocuments = [\n    \"RAG improves LLM accuracy by providing external context.\",\n    \"LangChain is a framework for building applications with LLMs.\",\n    \"Vector databases store embeddings for efficient semantic search.\"\n]\n\n# 2. Mock Embeddings (3-dimensional vectors for demo)\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1], \n    [0.2, 0.8, 0.2], \n    [0.1, 0.2, 0.9]\n])\n\n# 3. User Query Vector\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. Calculate Similarity\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Retrieve Top Result\nbest_match_idx = np.argmax(scores)\nprint(f\"Query matched: '{documents[best_match_idx]}'\")\nprint(f\"Confidence Score: {scores[best_match_idx]:.4f}\")"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#conclusion",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#conclusion",
+    "title": "Building a Minimal RAG Pipeline",
+    "section": "",
+    "text": "This is a simplified view of how retrieval works. In a production environment, we would scale this using tools like Pinecone or Milvus."
   }
 ]

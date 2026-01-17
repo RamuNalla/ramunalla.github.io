@@ -6,7 +6,7 @@ website:
   title: ""
   favicon: favicon.svg
   navbar:
-    search: true
+    search: false
     right:
       - text: "About"
         href: index.qmd
@@ -18,8 +18,10 @@ website:
         href: cv.qmd
       - icon: github
         href: https://github.com/RamuNalla
+        target: _blank
       - icon: linkedin
-        href: https://linkedin.com/in/yourusername
+        href: https://linkedin.com/in/ramu-nalla-2959b8b3/
+        target: _blank
 
 format:
   html:
@@ -27,5 +29,5 @@ format:
     fontsize: 1rem
     mainfont: "Georgia"
     link-color: "#5a9fd4"
+    highlight-style: dracula   # <--- ADD THIS LINE
     toc: false
-    css: styles.css

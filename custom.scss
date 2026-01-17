@@ -1,452 +1,356 @@
 /*-- scss:defaults --*/
 
-// Dark theme colors
-$body-bg: #0f0f0f;
-$body-color: #e0e0e0;
-$navbar-bg: #1a1a1a;
-$navbar-fg: #ffffff;
-$link-color: #5a9fd4;
-$border-color: #333333;
+// IMPORT FONT: "Lora" (Modern, Artistic Serif)
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
-// Override defaults
+// Colors
+$body-bg: #0f0f0f;
+$body-color: #d0d0d0;
 $primary: #5a9fd4;
-$secondary: #888888;
-$success: #5a9fd4;
+$link-color: #5a9fd4;
+
+// Update Variables to use Lora
+$font-family-sans-serif: "Lora", serif;
+$headings-font-family: "Lora", serif;
 
 /*-- scss:rules --*/
 
-// Universal dark theme and remove left padding from containers
-html, body, .quarto-container, .page-columns, main, section, div {
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-}
-
-// Universal dark theme
-html {
-  background-color: #0f0f0f;
-  color-scheme: dark;
-}
-
-body {
-  background-color: #0f0f0f !important;
-  color: #d0d0d0 !important;
-  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+// 1. GLOBAL TEXT & SIZES
+html, body {
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: $font-family-sans-serif;
+  font-size: 17px; 
   line-height: 1.7;
-  font-size: 1.05rem;
-  margin: 0 !important;
-  padding: 0 !important;
-  padding-left: 0 !important;
 }
 
-// Container and main content area - PROPER WIDTH
-.quarto-container {
-  background-color: #0f0f0f;
-  color: #d0d0d0;
-  max-width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
+/* Fix for missing navbar/footer icons */
+.bi, i[class^="bi-"], i[class*=" bi-"] {
+  font-family: bootstrap-icons !important;
 }
 
-.page-columns {
-  max-width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
+// 2. PARAGRAPH STYLING
+p {
+  font-size: 1.05rem; 
+  margin-bottom: 1.25rem;
+  color: #c0c0c0; 
+  font-weight: 400;
 }
 
+// 3. LAYOUT (WIDER SCREEN USE)
 #quarto-document-content {
   max-width: 100% !important;
-  width: 100% !important;
-  margin: 0 !important;
-  margin-left: -100px !important;
-  padding-top: 100px !important;
-  padding-left: -100px !important;
-  padding-right: 15px !important;
-  padding-bottom: 0 !important;
-  box-sizing: border-box;
+  margin: 0 auto !important;
+  padding-top: 60px !important;
   display: block !important;
 }
 
-// Navbar styling - reduced height
+// Desktop Width - INCREASED to 1350px to reduce side spacing
+@media (min-width: 992px) {
+  .page-columns {
+    display: block !important;
+    max-width: 1350px !important; // Was 1000px
+    margin: 0 auto !important;
+    padding: 0 40px !important;   // Small padding so it doesn't touch the absolute edge
+  }
+}
+
+// Mobile Width
+@media (max-width: 991px) {
+  .page-columns {
+    margin: 0 1.5rem !important;
+  }
+}
+
+// 4. HEADINGS & NAME
+h1, h2, h3, h4, .hero-title, .navbar-brand {
+  font-family: $headings-font-family;
+  color: #ffffff !important;
+  font-weight: 600;
+  margin-top: 2.5rem;
+}
+
+h1.hero-title {
+  font-size: 3.2rem !important;
+  font-weight: 700; 
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  font-style: normal; 
+}
+
+// 5. NAVBAR STYLING (Glassy)
 .navbar {
-  background-color: #1a1a1a !important;
-  border-bottom: 1px solid #333 !important;
-  backdrop-filter: blur(10px);
-  padding: 0.5rem 2rem !important;
-  z-index: 100 !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
+  background-color: rgba(15, 15, 15, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+// Navbar Links
+.navbar-nav .nav-link {
+  color: #e0e0e0 !important;
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin-right: 15px;
+  
+  &:hover {
+    color: #5a9fd4 !important;
+  }
 }
 
 .navbar-brand {
-  color: #ffffff !important;
-  font-size: 1.2rem !important;
-  font-family: 'Georgia', serif !important;
-}
-
-.nav-link {
-  color: #b0b0b0 !important;
-  font-family: 'Georgia', 'Cambria', serif;
-  transition: color 0.2s ease;
-  margin-left: 2rem;
-  font-size: 1rem;
-  
-  &:hover {
-    color: #ffffff !important;
-  }
-}
-
-// Hero title - Large and prominent with Georgia font
-h1.hero-title {
-  font-size: 2.8rem !important;
-  font-weight: 700;
-  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
-  margin-top: 2rem !important;
-  margin-bottom: 1.5rem;
-  color: #ffffff !important;
+  font-weight: 700; 
+  font-size: 1.4rem;
   letter-spacing: -0.02em;
-  line-height: 1.1;
 }
 
-h1.hero-title span {
-  color: #888888;
-  font-weight: 400;
-  opacity: 0.8;
-}
-
-// All headings with serif font
-h1, h2, h3, h4, h5, h6 {
-  color: #ffffff !important;
-  font-weight: 700;
-  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
-}
-
-h2 {
-  font-size: 1.2rem !important;
-  margin-top: 2.5rem !important;
-  margin-bottom: 1.5rem !important;
-  font-weight: 700;
-}
-
-h3 {
-  font-size: 1.5rem !important;
-  margin-top: 2rem !important;
-  margin-bottom: 1rem !important;
-}
-
-// Paragraphs and text
-p {
-  font-size: 1.1rem;
-  color: #d0d0d0 !important;
-  line-height: 1.75;
-  margin-bottom: 1.35rem;
-  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
-}
-
-// Links
-a {
-  color: #5a9fd4 !important;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  
-  &:hover {
-    color: #7ab8e0 !important;
-  }
-}
-
-// Strong text (bold)
-strong {
-  color: #ffffff;
-  font-weight: 600;
-}
-
-em {
-  color: #b0b0b0;
-  font-style: italic;
-}
-
-// Profile image
-.profile-image-oval {
-  width: 100%;
-  max-width: 480px;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
+// 6. PROFILE IMAGE
+img.profile-shape {
   border-radius: 50%;
-  border: 4px solid #2a2a2a;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  display: block;
-  margin: 0 auto;
+  object-fit: cover;
+  border: 1px solid #333;
 }
 
-// Grid styling - wider gaps
-.grid {
-  background-color: transparent;
-  gap: 2rem;
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-  --bs-gutter-x: 0 !important;
-  --bs-gutter-y: 0 !important;
-}
-
-
-.g-col-12 {
-  background-color: transparent;
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-  --bs-gutter-x: 0 !important;
-}
-
-.g-col-md-8, .g-col-md-4 {
-    flex: 0 0 100%;
-    max-width: 100%;
-    padding-left: 0 !important;
-    margin-left: 0 !important;
-    --bs-gutter-x: 0 !important;
-}
-
-// Table styling for Latest Posts and News
-table {
-  background-color: transparent;
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 2rem;
-  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
-}
-
-thead {
-  border-bottom: 2px solid #333;
-  
-  th {
-    background-color: transparent;
-    color: #ffffff;
-    font-weight: 700;
-    padding: 1rem 0;
-    border: none;
-    text-align: left;
-    font-family: 'Georgia', 'Cambria', serif;
-  }
-}
-
-tbody {
-  tr {
-    border-bottom: 1px solid #2a2a2a;
-    transition: background-color 0.2s ease;
-    
-    &:hover {
-      background-color: #1a1a1a;
-    }
-    
-    td {
-      color: #d0d0d0;
-      padding: 1.2rem 0;
-      border: none;
-      font-family: 'Georgia', 'Cambria', serif;
-      
-      &:first-child {
-        width: 12%;
-        color: #999999;
-        font-weight: 600;
-      }
-      
-      a {
-        color: #5a9fd4;
-        
-        &:hover {
-          color: #7ab8e0;
-        }
-      }
-    }
-  }
-}
-
-// Code styling
-code {
-  background-color: #1a1a1a;
-  color: #e8e8e8;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  font-family: 'Monaco', 'Menlo', monospace;
-  font-size: 0.9em;
-  border: 1px solid #2a2a2a;
-}
-
-pre {
-  background-color: #1a1a1a;
-  border-left: 4px solid #5a9fd4;
-  border-radius: 4px;
-  padding: 1rem;
-  color: #e8e8e8;
-  overflow-x: auto;
-  
-  code {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-  }
-}
-
-// Blockquotes
-blockquote {
-  border-left: 4px solid #5a9fd4;
-  padding-left: 1rem;
-  color: #b0b0b0;
-  font-style: italic;
-  font-family: 'Georgia', 'Cambria', serif;
-}
-
-// Buttons
-.btn {
+// 7. LINKS
+a {
+  text-decoration: none;
+  font-weight: 500;
   transition: all 0.2s ease;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+}
+
+// 8. SOCIAL ICONS
+.footer-social-links i {
+  font-size: 1.4rem;
+  margin: 0 12px;
+  color: #888;
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: $primary;
+    transform: translateY(-2px); 
+  }
+}
+
+/* --- FORCE DARK MODE FOR SEARCH & FILTER ICONS --- */
+
+/* 1. Target the box holding the icons */
+html body .quarto-listing .input-group-text {
+  background-color: #1a1a1a !important;
+  border: 1px solid #444 !important;
+  border-right: none !important;
+  color: #ffffff !important;
+}
+
+/* 2. Target the input fields */
+html body .quarto-listing .form-select,
+html body .quarto-listing .search-input {
+  background-color: #1a1a1a !important;
+  border: 1px solid #444 !important;
+  border-left: none !important;
+  color: #e0e0e0 !important;
+}
+
+/* 3. Placeholder Text */
+html body .quarto-listing input::placeholder {
+  color: #888888 !important;
+}
+
+/* BLOGGING GRID STYLING */
+
+/* 1. Card Container - Glassy & Rounded */
+.quarto-grid-item {
+  border: 1px solid #333 !important;
+  border-radius: 12px !important;
+  background-color: #1a1a1a !important; /* Dark card background */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden; /* Keeps image inside rounded corners */
+}
+
+/* Hover Effect: Lift up slightly */
+.quarto-grid-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-color: #5a9fd4 !important; /* Blue border on hover */
+}
+
+/* 2. Card Title - Make it Pop */
+.listing-title {
+  font-family: "Lora", serif !important; 
+  font-weight: 600 !important;
+  font-size: 1.3rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #fff !important;
+  line-height: 1.3;
+}
+
+/* 3. Card Description - Readable Grey */
+.listing-description {
+  color: #b0b0b0 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5;
+}
+
+/* 4. Tags/Categories - Pill Shape */
+.listing-categories .listing-category {
+  background-color: #2a2a2a !important;
+  color: #5a9fd4 !important; 
+  border: 1px solid #444 !important;
+  border-radius: 20px !important; 
+  padding: 2px 10px !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
   font-weight: 600;
-  font-family: 'Georgia', serif;
-  
-  &:not(.btn-link) {
-    background-color: #1a1a1a;
-    border: 1px solid #5a9fd4;
-    color: #5a9fd4;
-    
-    &:hover {
-      background-color: #5a9fd4;
-      color: #ffffff;
-    }
-  }
+  transition: all 0.2s ease;
 }
 
-.btn-primary {
-  background-color: #5a9fd4;
-  border-color: #5a9fd4;
-  color: #ffffff;
-  
-  &:hover {
-    background-color: #7ab8e0;
-    border-color: #7ab8e0;
-  }
+.listing-categories .listing-category:hover {
+  background-color: #5a9fd4 !important;
+  color: #fff !important;
+  border-color: #5a9fd4 !important;
 }
 
-// Search box
-.quarto-search-select {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  color: #e0e0e0;
-  border-radius: 4px;
-  
-  &:focus {
-    border-color: #5a9fd4;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(90, 159, 212, 0.1);
-  }
+/* 5. Date & Reading Time - Subtle */
+.listing-date, .listing-reading-time {
+  color: #666 !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-// Input fields
-input[type="text"],
-input[type="email"],
-input[type="search"],
-textarea {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  color: #e0e0e0;
-  border-radius: 4px;
-  
-  &:focus {
-    border-color: #5a9fd4;
-    outline: none;
-  }
-  
-  &::placeholder {
-    color: #666666;
-  }
+/* --- IMPROVED CATEGORIES SIDEBAR --- */
+
+.quarto-listing-category {
+  margin-top: 20px;
 }
 
-// Footer styling
-footer {
-  background-color: #0f0f0f;
-  border-top: 1px solid #333;
-  color: #999999;
-  padding: 3rem 2rem;
-  margin-top: 4rem;
-  text-align: center;
+.quarto-listing-category .listing-category-title {
+  font-family: "Lora", serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  display: block;
 }
 
-.footer-social-links {
-  margin: 2.5rem 0;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  
-  a {
-    display: inline-block;
-    font-size: 1.8rem;
-    transition: transform 0.2s ease, color 0.2s ease;
-    color: #5a9fd4;
-    
-    &:hover {
-      transform: scale(1.15);
-      color: #7ab8e0;
-    }
-  }
-}
-
-.footer-text {
-  color: #b0b0b0;
-  font-size: 0.95rem;
-  margin-bottom: 2.5rem;
-  font-family: 'Georgia', serif;
-}
-
-.footer-copyright {
-  color: #666666;
+.quarto-listing-category .category {
+  display: inline-block;
+  padding: 6px 14px;
+  margin: 0 6px 8px 0;
+  background-color: #1a1a1a; 
+  border: 1px solid #444;
+  border-radius: 20px; 
+  color: #c0c0c0;
+  font-family: "Inter", sans-serif;
   font-size: 0.85rem;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid #333;
-  font-family: 'Georgia', serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none !important;
 }
 
-// Selection
-::selection {
-  background-color: #5a9fd4;
+.quarto-listing-category .category:hover {
+  background-color: #5a9fd4; 
   color: #ffffff;
+  border-color: #5a9fd4;
+  transform: translateY(-2px); 
 }
 
-// Scrollbar
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+.quarto-listing-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
+.quarto-listing-actions input,
+.quarto-listing-actions select {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #5a9fd4;
-  border-radius: 5px;
-  
-  &:hover {
-    background: #7ab8e0;
-  }
+/* --- CODE BLOCK STYLING --- */
+
+pre.sourceCode {
+  background-color: #1a1a1a !important; 
+  border: 1px solid #333 !important;    
+  border-radius: 8px !important;        
+  padding: 15px !important;
 }
 
-// Remove theme toggle
-.quarto-color-scheme-toggle {
+code.sourceCode {
+  font-family: "JetBrains Mono", "Fira Code", monospace !important; 
+  font-size: 0.9rem;
+}
+
+p code {
+  background-color: #222;
+  color: #e0e0e0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #444;
+}
+
+/* --- TABLE & LISTING VISUAL FIXES --- */
+
+/* 1. Remove ALL Lines/Borders */
+table, tbody, td, th, tr {
+  border-color: transparent !important;
+  border: none !important;
+}
+
+/* 2. Hide Header Rows */
+.quarto-listing-table thead,  
+main table thead {            
   display: none !important;
 }
 
-// Listing controls
-.quarto-listing-container {
-  background-color: transparent;
+/* 3. Perfect Column Alignment & Font Fixes */
+.quarto-listing-table tr td:first-child,  
+main table tr td:first-child {            
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+  padding-left: 0 !important;             
+  vertical-align: top !important;   
+  
+  /* Font Styling for DATE */
+  font-family: "Lora", serif !important;
+  font-weight: 700 !important;            
+  font-size: 1.05rem !important;         
+  color: #e0e0e0 !important;     
+  text-transform: none !important; 
 }
 
-.listing-options {
-  background-color: transparent;
-  border: none;
-  margin-bottom: 1.5rem;
+/* Font Styling for TITLE/UPDATE */
+.listing-title,
+.listing-title a,
+main table tr td:last-child {
+  font-family: "Lora", serif !important;
+  font-weight: 400 !important;           
+  font-size: 1.05rem !important;
+  color: #d0d0d0 !important;
+  text-decoration: none !important;
 }
 
-// Make sure all text content is visible
-main {
-  background-color: #0f0f0f;
+.listing-title a:hover {
+  color: #5a9fd4 !important;
+}
+
+/* --- CONDITIONAL NAVBAR NAME --- */
+
+/* 1. Hide the Name (Navbar Brand) ONLY on the Home Page */
+body.home-page .navbar-brand {
+  display: none !important;
+}
+
+/* 2. (Optional) Ensure it is visible on all other pages */
+body:not(.home-page) .navbar-brand {
+  display: inline-block !important;
 }

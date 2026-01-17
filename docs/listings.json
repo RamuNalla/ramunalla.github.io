@@ -6,12 +6,14 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2026-01-17-simple-rag-tutorial/index.html",
       "/posts/welcome/index.html"
     ]
   },
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/2026-01-17-simple-rag-tutorial/index.html",
       "/posts/welcome/index.html"
     ]
   }

@@ -1,12 +1,17 @@
 ---
-title: "Posts"
-subtitle: "Learnings in ML, NLP, and Computer Vision"
+title: "My Blogs"
+subtitle: "Deep dives into Agentic AI, MLOps, and Large Language Models."
+page-layout: full
+title-block-banner: false
 listing:
   contents: posts
   sort: "date desc"
-  type: default
-  categories: true      # This creates the sidebar filter
-  sort-ui: false
-  filter-ui: false
-  fields: [date, title, reading-time, description, categories]
+  type: grid
+  grid-columns: 4
+  image-height: 250px
+  page-size: 9
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  fields: [image, date, title, description, categories, reading-time]
 ---

@@ -9,54 +9,66 @@ listing:
   field-display-names:
     date: ""
     title: ""
+format:               # <--- Add this section
+  html:               # <--- Add this line
+    body-class: home-page  # <--- THIS IS THE KEY TAG
 ---
 
-::: {.grid}
+::: {.grid style="align-items: center; gap: 40px;"}
 
 ::: {.g-col-12 .g-col-md-8}
-# Ramu <span style="font-weight: 300; color: #888;">Nalla</span> {.hero-title}
+# <span style="font-weight: 700; color: #fff;">RAMU</span> <span style="font-weight: 400; color: #888;">Nalla</span> {.hero-title}
 
-I am a **Data Scientist** at HighLevel, where I focus on building and scaling Large Language Models (LLMs). My work involves NLP challenges, specializing in Transformers and ML systems engineering.
+I am a **Senior Data Scientist** at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.
 
-Before this, I worked as Senior ML Engineer at Enphase Energy, where I developed AI models to enhance business intelligence. I earned my B.Tech from **IIT Kanpur**.
+Before HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.
 
-I enjoy blogging about Machine Learning, and I am currently working on a series of posts about **Deep Learning in Computer Vision**.
+My career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.
+
+I earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.
+
+I enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures.
 :::
 
 ::: {.g-col-12 .g-col-md-4 .text-center}
-![](profile.jfif){.profile-image-oval}
+![](profile.jfif){.profile-shape width=90%}
 :::
 
 :::
 
 <br><br>
 
-# Latest Posts
+## Latest Posts
 
 ::: {#latest-posts}
 :::
 
 <br>
 
-# News
+## News
 
 | Date | Update |
-|------|--------|
-| Jan 15, 2026 | Launched personal portfolio website |
+|:-----|:-------|
+| **Jan 17, 2026** | Updated personal portfolio website |
+| **Jan 15, 2026** | Launched personal portfolio website |
 
 <br><br>
 
 ::: {.footer-content}
 
-::: {.footer-social-links}
-[✉️](mailto:your@email.com){title="Email"} [🐙](https://github.com/RamuNalla){title="GitHub"} [💼](https://linkedin.com/in/yourusername){title="LinkedIn"} [𝕏](https://twitter.com){title="X/Twitter"} [📷](https://instagram.com){title="Instagram"}
+::: {.footer-social-links style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;"}
+<a href="mailto:your@email.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
+<a href="https://github.com/RamuNalla" title="GitHub"><i class="bi bi-github"></i></a>
+<a href="https://linkedin.com/in/ramu-nalla-2959b8b3/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+<a href="https://twitter.com" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+<a href="https://instagram.com" title="Instagram"><i class="bi bi-instagram"></i></a>
 :::
 
-::: {.footer-text}
-Best to reach out to me over email or DM me on LinkedIn or X (Twitter).
+::: {.footer-text style="text-align: center; color: #888; font-size: 0.9rem;"}
+Best to reach out to me over email or DM me on LinkedIn.
 :::
 
-::: {.footer-copyright}
+::: {.footer-copyright style="text-align: center; color: #555; font-size: 0.8em; border-top: 1px solid #333; padding-top: 20px; margin-top: 20px;"}
 © Copyright 2026 Ramu Nalla.
 :::
 
