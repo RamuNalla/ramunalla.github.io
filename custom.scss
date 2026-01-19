@@ -552,3 +552,28 @@ h1.hero-title > span {
   color: #3b82f6 !important;      
   transition: color 0.3s ease;
 }
+
+/* --- LEFT TOC STYLING --- */
+/* Makes the "CONTENTS" header small and subtle */
+#quarto-toc-header {
+  font-size: 0.75rem !important;
+  color: #888 !important;
+  letter-spacing: 1px !important;
+  margin-bottom: 15px !important;
+  text-transform: uppercase !important;
+}
+
+/* Styles the links */
+#quarto-margin-sidebar .nav-link {
+  color: #666 !important;
+  font-size: 0.85rem !important;
+  padding: 5px 0 !important;
+}
+
+/* Active link (Current Section) - Highlights Blue */
+#quarto-margin-sidebar .nav-link.active {
+  color: #3b82f6 !important; /* Electric Blue */
+  font-weight: 600 !important;
+  border-left: 2px solid #3b82f6 !important;
+  padding-left: 10px !important;
+}

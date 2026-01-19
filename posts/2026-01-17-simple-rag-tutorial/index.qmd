@@ -2,13 +2,13 @@
 title: "Building a Minimal RAG Pipeline from Scratch"
 description: "A look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic."
 author: "Ramu Nalla"
-date: "2026-01-17"
+date: "2025-12-17"
 categories: [NLP, LLMs, RAG, Python]
 image: "image.jfif"
 draft: false
 ---
 
-<div class="blog-manual-meta">Published by Ramu Nalla - January 17, 2026</div>
+<div class="blog-manual-meta">Published by Ramu Nalla - December 17, 2025</div>
 
 ![A conceptual visualization of the RAG workflow: Retrieval, Augmentation, and Generation.](image.jfif)
 
