@@ -1,0 +1,205 @@
+---
+title: "Scaled Dot-Product Attention: A Tensor-First Approach"
+description: "Confused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace."
+categories: [Deep Learning, Transformers, PyTorch, NLP]
+image: "image.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-01-10"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - January 10, 2026</div>
+
+![The Transformer Attention Mechanism.](image.png){width=60%}
+
+---
+
+If you have ever tried to read the "Attention Is All You Need" paper or dig into the source code of a Transformer model, you have likely hit a wall. That wall is usually made of **Tensors**.
+
+You see shapes like `[32, 8, 10, 64]`. You see operations like `transpose(-2, -1)`. You see dot products and softmaxes flying around. It’s easy to get lost in the dimensionality and lose sight of what is actually happening: **Communication**.
+
+At its core, the attention mechanism is just a way for words in a sentence to "talk" to each other and figure out who they should be focusing on.
+
+In this post, I am going to bypass the academic jargon. I will take a standard PyTorch implementation of **Scaled Dot-Product Attention**, break it down line-by-line, and crucially, I will trace the math with real numbers so you can see exactly what happens to the data.
+
+## The Code: Scaled Dot-Product Attention
+
+Let's start with the raw code. This is a standard implementation you might find in any modern NLP library.
+
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import math
+
+class ScaledDotProductAttention(nn.Module):
+    """
+    Scaled Dot-Product Attention
+    Attention(Q, K, V) = softmax(QK^T / sqrt(d_k)) V
+    """
+
+    def __init__(self, d_k: int, dropout: float = 0.1):
+        super(ScaledDotProductAttention, self).__init__()
+        self.d_k = d_k
+        self.dropout = nn.Dropout(dropout)
+        self.scale = math.sqrt(d_k)
+
+    def forward(self, Q: torch.Tensor, K: torch.Tensor, V: torch.Tensor,
+                mask: torch.Tensor = None):
+        """
+        Args:
+            Q: Query (batch_size, num_heads, seq_len, d_k)
+            K: Key   (batch_size, num_heads, seq_len, d_k)
+            V: Value (batch_size, num_heads, seq_len, d_v)
+            mask:    (batch_size, 1, seq_len, seq_len)
+        """
+        # 1. Compute attention scores
+        # QK^T: (batch_size, num_heads, seq_len, seq_len)
+        scores = torch.matmul(Q, K.transpose(-2, -1)) / self.scale
+        
+        # 2. Apply mask (set masked positions to large negative value)
+        if mask is not None:
+            scores = scores.masked_fill(mask == 0, -1e9)
+        
+        # 3. Apply softmax to get attention weights
+        attention_weights = F.softmax(scores, dim=-1)
+        attention_weights = self.dropout(attention_weights)
+        
+        # 4. Apply attention weights to values
+        output = torch.matmul(attention_weights, V)
+        
+        return output, attention_weights
+```
+
+If that looks intimidating, don't worry. We need to fix how we visualize tensors first.
+
+## Strategy: Mastering Tensor Dimensions
+
+The biggest source of confusion in PyTorch is seeing a tensor just as a list of numbers. You must start thinking of them as **Named Dimensions**.
+
+For Attention, memorize this hierarchy (**B, H, L, D**):
+
+* **Batch ($B$):** How many examples are we processing? (e.g., 32 sentences).
+* **Heads ($H$):** How many "perspectives" does the model have? (e.g., 8 heads).
+* **Length ($L$):** How long is the sequence? (e.g., 10 words).
+* **Dimension ($D$):** How much data represents a single word? (e.g., a vector of size 64).
+
+When we do operations, we are usually manipulating just the last two dimensions ($L$ and $D$). The Batch and Heads just come along.
+
+## A Concrete Example: "I Love AI"
+
+Let's trace the code with a tiny example. We will ignore Batch and Heads for a moment and focus on the math for a single sequence.
+
+* **Sequence:** "I", "Love", "AI" (Length = 3)
+* **Dimension ($d_k$):** 2 (Each word is a vector of 2 numbers)
+
+### Step 1: The Inputs (Q, K, V)
+
+Imagine our model has learned the following representations for these words.
+
+$$Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} \quad (\text{I, Love, AI})$$
+
+$$K = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} \quad (\text{I, Love, AI})$$
+
+$$V = \begin{bmatrix} 10 & 20 \\ 30 & 40 \\ 50 & 60 \end{bmatrix} \quad (\text{Content we want to extract})$$
+
+*Note: In reality, Q and K are different linear projections, but for simplicity, we keep them identical here.*
+
+### Step 2: The Similarity Search (scores)
+
+This corresponds to this line of code:
+
+```python
+scores = torch.matmul(Q, K.transpose(-2, -1)) / self.scale
+```
+
+We want to know: **How similar is every word to every other word?**
+
+We do this by taking the dot product of the Query ($Q$) and the Transpose of the Key ($K^T$).
+
+$$\text{Scores} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} \cdot \begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 2 \end{bmatrix}$$
+
+**What does this matrix tell us?**
+
+Look at the last row (representing the word "AI").
+
+
+* **Column 1 (Score 1):** "AI" has some similarity to "I".
+* **Column 2 (Score 1):** "AI" has some similarity to "Love".
+* **Column 3 (Score 2):** "AI" is most similar to itself.
+
+### Step 3: Scaling
+
+We divide by `self.scale`, which is $\sqrt{d_k}$. Since our dimension is $d_k=4$ (hypothetically), $\sqrt{4}=2$.
+
+$$\text{Scaled Scores} = \frac{\text{Scores}}{2} = \begin{bmatrix} 0.5 & 0 & 0.5 \\ 0 & 0.5 & 0.5 \\ 0.5 & 0.5 & 1.0 \end{bmatrix}$$
+
+**Why do we do this?**
+
+
+Without scaling, dot products can grow huge as dimensions increase. Huge numbers into a Softmax function result in gradients close to zero (the "vanishing gradient" problem), which kills training. Scaling keeps things stable.
+
+### Step 4: The Softmax (Probabilities)
+
+```python
+attention_weights = F.softmax(scores, dim=-1)
+```
+
+We convert raw scores into probabilities that sum to 1.
+Let's look at the first row (Word: "I") which had scaled scores `[0.5, 0, 0.5]`.
+After Softmax, this might look like: `[0.38, 0.24, 0.38]`.
+
+This tells the model: *"To understand the word 'I', put 38% focus on 'I', 24% focus on 'Love', and 38% focus on 'AI'."*
+
+### Step 5: The Weighted Sum (The Output)
+
+```python
+output = torch.matmul(attention_weights, V)
+```
+
+Finally, we update the word's meaning by taking a weighted sum of the Values ($V$).
+For the first word "I", the calculation is:
+
+$$\text{Output}_{\text{row1}} = (0.38 \cdot V_{\text{I}}) + (0.24 \cdot V_{\text{Love}}) + (0.38 \cdot V_{\text{AI}})$$
+
+$$= 0.38[10, 20] + 0.24[30, 40] + 0.38[50, 60]$$
+
+$$= [3.8, 7.6] + [7.2, 9.6] + [19, 22.8] = [30, 40]$$
+
+The word "I" started as vector `[10, 20]`. After attention, it became `[30, 40]`. It has absorbed context from the other words in the sentence.
+
+## Handling the Mask
+
+One line we glossed over:
+
+```python
+scores = scores.masked_fill(mask == 0, -1e9)
+```
+
+In tasks like text generation, the model isn't allowed to see the future. When predicting the 2nd word, it shouldn't know what the 3rd word is.
+
+We enforce this by applying a mask. We take the positions we want to hide and replace their scores with a massive negative number (like -1,000,000,000).
+
+**Why?** 
+
+Because $e^{-1000000000}$ is effectively zero. When we run Softmax, those words get 0% probability, effectively vanishing from the calculation.
+
+## Summary
+
+When you look at the `ScaledDotProductAttention` class now, try to see the story it tells:
+
+1.  **Transpose & Matmul:** Create a grid showing how much every word relates to every other word.
+2.  **Scale:** Shrink the numbers so gradients don't vanish.
+3.  **Mask:** Hide the words we aren't allowed to see.
+4.  **Softmax:** Convert raw relationship scores into percentages.
+5.  **Matmul (Final):** Create a new representation of the word that is a blend of all the relevant context it found.
+
+The beauty of the Transformer isn't just in its performance; it's in this elegance of using simple linear algebra to model the complexity of language.
+
+    

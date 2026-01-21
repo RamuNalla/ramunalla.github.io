@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/scaled-dot-product-attention/index.html",
       "/posts/nlp-evaluation-metrics_deepdive/index.html",
       "/posts/2026-01-17-simple-rag-tutorial/index.html"
     ]
@@ -13,6 +14,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/scaled-dot-product-attention/index.html",
       "/posts/nlp-evaluation-metrics_deepdive/index.html",
       "/posts/2026-01-17-simple-rag-tutorial/index.html"
     ]
