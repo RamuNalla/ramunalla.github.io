@@ -1,0 +1,243 @@
+---
+title: "Multi-Head Attention: A Tensor-First Walkthrough"
+description: "Why one attention head isn't enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain multiple perspectives.
+"categories: [Deep Learning, Transformers, PyTorch, NLP]
+image: "image.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-01-12"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - January 28, 2026</div>
+
+![Conceptual visualization of multiple attention heads focusing on different parts of a sentence.](image.png){width=70%}
+
+---
+
+In my previous post, I have broken down the **Scaled Dot-Product Attention** mechanism. We saw how a Query finds similar Keys to extract Values.
+
+But if you look at the actual Transformer architecture, you rarely see just "Attention." You see **Multi-Head Attention**.
+
+**Why?**
+
+Imagine the sentence: *"The animal didn't cross the street because **it** was too tired."*
+
+As a human, you know "**it**" refers to the "animal." How do you know?
+1.  **Grammatical perspective:** You are looking for a noun that agrees with the pronoun.
+2.  **Semantic perspective:** You know that "streets" don't get "tired," but "animals" do.
+
+If a model only has a single attention head, it has to average these different types of relationships into one messy score. **Multi-Head Attention** allows the model to create distinct "experts." Head 1 can focus on grammar, while Head 2 focuses on semantic context, running in parallel without interfering with each other.
+
+In this post, I will walk through the standard PyTorch implementation of Multi-Head Attention. I will define a simple scenario and trace exactly what happens to the tensors at every step.
+
+## The Code: PyTorch MultiHeadAttention
+
+Here is the complete implementation I will be dissecting.
+
+```python
+import torch
+import torch.nn as nn
+# Assuming ScaledDotProductAttention is defined as in the previous post
+
+class MultiHeadAttention(nn.Module):
+    def __init__(self, d_model: int, num_heads: int, dropout: float = 0.1):
+        super(MultiHeadAttention, self).__init__()
+        
+        # Ensure the model dimension can be split evenly across heads
+        assert d_model % num_heads == 0, "d_model must be divisible by num_heads"
+        
+        self.d_model = d_model
+        self.num_heads = num_heads
+        # d_k is the dimension of the vector *per head*
+        self.d_k = d_model // num_heads  
+        self.d_v = d_model // num_heads  
+        
+        # Linear projections for Q, K, V
+        # Note: We use single large projections instead of h separate ones
+        self.W_Q = nn.Linear(d_model, d_model)
+        self.W_K = nn.Linear(d_model, d_model)
+        self.W_V = nn.Linear(d_model, d_model)
+        
+        # Output projection (The Mixer)
+        self.W_O = nn.Linear(d_model, d_model)
+        
+        # Scaled dot-product attention mechanism
+        self.attention = ScaledDotProductAttention(self.d_k, dropout)
+        self.dropout = nn.Dropout(dropout)
+
+    def split_heads(self, x: torch.Tensor) -> torch.Tensor:
+        """Split tensor into multiple heads and transpose for parallel processing"""
+        batch_size, seq_len, d_model = x.size()
+        
+        # Reshape: (B, Seq, d_model) -> (B, Seq, H, d_k)
+        x = x.view(batch_size, seq_len, self.num_heads, self.d_k)
+        
+        # Transpose: (B, Seq, H, d_k) -> (B, H, Seq, d_k)
+        # This puts Heads next to Batch for parallel attention computation
+        x = x.transpose(1, 2)
+        return x
+
+    def combine_heads(self, x: torch.Tensor) -> torch.Tensor:
+        """Combine multiple heads back into a single continuous vector"""
+        # x shape: (B, H, Seq, d_k)
+        batch_size, num_heads, seq_len, d_k = x.size()
+        
+        # Transpose back: (B, H, Seq, d_k) -> (B, Seq, H, d_k)
+        x = x.transpose(1, 2).contiguous()
+        
+        # Flatten: (B, Seq, H, d_k) -> (B, Seq, d_model)
+        # H * d_k equals d_model again
+        x = x.view(batch_size, seq_len, self.d_model)
+        return x
+
+    def forward(self, Q: torch.Tensor, K: torch.Tensor, V: torch.Tensor,
+                mask: torch.Tensor = None):
+        batch_size = Q.size(0)
+        
+        # 1. Linear projections (Apply the "lenses")
+        # Shape remains: (B, Seq, d_model)
+        Q = self.W_Q(Q)  
+        K = self.W_K(K)  
+        V = self.W_V(V)  
+        
+        # 2. Split into multiple heads
+        # Shape becomes: (B, H, Seq, d_k)
+        Q = self.split_heads(Q)  
+        K = self.split_heads(K)  
+        V = self.split_heads(V)  
+        
+        # 3. Apply attention (in parallel across heads)
+        # Output shape: (B, H, Seq, d_v)
+        attn_output, attention_weights = self.attention(Q, K, V, mask)
+        
+        # 4. Combine heads (Stitch them back together)
+        # Shape becomes: (B, Seq, d_model)
+        attn_output = self.combine_heads(attn_output)
+        
+        # 5. Final linear projection (Mix the experts' opinions)
+        # Shape remains: (B, Seq, d_model)
+        output = self.W_O(attn_output)
+        output = self.dropout(output)
+        
+        return output, attention_weights
+```
+
+## The Tensor Walkthrough
+
+To truly understand Multi-Head Attention, we need to trace the shapes.
+
+### Our Scenario
+* We are processing **1 sentence** (Batch Size $B=1$).
+* The sentence has **3 words** (Sequence Length $L=3$, e.g., "I", "Love", "AI").
+* Each word is represented by a **tiny vector of size 4** ($d_{model}=4$).
+* We want **2 parallel heads** ($H=2$).
+* Therefore, each head will operate on vectors of **size 2** ($d_k = 4 / 2 = 2$).
+
+### Step 1: The Inputs and Projections
+The inputs $Q$, $K$, and $V$ all start with the same shape.
+
+* **Input Shape:** `(1, 3, 4)` $\rightarrow$ (Batch, Seq, $d_{model}$)
+
+We pass them through linear layers ($W_Q$, $W_K$, and $W_V$). These are essentially filters that transform the raw word embeddings into "Query space," "Key space," and "Value space."
+
+```python
+# 1. Linear projections
+Q = self.W_Q(Q)
+K = self.W_K(K)
+V = self.W_V(V)
+```
+
+* **Output Shape:** `(1, 3, 4)`
+
+**Crucially, the shape hasn't changed yet.** We have just transformed the data inside the vectors.
+
+### Step 2: Splitting the Heads ("The Magic Trick")
+This is the most confusing part for beginners. How do we get multiple heads out of one vector?
+
+We take the final dimension ($d_{model}=4$) and physically chop it into $H$ chunks of size $d_k$.
+
+```python
+# 2. Split into multiple heads
+Q = self.split_heads(Q)
+# ... K and V do the same ...
+```
+
+**1. View (Reshape):**
+We tell the system to interpret the `(..., 4)` dimension as `(..., 2, 2)`.
+
+* Shape changes from `(1, 3, 4)` to `(1, 3, 2, 2)` $\rightarrow$ (Batch, Seq, Heads, $d_k$).
+
+**2. Transpose (Swap):**
+We swap the "Sequence" dimension (dim 1) with the "Heads" dimension (dim 2).
+
+* Shape changes from `(1, 3, 2, 2)` to `(1, 2, 3, 2)` $\rightarrow$ (Batch, Heads, Seq, $d_k$).
+
+**Why Transpose?**
+Matrix multiplication operations typically operate on the last two dimensions. By moving "Heads" to the second position, the system treats `(1, 2)` as a "super-batch." It effectively tricks the GPU into running the attention mechanism on Head 1 and Head 2 simultaneously in parallel.
+
+### Step 3: Apply Attention
+We now pass these 4D tensors to the attention function. Because of the shape `(1, 2, 3, 2)`, the attention module calculates dot products on the last two dimensions `(3, 2)`.
+
+```python
+# 3. Apply attention
+attn_output, attention_weights = self.attention(Q, K, V, mask)
+```
+
+* **Head 1** performs attention on its `(3, 2)` data.
+* **Head 2** performs attention on its `(3, 2)` data.
+
+**Output Shape:** `(1, 2, 3, 2)`. The results are still separated by head.
+
+### Step 4: Combining Heads
+We have the results, but they are split. We need to stitch them back together into a single representation for each word. We essentially reverse Step 2.
+
+```python
+# 4. Combine heads
+attn_output = self.combine_heads(attn_output)
+```
+
+**1. Transpose Back:**
+Swap Heads and Seq dimensions.
+
+* Shape changes from `(1, 2, 3, 2)` to `(1, 3, 2, 2)`.
+
+**2. View (Flatten):**
+Merge the "Heads" dimension (size 2) and "$d_k$" dimension (size 2) back into "$d_{model}$" (size 4).
+
+* Shape changes from `(1, 3, 2, 2)` to `(1, 3, 4)`.
+
+Effectively, the vector of size 2 from Head 1 and the vector of size 2 from Head 2 are now concatenated side-by-side to make a vector of size 4.
+
+### Step 5: The Final Mixer ($W_O$)
+We have a vector of size 4, but the top half is purely from Head 1, and the bottom half is purely from Head 2. They haven't interacted yet.
+
+```python
+# 5. Final linear projection
+output = self.W_O(attn_output)
+```
+
+We pass this through a final linear layer, $W_O$ (Output weights). This layer mixes these features together. It allows the model to synthesize the "grammar insights" from Head 1 with the "semantic insights" from Head 2 into a single, unified representation for the word.
+
+* **Final Output Shape:** `(1, 3, 4)`
+
+We started with `(1, 3, 4)` and ended with `(1, 3, 4)`, but the vectors now contain rich, contextual information gathered from multiple perspectives across the whole sentence.
+
+## Deep Dive: Why "One Big Matrix"?
+
+You might wonder why we typically use one large linear layer (size $d_{model}$) instead of creating a list of smaller separate layers (size $d_k$).
+
+Mathematically, they are identical. Computationally, **one big matrix is much faster**.
+
+GPUs love crunching massive matrices. It is significantly more efficient to perform one massive matrix multiplication ($512 \times 512$) and then slice the result in memory, rather than launching 8 separate, smaller kernel operations ($512 \times 64$) in a loop. This implementation is a standard trick to maximize hardware utilization.
+
+## Summary
+
+Multi-Head Attention is a sophisticated way of saying **"do parallel processing and mix the results."**
+
+By splitting the embedding dimension into distinct heads, we allow the Transformer to learn different types of relationships simultaneously. The intricate steps of view and transpose operations is simply the mechanism required to arrange the data efficiently so GPUs can perform this parallel computation and then stitch the diverse insights back together.
