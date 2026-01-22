@@ -4,7 +4,7 @@ subtitle: "Deep dives into Agentic AI, MLOps, and Large Language Models."
 page-layout: full
 title-block-banner: false
 listing:
-  contents: posts
+  contents: posts/**/*.qmd
   sort: "date desc"
   type: grid
   grid-columns: 4
