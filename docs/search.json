@@ -7,272 +7,6 @@
     "text": "No matching items"
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "My First Blog Post",
-    "section": "",
-    "text": "Welcome to my new Data Science blog!"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "Download Full CV (PDF)"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ramu Nalla",
-    "section": "",
-    "text": "I am a Senior Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
-  },
-  {
-    "objectID": "posts.html",
-    "href": "posts.html",
-    "title": "My Blogs",
-    "section": "",
-    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 19, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#latest-thinking",
-    "href": "index.html#latest-thinking",
-    "title": "Ramu Nalla",
-    "section": "Latest Thinking",
-    "text": "Latest Thinking\n\n\n\n\n\nMy First Blog Post\n\n\n\n\n\n\n\n\nMay 20, 2024\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#updates",
-    "href": "index.html#updates",
-    "title": "Ramu Nalla",
-    "section": "Updates",
-    "text": "Updates\n\n\n\nDate\nEvent\n\n\n\n\nJan 17, 2026\n🚀 Updated portfolio architecture\n\n\nJan 15, 2026\n🎉 Launched personal website\n\n\n\n\n\n\n✉️ 🐙 💼 𝕏\n\n\n© 2026 Ramu Nalla. Built with Quarto & Python."
-  },
-  {
-    "objectID": "index.html#latest-posts",
-    "href": "index.html#latest-posts",
-    "title": "Ramu Nalla",
-    "section": "Latest Posts",
-    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 19, 2026\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nDec 17, 2025\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#news",
-    "href": "index.html#news",
-    "title": "Ramu Nalla",
-    "section": "News",
-    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Sr. Data Scientist\n\n\n\n\n\n\n    \n\n\nBest to reach out to me over email or DM me on LinkedIn.\n\n\n© 2026 Ramu Nalla. All rights reserved."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "",
-    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-retrieval-mechanism",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-retrieval-mechanism",
-    "title": "Building a Minimal RAG Pipeline",
-    "section": "",
-    "text": "The most critical part of RAG is semantic search. We calculate the cosine similarity between the user’s query vector and our document vectors.\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Dummy Knowledge Base\ndocuments = [\n    \"RAG improves LLM accuracy by providing external context.\",\n    \"LangChain is a framework for building applications with LLMs.\",\n    \"Vector databases store embeddings for efficient semantic search.\"\n]\n\n# 2. Mock Embeddings (3-dimensional vectors for demo)\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1], \n    [0.2, 0.8, 0.2], \n    [0.1, 0.2, 0.9]\n])\n\n# 3. User Query Vector\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. Calculate Similarity\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Retrieve Top Result\nbest_match_idx = np.argmax(scores)\nprint(f\"Query matched: '{documents[best_match_idx]}'\")\nprint(f\"Confidence Score: {scores[best_match_idx]:.4f}\")"
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#conclusion",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#conclusion",
-    "title": "Building a Minimal RAG Pipeline",
-    "section": "",
-    "text": "This is a simplified view of how retrieval works. In a production environment, we would scale this using tools like Pinecone or Milvus."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Core Concept",
-    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Code: “Vector Search” in Pure Python",
-    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "Moving to Production",
-    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "",
-    "text": "Published by Ramu Nalla - January 01, 2026\nIn the world of supervised learning—like spam classification or customer churn prediction—evaluation is straightforward. The model is right, or it’s wrong. Accuracy, precision, and recall tell us everything we need to know.\nBut what happens when you are evaluating a machine translation model?\nIf the human reference translates a French sentence as “The cat sat on the mat,” but your model outputs “A cat was sitting on the mat,” is the model wrong? No. It conveys the same meaning. It just uses different words.\nLanguage is inherently ambiguous. There is rarely one single “gold standard” translation. This subjectivity makes automated evaluation of Generative AI incredibly difficult.\nFor two decades, the de facto standard for solving this problem in Machine Translation (MT) has been the BLEU (Bilingual Evaluation Understudy) score. While newer semantic metrics like BERTScore are gaining traction, understanding BLEU is non-negotiable for any serious NLP practitioner. It is the bedrock upon which modern metrics are built.\nIn this post, we are going to tear apart the BLEU score. We won’t just look at the final formula; we will build it piece by piece to understand the mathematical intuition behind why it works—and crucial for us data scientists—where it breaks."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-n-gram-era-measuring-overlap",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-n-gram-era-measuring-overlap",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "The N-Gram Era: Measuring Overlap",
-    "text": "The N-Gram Era: Measuring Overlap\nBefore deep learning took over, our best bet for evaluating text was counting how many words (n-grams) in the model’s output matched the words in a human-written reference. These metrics are fast, interpretable, and still widely used benchmarks today.\n\nBLEU (Bilingual Evaluation Understudy)\nThe Purpose: BLEU was one of the first metrics to achieve a high correlation with human judgments in machine translation. Its primary focus is Precision.\nThe Mechanism: BLEU asks the question: “How much of the generated summary appeared in the reference summary?”\nIt calculates the n-gram overlap (usually up to 4-grams) between the candidate text and one or more reference texts. Crucially, it includes a Brevity Penalty. Without it, a model could game the metric by outputting a single correct word (achieving 100% precision) while ignoring the rest of the sentence.\nThe Value Range: 0 to 1 (or 0 to 100). Higher is better. A score over 30-40 is often considered very good for translation tasks.\nA Detailed Example:\nLet’s look at how 1-gram (unigram) precision is calculated.\n\nReference (Human): “The cat is on the mat.”\nCandidate (Model): “The the the cat mat.”\n\nIf we just count matches, the model gets 5 matches (“The”, “the”, “the”, “cat”, “mat”) out of 5 generated words. That’s 100% precision. This is obviously wrong.\nBLEU uses clipped precision. It caps the count of each word by the maximum number of times that word appears in the reference. * “the” appears a maximum of 2 times in the reference. * “cat” appears 1 time. * “mat” appears 1 time.\nClipped matches: 2 (“the”) + 1 (“cat”) + 1 (“mat”) = 4. Total candidate words: 5. BLEU-1 Precision: 4 / 5 = 0.8\nReal-world BLEU usually combines BLEU-1, -2, -3, and -4 into a geometric mean and applies the brevity penalty.\nIndustry Variants: * BLEU-4: The standard configuration using cumulative 4-gram scores. * SacreBLEU: A standardized Python library that solves the issue of different preprocessing steps yielding different BLEU scores. If you are reporting academic results, use SacreBLEU.\nWhere it is used: Machine Translation (MT) remains its stronghold. It is rarely the best choice for creative generation or summarization.\n\n\n\nROUGE (Recall-Oriented Understudy for Gisting Evaluation)\nThe Purpose: While BLEU focuses on precision, ROUGE focuses on Recall. It was designed specifically for evaluating text summarization.\nThe Mechanism: ROUGE asks the question: “How much of the reference summary did the generated summary capture?”\nIt measures n-gram overlap from the perspective of the reference text.\nThe Value Range: 0 to 1. Higher is better.\nA Detailed Example:\n\nReference: “Climate change is causing extreme weather events globally.”\nCandidate: “Extreme weather is happening.”\n\nLet’s calculate ROUGE-1 (Unigram) Recall: * Number of overlapping words: 3 (“extreme”, “weather”, “is”) * Total words in Reference: 8 * ROUGE-1 Recall: 3 / 8 = 0.375\nThe model missed “Climate change”, “causing”, “events”, and “globally”. A low recall score reflects this information loss.\nIndustry Variants: * ROUGE-N: Measures n-gram overlap (e.g., ROUGE-1, ROUGE-2). ROUGE-2 is a very popular metric for summarization as it captures basic phrasing. * ROUGE-L (Longest Common Subsequence): This is highly valuable because it doesn’t require consecutive matches but does require the words to appear in the same relative order. It rewards structure without being overly rigid on exact phrasing.\nWhere it is used: Text Summarization is its primary domain. It is occasionally used in question answering."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-embedding-era-measuring-meaning",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-embedding-era-measuring-meaning",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "The Embedding Era: Measuring Meaning",
-    "text": "The Embedding Era: Measuring Meaning\nThe fundamental flaw of n-gram metrics like BLEU and ROUGE is that they are semantically blind. They don’t know that “car” and “automobile” mean the same thing. If the reference uses one and the model uses the other, n-gram metrics score it as a zero-match error.\nAs NLP moved toward embeddings (Word2Vec, BERT), evaluation metrics followed suit.\n\nBERTScore\nThe Purpose: BERTScore aims to evaluate semantic similarity rather than exact lexical overlap. It leverages pre-trained contextual embeddings (like BERT, RoBERTa, or DeBERTa) to understand if two sentences mean the same thing, even if they use different words.\nThe Mechanism: 1. Generate contextual embeddings for every token in the candidate sentence and the reference sentence using a Transformer model. 2. Calculate the cosine similarity between every candidate token and every reference token to create a similarity matrix. 3. Use “greedy matching” to find the highest similarity score for each token. 4. Compute the average of these maximum similarity scores to get Precision, Recall, and F1.\nThe Value Range: Generally -1 to 1 (due to cosine similarity), but practically ranges from 0 to 1. It often occupies a narrower, higher range than BLEU; a score change of 0.02 can be significant.\nA Detailed Example:\n\nReference: “The weather is chilly.”\nCandidate: “It’s cold outside.”\n\nBLEU and ROUGE would give this a near-zero score as there is almost no word overlap.\nBERTScore, however, knows that the embedding vector for “chilly” in this context is highly similar to the vector for “cold”. It also recognizes the semantic relationship between “weather” and “outside”. It will assign a high similarity score, correctly identifying that the model preserved the meaning.\nKey Advantages: * Synonym Awareness: Handles paraphrasing effectively. * Contextual: The embedding for “bank” changes depending on whether you mean a river bank or a financial institution.\nWhere it is used: Almost universally applicable across text generation tasks, including translation, summarization, and dialogue systems. It generally correlates much better with human judgment than n-gram metrics."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-frontier-measuring-distribution",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-frontier-measuring-distribution",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "The Frontier: Measuring Distribution",
-    "text": "The Frontier: Measuring Distribution\nThe metrics above compare one generated sample against one (or a few) references. But what about open-ended generation, like creative writing or dialogue? There are thousands of valid ways to continue a story. Comparing a model’s output to just one single human example is often unfair and misleading.\nThis brings us to distributional metrics, which compare the entire probability distribution of model-generated text against human text.\n\nMAUVE (Open-Ended Text Generation)\nThe Purpose: MAUVE is designed for open-ended generation tasks where diversity and creativity matter as much as correctness. It attempts to measure the “gap” between the distribution of human text and machine text.\nIt specifically addresses two common failures in modern LLMs: 1. Type I Error (Quality issues): The model generates text that is unrealistic or degenerate (gibberish, repetition). 2. Type II Error (Diversity issues): The model generates safe, repetitive, “boring” text and fails to capture the full richness of human expression (mode collapse).\nThe Mechanism (Simplified Intuition): Imagine all possible human text exists in a “probability space” shaped like a cloud. The model also has its own cloud.\nMAUVE uses embeddings (usually from GPT-2 or similar) to map generated text and human text into this space. It then uses statistical divergence measures (related to Kullback-Leibler divergence) to quantify how much the “model cloud” overlaps with the “human cloud.”\nIt provides a single score that represents a trade-off between measuring how much of the model text looks human (quality) and how much of the human distribution the model manages to cover (diversity).\nThe Value Range: 0 to 1. Higher is better. A low score indicates the model is either generating low-quality text or is too repetitive and “safe.”\nWhere it is used: * Open-ended story generation. * Creative writing assistants. * Dialogue systems (chatbots) where engaging, diverse responses are required."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#summary-comparison-table",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#summary-comparison-table",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "Summary Comparison Table",
-    "text": "Summary Comparison Table\n\n\n\n\n\n\n\n\n\n\nMetric\nCore Focus\nMechanism\nBest Use Case\nKey Limitation\n\n\n\n\nBLEU\nPrecision\nN-gram overlap with brevity penalty.\nMachine Translation\nIgnores synonyms and meaning.\n\n\nROUGE\nRecall\nN-gram overlap from reference perspective.\nSummarization\nIgnores synonyms; rewards redundancy.\n\n\nBERTScore\nSemantic Meaning\nCosine similarity of contextual embeddings.\nGeneral Purpose GenAI\nComputationally expensive; depends on base model bias.\n\n\nMAUVE\nDistribution & Diversity\nStatistical divergence between embedding clusters.\nOpen-Ended Generation\nComplex to calculate; requires large sample size."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#final-thoughts",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#final-thoughts",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "Final Thoughts",
-    "text": "Final Thoughts\nBLEU is imperfect. It is rigid, semantically blind, and sometimes fails to match human judgment.\nHowever, it remains widely adopted in machine translation evaluation. It is fast to compute, easy to understand, and language-agnostic. Understanding the mechanics of clipped precision and the brevity penalty gives you the intuition needed to interpret these scores correctly—and to know when it’s time to move on to something more advanced."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#bleu-bilingual-evaluation-understudy",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#bleu-bilingual-evaluation-understudy",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "1. BLEU (Bilingual Evaluation Understudy)",
-    "text": "1. BLEU (Bilingual Evaluation Understudy)\nCore Concept: Precision-based N-gram overlap.\nPrimary Use Case: Machine Translation (MT).\n\nMechanism\nBLEU calculates the Geometric Mean of modified n-gram precisions (usually up to \\(N=4\\)), multiplied by a Brevity Penalty (BP). The BP prevents the model from gaming the metric by outputting short, high-precision sentences (e.g., outputting “the” for a reference “the cat sat”).\n\n\nCalculation Logic\n\nCount N-grams: Calculate counts for 1-grams through 4-grams in the Candidate.\nClip Counts: \\(\\text{Count}_{\\text{clip}} = \\min(\\text{Count}_{\\text{Candidate}}, \\text{Count}_{\\text{Reference}})\\).\nPrecision (\\(p_n\\)): \\(\\sum \\text{Clipped Counts} / \\sum \\text{Total Candidate N-grams}\\).\nBrevity Penalty: If Candidate length &lt; Reference length, penalize score exponentially.\n\n\n\nTechnical Example\n\nReference: “The cat is on the mat”\nCandidate: “The the the cat mat”\n\nUnigram Precision (BLEU-1): * Raw Counts: “the”: 3, “cat”: 1, “mat”: 1. Total: 5. * Reference Max: “the”: 2, “cat”: 1, “mat”: 1. * Clipped Counts: 2 + 1 + 1 = 4. * Score: \\(4/5 = 0.8\\).\n\n\nIndustry Standards\n\nSacreBLEU: Do not use standard NLTK BLEU for reporting. Use sacrebleu. It standardizes tokenization and detokenization to ensuring results are comparable across papers.\nSmoothing: Essential for sentence-level BLEU to avoid zero scores when higher-order n-grams (e.g., 4-grams) have no overlaps."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#rouge-recall-oriented-understudy-for-gisting-evaluation",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#rouge-recall-oriented-understudy-for-gisting-evaluation",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "2. ROUGE (Recall-Oriented Understudy for Gisting Evaluation)",
-    "text": "2. ROUGE (Recall-Oriented Understudy for Gisting Evaluation)\nCore Concept: Recall-based N-gram overlap. Primary Use Case: Text Summarization.\n\nMechanism\nMeasures the overlap of N-grams from the Reference’s perspective. It quantifies how much of the gold-standard summary the model successfully retrieved.\n\n\nVariants & Implementation\n\nROUGE-N (N-gram):\n\nFormula: \\(\\frac{\\sum \\text{Count}_{\\text{match}}(\\text{gram}_n)}{\\sum \\text{Count}_{\\text{Reference}}(\\text{gram}_n)}\\)\nFocus: ROUGE-1 captures informativeness; ROUGE-2 captures fluency.\n\nROUGE-L (Longest Common Subsequence):\n\nIdentifies the longest sequence of words that appear in both texts in the same relative order.\nAdvantage: Does not require consecutive matches. Captures sentence structure better than fixed N-grams.\n\n\n\n\nTechnical Example\n\nReference: “Climate change causes storms.” (4 words)\nCandidate: “Storms are caused.”\n\nROUGE-1 Recall: * Overlaps: “causes” (stemmed match), “storms”. * Score: \\(2 / 4 = 0.5\\)."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#bertscore",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#bertscore",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "3. BERTScore",
-    "text": "3. BERTScore\nCore Concept: Semantic Similarity via Contextual Embeddings. Primary Use Case: Paraphrasing, Chatbots, Translation.\n\nMechanism\nSolves the “exact match” flaw of N-gram metrics. It uses pre-trained transformers (BERT/RoBERTa/DeBERTa) to generate contextual embeddings for every token and computes pairwise cosine similarity.\n\n\nAlgorithm Steps\n\nEmbedding: Compute vectors for Reference \\(x = \\langle x_1, \\dots, x_k \\rangle\\) and Candidate \\(\\hat{x} = \\langle \\hat{x}_1, \\dots, \\hat{x}_l \\rangle\\).\nPairwise Similarity: Compute cosine similarity matrix between all candidate and reference tokens.\nGreedy Matching:\n\nFor each token in Reference, find the max similarity in Candidate (Recall).\nFor each token in Candidate, find the max similarity in Reference (Precision).\n\nWeighting: Optional IDF weighting to downplay common words like “the” or “is”.\n\n\n\nComparison: BLEU vs. BERTScore\n\nReference: “The weather is chilly.”\nCandidate: “It is cold outside.”\nBLEU: ~0.0 (No token overlap beyond “is”).\nBERTScore: ~0.9 (High cosine similarity between embeddings of chilly and cold)."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#mauve",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#mauve",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "4. MAUVE",
-    "text": "4. MAUVE\nCore Concept: Distributional Divergence (Quality vs. Diversity). Primary Use Case: Open-Ended Text Generation (Creative Writing, Story Completion).\n\nThe Problem\nTraditional metrics compare 1 Sample vs 1 Reference. In open-ended generation, there are thousands of valid continuations. Comparing against a single reference yields False Negatives.\n\n\nMechanism\nMAUVE measures the gap between the distribution of human text (\\(P\\)) and model text (\\(Q\\)). 1. Embedding: Map generated text and human text into a dense vector space (using GPT-2/3 embeddings). 2. Clustering: Discretize the space using k-means clustering to form a discrete probability distribution. 3. Divergence: Compute the Kullback-Leibler (KL) divergence between the two distributions.\n\n\nInterpretation\n\nScore Range: 0 to 1.\nLow Score (Type I Error): Model generates unrealistic/degenerate text (diverges from human manifold).\nLow Score (Type II Error): Model generates repetitive/safe text (Mode Collapse - fails to cover the diversity of human manifold).\n\n\n\nSummary Table\n\n\n\n\n\n\n\n\n\nMetric\nType\nCore Math\nBest For\n\n\n\n\nBLEU\nLexical\nGeometric Mean of Precision\nTranslation\n\n\nROUGE\nLexical\nN-gram Recall\nSummarization\n\n\nBERTScore\nSemantic\nToken-level Cosine Similarity\nParaphrasing / Semantic Content\n\n\nMAUVE\nDistributional\nKL-Divergence of Clusters\nOpen-Ended Generation"
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#bleu-precision-focused",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#bleu-precision-focused",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "1. BLEU (Precision-Focused)",
-    "text": "1. BLEU (Precision-Focused)\nBLEU (Bilingual Evaluation Understudy) measures how much of the candidate text appears in the reference text. It effectively calculates n-gram precision.\n\nThe Mechanism\nBLEU calculates a geometric mean of n-gram modified precision scores (\\(p_n\\)), multiplied by a Brevity Penalty (BP) to punish overly short outputs.\n\\[\n\\text{BLEU} = BP \\cdot \\exp\\left( \\sum_{n=1}^{N} w_n \\log p_n \\right)\n\\]\nWhere: * \\(p_n\\): The ratio of n-gram matches to total candidate n-grams (clipped by reference count). * \\(w_n\\): The weight for each n-gram size (usually uniform \\(1/4\\) for \\(N=4\\)). * \\(BP\\): A decay factor if the candidate length (\\(c\\)) is less than the reference length (\\(r\\)).\n\\[\nBP = \\begin{cases}\n1 & \\text{if } c &gt; r \\\\\ne^{(1 - r/c)} & \\text{if } c \\le r\n\\end{cases}\n\\]\n\n\nExample\n\nReference: “The cat is on the mat”\nCandidate: “The the the cat mat”\n\nStandard precision would be \\(5/5\\) (100%). BLEU uses clipped precision. “The” appears twice in reference, so we cap the count. \\[\n\\text{Precision} = \\frac{2 (\\text{\"the\"}) + 1 (\\text{\"cat\"}) + 1 (\\text{\"mat\"})}{5 \\text{ (Total Candidate Words)}} = 0.8\n\\]\nBest Use: Machine Translation. Limitation: It is purely exact-match based. “Automobile” and “Car” are treated as unrelated errors."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#rouge-recall-focused",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#rouge-recall-focused",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "2. ROUGE (Recall-Focused)",
-    "text": "2. ROUGE (Recall-Focused)\nROUGE (Recall-Oriented Understudy for Gisting Evaluation) measures how much of the reference text was captured by the candidate. It is the standard for text summarization.\n\nThe Mechanism\nROUGE-N computes the n-gram recall between the candidate and the reference.\n\\[\n\\text{ROUGE-N} = \\frac{\\sum_{S \\in \\{Refs\\}} \\sum_{gram_n \\in S} \\text{Count}_{\\text{match}}(gram_n)}{\\sum_{S \\in \\{Refs\\}} \\sum_{gram_n \\in S} \\text{Count}(gram_n)}\n\\]\nBasically: \\[\n\\text{Recall} = \\frac{\\text{Overlapping N-grams}}{\\text{Total N-grams in Reference}}\n\\]\n\n\nKey Variants\n\nROUGE-1: Unigram overlap (informative for content coverage).\nROUGE-2: Bigram overlap (informative for fluency).\nROUGE-L: Longest Common Subsequence. Captures sentence structure matches even if they are not consecutive, rewarding proper word order.\n\nBest Use: Summarization. Limitation: Like BLEU, it fails to capture semantic paraphrasing."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#bertscore-semantic-similarity",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#bertscore-semantic-similarity",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "3. BERTScore (Semantic Similarity)",
-    "text": "3. BERTScore (Semantic Similarity)\nBERTScore solves the synonym problem by using contextual embeddings. It evaluates similarity in the vector space rather than token space.\n\nThe Mechanism\n\nEmbed: Compute contextual embeddings for candidate tokens (\\(x\\)) and reference tokens (\\(y\\)) using a Transformer (e.g., RoBERTa).\nPairwise Similarity: Compute the cosine similarity matrix between all candidate and reference tokens.\nGreedy Match: For each token in the candidate, find the max similarity in the reference (and vice-versa for recall).\n\n\\[\nR_{\\text{BERT}} = \\frac{1}{|x|} \\sum_{x_i \\in x} \\max_{y_j \\in y} (x_i^{\\top} y_j)\n\\]\n\n\nWhy it wins\nConsider: * Ref: “The weather is chilly.” * Cand: “It is cold outside.”\nBLEU/ROUGE score this near 0. BERTScore yields a high value because the vector \\(\\vec{v}_{\\text{chilly}} \\approx \\vec{v}_{\\text{cold}}\\).\nBest Use: General GenAI evaluation (Translation, Dialogue, Paraphrasing)."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#mauve-distributional-divergence",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#mauve-distributional-divergence",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "4. MAUVE (Distributional Divergence)",
-    "text": "4. MAUVE (Distributional Divergence)\nBLEU and BERTScore compare one output to one reference. MAUVE compares the distribution of the model’s generated text (\\(P\\)) to the distribution of human text (\\(Q\\)). It is essential for open-ended generation (e.g., story writing).\n\nThe Mechanism\nMAUVE measures the gap between the human text distribution and model text distribution using quantized embeddings.\n\nEncode: Map model outputs and human text into a dense vector space (e.g., using GPT-2).\nCluster: Discretize this space to form probability distributions \\(P\\) (Model) and \\(Q\\) (Human).\nDivergence: Compute the Kullback-Leibler (KL) divergence.\n\nConceptually, it balances two error types: * Type I (Quality): The model produces unrealistic text (mass in \\(P\\) is outside \\(Q\\)). * Type II (Diversity): The model is repetitive and “safe” (mass in \\(P\\) covers only a small subset of \\(Q\\)).\n\\[\n\\text{MAUVE} \\approx \\text{Area Under the Divergence Curve}\n\\]\nBest Use: Open-ended text generation, creative writing, chatbots."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#summary-cheat-sheet",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#summary-cheat-sheet",
-    "title": "Beyond Accuracy: A Deep Dive into NLP Evaluation Metrics",
-    "section": "Summary Cheat Sheet",
-    "text": "Summary Cheat Sheet\n\n\n\n\n\n\n\n\n\nMetric\nGoal\nMathematical Core\nIdeal Use Case\n\n\n\n\nBLEU\nPrecision\nN-gram Overlap + Brevity Penalty\nTranslation\n\n\nROUGE\nRecall\nN-gram Overlap (Reference-based)\nSummarization\n\n\nBERTScore\nMeaning\nCosine Similarity of Embeddings\nParaphrasing / QA\n\n\nMAUVE\nDiversity\nKL-Divergence of Distributions\nOpen-Ended Generation"
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-core-intuition-precision-vs.-recall",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-core-intuition-precision-vs.-recall",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "The Core Intuition: Precision vs. Recall",
-    "text": "The Core Intuition: Precision vs. Recall\nWhen evaluating generated text against a reference, we have two fundamental choices:\n\nPrecision: How much of what the model generated was correct?\nRecall: How much of the reference did the model capture?\n\nBLEU is fundamentally a Precision-based metric.\nWhy? Imagine a translation task where the goal is to translate a complex German technical document.\n\nA high-recall model might output a messy 5-page document that definitely contains all the right information, but buries it in hallucinations and noise.\nA high-precision model might output a shorter, 3-page document. It might miss a nuance or two, but everything it did generate is accurate and fluent.\n\nIn translation, we generally prefer the latter. We want the generated text to be high quality, even if it’s slightly incomplete."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-1-the-trap-of-raw-precision",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-1-the-trap-of-raw-precision",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "Step 1: The Trap of Raw Precision",
-    "text": "Step 1: The Trap of Raw Precision\nLet’s start with the simplest possible approach: counting word matches.\n\nReference 1: “The cat is on the mat.”\nReference 2: “There is a cat on the mat.”\n\nNow, imagine a poorly trained model generates this candidate:\n\nCandidate: “the the the the the the”\n\nIf we calculate standard unigram (1-word) precision:\n\nTotal candidate words: 6\nNumber of matches: 6 (The word “the” appears in the references).\nPrecision: 6/6 = 100%\n\nThis is obviously a catastrophic failure. A model could game the system by finding the most common word in the reference language and repeating it endlessly."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-2-the-fix-modified-clipped-precision",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-2-the-fix-modified-clipped-precision",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "Step 2: The Fix — Modified (Clipped) Precision",
-    "text": "Step 2: The Fix — Modified (Clipped) Precision\n\n\n\nA visual representation of how BLEU calculates “Clipped Precision,” mapping candidate words to reference constraints.\n\n\nTo solve the repetition problem, BLEU introduces clipped precision.\nThe rule is simple: A word in the candidate sentence can only be counted as a match up to the maximum number of times it appears in a single reference sentence.\nLet’s re-evaluate our bad candidate:\n\nCandidate: “the the the the the the”\nReference Constraint: The word “the” appears a maximum of two times (in Reference 1).\n\nThe math changes:\n\nTotal candidate words: 6\nClipped matches: 2 (We count the first two “the”s, and discard the remaining four).\nClipped Precision: 2/6 = 33.3%\n\nThis is much more reasonable. The metric now punishes absurd repetition.\nAs shown in the image at the top of this post, think of the reference sentences as providing a limited “budget” for each word count. Once the candidate uses up that budget, subsequent uses of that word are worthless."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-3-fluency-and-n-grams",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-3-fluency-and-n-grams",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "Step 3: Fluency and N-Grams",
-    "text": "Step 3: Fluency and N-Grams\nMatching individual words is good for ensuring the content is roughly adequate, but it doesn’t ensure the sentence flows naturally.\n“Mat on is the cat the” contains all the right words, but it’s terrible English.\nBLEU solves this by calculating clipped precision not just for unigrams (1-grams), but also for bigrams (2-grams), trigrams (3-grams), and typically up to 4-grams.\n\n1-grams measure adequacy (are the right concepts there?).\n3-grams and 4-grams measure fluency (is the phrasing natural?).\n\nIf a model gets high precision on 4-grams, it means it’s getting long sequences of words exactly right, which usually correlates with high-quality, fluent text.\n\nCombining the Scores\nSo, we have four separate precision scores (\\(p_1, p_2, p_3, p_4\\)). How do we combine them into a single number?\nWe don’t take the arithmetic mean (an average). We take the geometric mean.\n\n\nWhy?\nThe geometric mean is highly sensitive to low scores. If a translation has excellent unigram precision (all the right words) but zero 4-gram precision (the order is completely scrambled), the geometric mean will crash toward zero. The arithmetic mean would still give it a decent pass. We want the metric to be harsh on models that fail at any level of granularity.\nThe combined precision score looks like this:\n\\[\\exp\\left( \\sum_{n=1}^{N} w_n \\log p_n \\right)\\]\nTypically, \\(N=4\\) and the weights \\(w_n\\) are uniform (\\(1/4\\))."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-4-the-brevity-penalty-preventing-the-gaming",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-4-the-brevity-penalty-preventing-the-gaming",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "Step 4: The Brevity Penalty (Preventing the Gaming)",
-    "text": "Step 4: The Brevity Penalty (Preventing the Gaming)\nWe established that BLEU is a precision metric. But pure precision metrics have a massive loophole: Length.\nIf I have to translate a 50-word sentence, I could output a single, perfect 3-word phrase that I know is correct. My precision would be 100%. But I failed to translate the vast majority of the source sentence.\nTo prevent models from outputting overly short, “safe” sentences to maximize precision, BLEU applies a Brevity Penalty (BP).\nThe penalty is calculated based on two variables: 1. \\(c\\): The length of the candidate translation. 2. \\(r\\): The effective reference length.\nThe formula for BP is:\n\\[\nBP = \\begin{cases}\n1 & \\text{if } c &gt; r \\\\\ne^{(1 - r/c)} & \\text{if } c \\le r\n\\end{cases}\n\\]\nIf the candidate is longer than the reference (\\(c &gt; r\\)), there is no penalty (\\(BP = 1\\)). We don’t punish the model for being verbose (that’s what the precision score already does if the extra words are wrong).\nIf the candidate is shorter than the reference (\\(c \\le r\\)), the penalty kicks in exponentially.\nLet’s visualize this.\n\n\n\nA graph showing the BLEU Brevity Penalty. The Y-axis is the penalty multiplier (0 to 1), and the X-axis is the ratio of candidate length to reference length (c/r). The curve drops sharply below 1.0.\n\n\nAs you can see in the graph above, as soon as the candidate length drops below the reference length (ratio &lt; 1.0), the score multiplier starts dropping from 1.0 toward 0.0. A candidate that is half the length of the reference gets heavily penalized, ensuring that high-BLEU systems must produce output of comparable length to humans."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-complete-formula",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-complete-formula",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "The Complete Formula",
-    "text": "The Complete Formula\nPutting it all together, the BLEU score is the geometric mean of the n-gram clipped precisions, multiplied by the brevity penalty.\n\\[\\textbf{BLEU} = \\underbrace{BP}_{\\text{Brevity Penalty}} \\cdot \\underbrace{\\exp\\left( \\sum_{n=1}^{4} w_n \\log p_n \\right)}_{\\text{Geometric Mean of N-Gram Precisions}}\\]\nThe final score is between 0 and 1, though in practice, it is almost always reported as a percentage between 0 and 100.\nA BLEU score over 30 is generally considered understandable. A score over 40-50 is often considered high quality, depending on the language pair (translating English to French is easier than English to Chinese, so expected scores vary)."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#a-data-scientists-critical-review",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#a-data-scientists-critical-review",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "A Data Scientist’s Critical Review",
-    "text": "A Data Scientist’s Critical Review\nWe’ve covered how BLEU works. Now, let’s talk about why it’s often frustrating. As data scientists, we need to know the limitations of our tools.\n1. The Synonym Problem (Semantic Blindness) BLEU relies on exact string matching. It has no concept of meaning. * Reference: “The path is steep.” * Candidate: “The trail is uphill.” BLEU will give this a very low score, despite it being a perfect translation. It punishes creative or varied vocabulary. This is why semantic embeddings-based metrics like BERTScore were invented.\n2. It Ignores Global Structure While n-grams capture local ordering, BLEU has no sense of overall sentence structure. “Cat the sat mat on the” might get decent unigram scores, and it wouldn’t necessarily get a zero if some bigrams accidentally align.\n3. Human Correlation is Wobbly Crucially, an increase in BLEU score does not always correspond to an increase in human-perceived quality. A model might game the metric by optimizing for 4-grams in a way that sounds mechanical to a human reader. BLEU is useful for tracking progress during training, but the final sanity check must always be human evaluation.\n4. The Preprocessing Nightmare (sacrebleu) Because BLEU is based on exact string matching, it is incredibly sensitive to preprocessing. Do you tokenize text? Do you lowercase everything? How do you handle punctuation? Different implementations used to yield vastly different scores for the same model output.\nIndustry Standard: If you are reporting BLEU scores in a paper or a serious report, never roll your own implementation. Always use the sacrebleu Python library. It standardizes tokenization and preprocessing to ensure your scores are actually comparable to other people’s scores."
-  },
-  {
-    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#limitations",
-    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#limitations",
-    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
-    "section": "Limitations",
-    "text": "Limitations\nWe’ve covered how BLEU works. Now, let’s talk about why it’s often frustrating. As data scientists, we need to know the limitations of our tools.\n1. The Synonym Problem (Semantic Blindness). BLEU relies on exact string matching. It has no concept of meaning.\n\nReference: “The path is steep.”\nCandidate: “The trail is uphill.”\n\nBLEU will give this a very low score, despite it being a perfect translation. It punishes creative or varied vocabulary. This is why semantic embeddings-based metrics like BERTScore were invented.\n2. It Ignores Global Structure While n-grams capture local ordering, BLEU has no sense of overall sentence structure. “Cat the sat mat on the” might get decent unigram scores, and it wouldn’t necessarily get a zero if some bigrams accidentally align.\n3. Human Correlation is Wobbly Crucially, an increase in BLEU score does not always correspond to an increase in human-perceived quality. A model might game the metric by optimizing for 4-grams in a way that sounds mechanical to a human reader. BLEU is useful for tracking progress during training, but the final sanity check must always be human evaluation.\n4. The Preprocessing Nightmare (sacrebleu) Because BLEU is based on exact string matching, it is incredibly sensitive to preprocessing. Do you tokenize text? Do you lowercase everything? How do you handle punctuation? Different implementations used to yield vastly different scores for the same model output.\nIndustry Standard: If you are reporting BLEU scores in a paper or a serious report, never roll your own implementation. Always use the sacrebleu Python library. It standardizes tokenization and preprocessing to ensure your scores are actually comparable to other people’s scores."
-  },
-  {
     "objectID": "posts/scaled-dot-product-attention/index.html",
     "href": "posts/scaled-dot-product-attention/index.html",
     "title": "Scaled Dot-Product Attention: A Tensor-First Approach",
@@ -319,7 +53,7 @@
     "href": "posts/multi-head-attention/index.html",
     "title": "Multi-Head Attention: A Tensor-First Walkthrough",
     "section": "",
-    "text": "Published by Ramu Nalla - January 28, 2026\nIn my previous post, I have broken down the Scaled Dot-Product Attention mechanism. We saw how a Query finds similar Keys to extract Values.\nBut if you look at the actual Transformer architecture, you rarely see just “Attention.” You see Multi-Head Attention.\nWhy?\nImagine the sentence: “The animal didn’t cross the street because it was too tired.”\nAs a human, you know “it” refers to the “animal.” How do you know? 1. Grammatical perspective: You are looking for a noun that agrees with the pronoun. 2. Semantic perspective: You know that “streets” don’t get “tired,” but “animals” do.\nIf a model only has a single attention head, it has to average these different types of relationships into one messy score. Multi-Head Attention allows the model to create distinct “experts.” Head 1 can focus on grammar, while Head 2 focuses on semantic context, running in parallel without interfering with each other.\nIn this post, I will walk through the standard PyTorch implementation of Multi-Head Attention. I will define a simple scenario and trace exactly what happens to the tensors at every step."
+    "text": "Published by Ramu Nalla - January 12, 2026\nIn my previous post, I have broken down the Scaled Dot-Product Attention mechanism. We saw how a Query finds similar Keys to extract Values.\nBut if you look at the actual Transformer architecture, you rarely see just “Attention.” You see Multi-Head Attention.\nWhy?\nImagine the sentence: “The animal didn’t cross the street because it was too tired.”\nAs a human, you know “it” refers to the “animal.” How do you know? 1. Grammatical perspective: You are looking for a noun that agrees with the pronoun. 2. Semantic perspective: You know that “streets” don’t get “tired,” but “animals” do.\nIf a model only has a single attention head, it has to average these different types of relationships into one messy score. Multi-Head Attention allows the model to create distinct “experts.” Head 1 can focus on grammar, while Head 2 focuses on semantic context, running in parallel without interfering with each other.\nIn this post, I will walk through the standard PyTorch implementation of Multi-Head Attention. I will define a simple scenario and trace exactly what happens to the tensors at every step."
   },
   {
     "objectID": "posts/multi-head-attention/index.html#the-code-pytorch-multiheadattention",
@@ -348,5 +82,138 @@
     "title": "Multi-Head Attention: A Tensor-First Walkthrough",
     "section": "Summary",
     "text": "Summary\nMulti-Head Attention is a sophisticated way of saying “do parallel processing and mix the results.”\nBy splitting the embedding dimension into distinct heads, we allow the Transformer to learn different types of relationships simultaneously. The intricate steps of view and transpose operations is simply the mechanism required to arrange the data efficiently so GPUs can perform this parallel computation and then stitch the diverse insights back together."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ramu Nalla",
+    "section": "",
+    "text": "I am a Senior Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "Ramu Nalla",
+    "section": "Latest Posts",
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nJan 1, 2026\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n\n\n\n\n\nDec 17, 2025\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Ramu Nalla",
+    "section": "News",
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Sr. Data Scientist\n\n\n\n\n\n\n    \n\n\nBest to reach out to me over email or DM me on LinkedIn.\n\n\n© 2026 Ramu Nalla. All rights reserved."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "Download Full CV (PDF)"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "",
+    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Core Concept",
+    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Code: “Vector Search” in Pure Python",
+    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "Moving to Production",
+    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "",
+    "text": "Published by Ramu Nalla - January 01, 2026\nIn the world of supervised learning—like spam classification or customer churn prediction—evaluation is straightforward. The model is right, or it’s wrong. Accuracy, precision, and recall tell us everything we need to know.\nBut what happens when you are evaluating a machine translation model?\nIf the human reference translates a French sentence as “The cat sat on the mat,” but your model outputs “A cat was sitting on the mat,” is the model wrong? No. It conveys the same meaning. It just uses different words.\nLanguage is inherently ambiguous. There is rarely one single “gold standard” translation. This subjectivity makes automated evaluation of Generative AI incredibly difficult.\nFor two decades, the de facto standard for solving this problem in Machine Translation (MT) has been the BLEU (Bilingual Evaluation Understudy) score. While newer semantic metrics like BERTScore are gaining traction, understanding BLEU is non-negotiable for any serious NLP practitioner. It is the bedrock upon which modern metrics are built.\nIn this post, we are going to tear apart the BLEU score. We won’t just look at the final formula; we will build it piece by piece to understand the mathematical intuition behind why it works—and crucial for us data scientists—where it breaks."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-core-intuition-precision-vs.-recall",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-core-intuition-precision-vs.-recall",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "The Core Intuition: Precision vs. Recall",
+    "text": "The Core Intuition: Precision vs. Recall\nWhen evaluating generated text against a reference, we have two fundamental choices:\n\nPrecision: How much of what the model generated was correct?\nRecall: How much of the reference did the model capture?\n\nBLEU is fundamentally a Precision-based metric.\nWhy? Imagine a translation task where the goal is to translate a complex German technical document.\n\nA high-recall model might output a messy 5-page document that definitely contains all the right information, but buries it in hallucinations and noise.\nA high-precision model might output a shorter, 3-page document. It might miss a nuance or two, but everything it did generate is accurate and fluent.\n\nIn translation, we generally prefer the latter. We want the generated text to be high quality, even if it’s slightly incomplete."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-1-the-trap-of-raw-precision",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-1-the-trap-of-raw-precision",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "Step 1: The Trap of Raw Precision",
+    "text": "Step 1: The Trap of Raw Precision\nLet’s start with the simplest possible approach: counting word matches.\n\nReference 1: “The cat is on the mat.”\nReference 2: “There is a cat on the mat.”\n\nNow, imagine a poorly trained model generates this candidate:\n\nCandidate: “the the the the the the”\n\nIf we calculate standard unigram (1-word) precision:\n\nTotal candidate words: 6\nNumber of matches: 6 (The word “the” appears in the references).\nPrecision: 6/6 = 100%\n\nThis is obviously a catastrophic failure. A model could game the system by finding the most common word in the reference language and repeating it endlessly."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-2-the-fix-modified-clipped-precision",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-2-the-fix-modified-clipped-precision",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "Step 2: The Fix — Modified (Clipped) Precision",
+    "text": "Step 2: The Fix — Modified (Clipped) Precision\n\n\n\nA visual representation of how BLEU calculates “Clipped Precision,” mapping candidate words to reference constraints.\n\n\nTo solve the repetition problem, BLEU introduces clipped precision.\nThe rule is simple: A word in the candidate sentence can only be counted as a match up to the maximum number of times it appears in a single reference sentence.\nLet’s re-evaluate our bad candidate:\n\nCandidate: “the the the the the the”\nReference Constraint: The word “the” appears a maximum of two times (in Reference 1).\n\nThe math changes:\n\nTotal candidate words: 6\nClipped matches: 2 (We count the first two “the”s, and discard the remaining four).\nClipped Precision: 2/6 = 33.3%\n\nThis is much more reasonable. The metric now punishes absurd repetition.\nAs shown in the image at the top of this post, think of the reference sentences as providing a limited “budget” for each word count. Once the candidate uses up that budget, subsequent uses of that word are worthless."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-3-fluency-and-n-grams",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-3-fluency-and-n-grams",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "Step 3: Fluency and N-Grams",
+    "text": "Step 3: Fluency and N-Grams\nMatching individual words is good for ensuring the content is roughly adequate, but it doesn’t ensure the sentence flows naturally.\n“Mat on is the cat the” contains all the right words, but it’s terrible English.\nBLEU solves this by calculating clipped precision not just for unigrams (1-grams), but also for bigrams (2-grams), trigrams (3-grams), and typically up to 4-grams.\n\n1-grams measure adequacy (are the right concepts there?).\n3-grams and 4-grams measure fluency (is the phrasing natural?).\n\nIf a model gets high precision on 4-grams, it means it’s getting long sequences of words exactly right, which usually correlates with high-quality, fluent text.\n\nCombining the Scores\nSo, we have four separate precision scores (\\(p_1, p_2, p_3, p_4\\)). How do we combine them into a single number?\nWe don’t take the arithmetic mean (an average). We take the geometric mean.\n\n\nWhy?\nThe geometric mean is highly sensitive to low scores. If a translation has excellent unigram precision (all the right words) but zero 4-gram precision (the order is completely scrambled), the geometric mean will crash toward zero. The arithmetic mean would still give it a decent pass. We want the metric to be harsh on models that fail at any level of granularity.\nThe combined precision score looks like this:\n\\[\\exp\\left( \\sum_{n=1}^{N} w_n \\log p_n \\right)\\]\nTypically, \\(N=4\\) and the weights \\(w_n\\) are uniform (\\(1/4\\))."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#step-4-the-brevity-penalty-preventing-the-gaming",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#step-4-the-brevity-penalty-preventing-the-gaming",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "Step 4: The Brevity Penalty (Preventing the Gaming)",
+    "text": "Step 4: The Brevity Penalty (Preventing the Gaming)\nWe established that BLEU is a precision metric. But pure precision metrics have a massive loophole: Length.\nIf I have to translate a 50-word sentence, I could output a single, perfect 3-word phrase that I know is correct. My precision would be 100%. But I failed to translate the vast majority of the source sentence.\nTo prevent models from outputting overly short, “safe” sentences to maximize precision, BLEU applies a Brevity Penalty (BP).\nThe penalty is calculated based on two variables: 1. \\(c\\): The length of the candidate translation. 2. \\(r\\): The effective reference length.\nThe formula for BP is:\n\\[\nBP = \\begin{cases}\n1 & \\text{if } c &gt; r \\\\\ne^{(1 - r/c)} & \\text{if } c \\le r\n\\end{cases}\n\\]\nIf the candidate is longer than the reference (\\(c &gt; r\\)), there is no penalty (\\(BP = 1\\)). We don’t punish the model for being verbose (that’s what the precision score already does if the extra words are wrong).\nIf the candidate is shorter than the reference (\\(c \\le r\\)), the penalty kicks in exponentially.\nLet’s visualize this.\n\n\n\nA graph showing the BLEU Brevity Penalty. The Y-axis is the penalty multiplier (0 to 1), and the X-axis is the ratio of candidate length to reference length (c/r). The curve drops sharply below 1.0.\n\n\nAs you can see in the graph above, as soon as the candidate length drops below the reference length (ratio &lt; 1.0), the score multiplier starts dropping from 1.0 toward 0.0. A candidate that is half the length of the reference gets heavily penalized, ensuring that high-BLEU systems must produce output of comparable length to humans."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#the-complete-formula",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#the-complete-formula",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "The Complete Formula",
+    "text": "The Complete Formula\nPutting it all together, the BLEU score is the geometric mean of the n-gram clipped precisions, multiplied by the brevity penalty.\n\\[\\textbf{BLEU} = \\underbrace{BP}_{\\text{Brevity Penalty}} \\cdot \\underbrace{\\exp\\left( \\sum_{n=1}^{4} w_n \\log p_n \\right)}_{\\text{Geometric Mean of N-Gram Precisions}}\\]\nThe final score is between 0 and 1, though in practice, it is almost always reported as a percentage between 0 and 100.\nA BLEU score over 30 is generally considered understandable. A score over 40-50 is often considered high quality, depending on the language pair (translating English to French is easier than English to Chinese, so expected scores vary)."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#limitations",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#limitations",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "Limitations",
+    "text": "Limitations\nWe’ve covered how BLEU works. Now, let’s talk about why it’s often frustrating. As data scientists, we need to know the limitations of our tools.\n1. The Synonym Problem (Semantic Blindness). BLEU relies on exact string matching. It has no concept of meaning.\n\nReference: “The path is steep.”\nCandidate: “The trail is uphill.”\n\nBLEU will give this a very low score, despite it being a perfect translation. It punishes creative or varied vocabulary. This is why semantic embeddings-based metrics like BERTScore were invented.\n2. It Ignores Global Structure While n-grams capture local ordering, BLEU has no sense of overall sentence structure. “Cat the sat mat on the” might get decent unigram scores, and it wouldn’t necessarily get a zero if some bigrams accidentally align.\n3. Human Correlation is Wobbly Crucially, an increase in BLEU score does not always correspond to an increase in human-perceived quality. A model might game the metric by optimizing for 4-grams in a way that sounds mechanical to a human reader. BLEU is useful for tracking progress during training, but the final sanity check must always be human evaluation.\n4. The Preprocessing Nightmare (sacrebleu) Because BLEU is based on exact string matching, it is incredibly sensitive to preprocessing. Do you tokenize text? Do you lowercase everything? How do you handle punctuation? Different implementations used to yield vastly different scores for the same model output.\nIndustry Standard: If you are reporting BLEU scores in a paper or a serious report, never roll your own implementation. Always use the sacrebleu Python library. It standardizes tokenization and preprocessing to ensure your scores are actually comparable to other people’s scores."
+  },
+  {
+    "objectID": "posts/nlp-evaluation-metrics_deepdive/index.html#final-thoughts",
+    "href": "posts/nlp-evaluation-metrics_deepdive/index.html#final-thoughts",
+    "title": "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation",
+    "section": "Final Thoughts",
+    "text": "Final Thoughts\nBLEU is imperfect. It is rigid, semantically blind, and sometimes fails to match human judgment.\nHowever, it remains widely adopted in machine translation evaluation. It is fast to compute, easy to understand, and language-agnostic. Understanding the mechanics of clipped precision and the brevity penalty gives you the intuition needed to interpret these scores correctly—and to know when it’s time to move on to something more advanced."
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "My Blogs",
+    "section": "",
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
   }
 ]
