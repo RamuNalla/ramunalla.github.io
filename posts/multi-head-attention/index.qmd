@@ -14,7 +14,7 @@ format:
     toc-title: "Contents"
 ---
 
-<div class="blog-manual-meta">Published by Ramu Nalla - January 28, 2026</div>
+<div class="blog-manual-meta">Published by Ramu Nalla - January 12, 2026</div>
 
 ![Conceptual visualization of multiple attention heads focusing on different parts of a sentence.](image.png){width=70%}
 
