@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/positional-encodings/index.html",
       "/posts/multi-head-attention/index.html",
       "/posts/scaled-dot-product-attention/index.html",
       "/posts/nlp-evaluation-metrics_deepdive/index.html",
@@ -15,6 +16,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/positional-encodings/index.html",
       "/posts/multi-head-attention/index.html",
       "/posts/scaled-dot-product-attention/index.html",
       "/posts/nlp-evaluation-metrics_deepdive/index.html",
