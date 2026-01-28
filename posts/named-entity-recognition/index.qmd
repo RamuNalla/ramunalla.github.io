@@ -1,7 +1,7 @@
 ---
 title: "Named Entity Recognition: The 'Who, What, Where' of NLP"
 description: "From messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch."
-categories: [NLP, Deep Learning, PyTorch, Information Extraction]
+categories: [NLP, Deep Learning, PyTorch]
 image: "image.png"
 draft: false
 author: "Ramu Nalla"

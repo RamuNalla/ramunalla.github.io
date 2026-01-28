@@ -2,7 +2,7 @@
 title: "Positional Encoding in Transformers: The Geography of Language"
 description: "How does a Transformer treat 'The cat ate the fish' different than 'The fish ate the cat'?  We explore the mathematics of Positional Encoding to see how models learn order in parallel processing."
 categories: [Deep Learning, Transformers, NLP, PyTorch]
-image: "positional-encoding-hero.png"
+image: "image.png"
 draft: false
 author: "Ramu Nalla"
 date: "2026-01-13"
