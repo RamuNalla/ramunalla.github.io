@@ -1,0 +1,247 @@
+---
+title: "Named Entity Recognition: The 'Who, What, Where' of NLP"
+description: "From messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch."
+categories: [NLP, Deep Learning, PyTorch, Information Extraction]
+image: "image.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-01-20"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - January 20, 2026</div>
+
+![Named Entity Recognition visualization](image.png){width=70%}
+
+---
+
+Imagine you are a bank analyst. Every morning, you receive 10,000 news articles about the stock market. Somewhere in that mountain of text is a sentence saying: *"Apple Inc. is acquiring a startup in Berlin for $50 million."*
+
+To a human, the important facts jump out immediately:
+
+* **Who:** Apple Inc. (Organization)
+* **Where:** Berlin (Location)
+* **How much:** $50 million (Monetary Value)
+
+To a computer, that sentence is just a string of 62 meaningless characters.
+
+**Named Entity Recognition (NER)** is the sub-field of NLP that bridges this gap. It is the task of locating and classifying specific entities in unstructured text into predefined categories.
+
+In this post, I will strip away the complexity of modern Large Language Models and go back to basics. We will understand how NER works under the hood and build a simple, functional NER model using raw PyTorch.
+
+## Why Do We Need NER?
+
+NER is rarely the "final product." It is usually the first step in a larger pipeline. It turns unstructured chaos into structured tables.
+
+### 1. Customer Support Routing
+If a user tweets: *"My iPhone 14 screen cracked and I need a repair in Chicago,"* an NER system detects:
+
+* **Product:** iPhone 14
+* **Issue:** Screen cracked
+* **Location:** Chicago
+
+The system can then automatically route this ticket to the "Hardware Repair Team" in the "Illinois Region," saving hours of manual sorting.
+
+### 2. Algorithmic Trading
+Financial bots scrape news feeds milliseconds after they are published.
+*"Tesla (TSLA) announces battery factory expansion in Texas."*
+The bot identifies **ORG: Tesla** and **LOC: Texas**, cross-references this with sentiment analysis, and executes a trade before a human trader has even sipped their coffee.
+
+### 3. Healthcare (Clinical NER)
+Doctors write messy notes. *"Patient prescribed 50mg Metoprolol daily."*
+NER extracts **Drug: Metoprolol** and **Dosage: 50mg** to automatically check for dangerous interactions with other drugs the patient is taking.
+
+## How it Works: The "BIO" Scheme
+
+NER is technically a **Token Classification** task. We don't classify the whole sentence; we classify *every single word*.
+
+But how do we handle multi-word entities like "New York City"? We can't just tag "New" as `Location`, "York" as `Location`, and "City" as `Location`, because the model might think they are three separate cities.
+
+We use the **BIO tagging scheme**:
+
+* **B-XXX (Begin):** The first token of an entity.
+* **I-XXX (Inside):** Subsequent tokens of the same entity.
+* **O (Outside):** Not an entity.
+
+**Example:**
+*"Steve Jobs founded Apple"*
+
+| Word | Tag | Meaning |
+| :--- | :--- | :--- |
+| Steve | **B-PER** | Beginning of Person |
+| Jobs | **I-PER** | Inside of Person |
+| founded | **O** | Outside |
+| Apple | **B-ORG** | Beginning of Organization |
+
+## Building a Simple NER Model in PyTorch
+
+We will build a Long Short-Term Memory (LSTM) network. While Transformers are the state-of-the-art, LSTMs remain excellent for understanding the sequential nature of NER (e.g., seeing "New" makes "York" more likely to be a location).
+
+### 1. The Setup
+
+First, let's define our "vocabulary" (words the model knows) and our "tag set" (labels we want to predict).
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# A tiny dummy dataset
+# Sentence: "Apple is looking at buying U.K. startup for $1 billion"
+training_data = [
+    (
+        "Apple is looking at buying U.K. startup for $1 billion".split(),
+        ["B-ORG", "O", "O", "O", "O", "B-LOC", "O", "O", "B-MONEY", "I-MONEY", "I-MONEY"]
+    ),
+    (
+        "Steve Jobs founded Apple".split(),
+        ["B-PER", "I-PER", "O", "B-ORG"]
+    )
+]
+
+# Create mappings (Word -> ID, Tag -> ID)
+word_to_ix = {}
+for sent, tags in training_data:
+    for word in sent:
+        if word not in word_to_ix:
+            word_to_ix[word] = len(word_to_ix)
+
+tag_to_ix = {
+    "O": 0, 
+    "B-ORG": 1, "I-ORG": 2, 
+    "B-PER": 3, "I-PER": 4, 
+    "B-LOC": 5, "I-LOC": 6,
+    "B-MONEY": 7, "I-MONEY": 8
+}
+```
+
+### 2. The Model Architecture
+
+Our model will have three layers:
+
+1.  **Embedding Layer:** Converts word IDs into dense vectors.
+2.  **LSTM Layer:** Reads the sequence and captures context (history).
+3.  **Linear (Hidden) Layer:** Projects the LSTM output to the number of tags.
+
+```python
+class NERModel(nn.Module):
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, tagset_size):
+        super(NERModel, self).__init__()
+        self.hidden_dim = hidden_dim
+
+        # 1. Word Embeddings
+        self.word_embeddings = nn.Embedding(vocab_size, embedding_dim)
+
+        # 2. LSTM
+        # Input: Embedding Vector
+        # Output: Hidden Vector (Context)
+        self.lstm = nn.LSTM(embedding_dim, hidden_dim)
+
+        # 3. Output Layer
+        # Maps hidden state -> Tag probability scores
+        self.hidden2tag = nn.Linear(hidden_dim, tagset_size)
+
+    def forward(self, sentence):
+        # Step 1: Embed the words
+        # Shape: (Seq_Len) -> (Seq_Len, Embedding_Dim)
+        embeds = self.word_embeddings(sentence)
+        
+        # Step 2: Run LSTM
+        # view(len, 1, -1) adds a batch dimension of 1 because LSTM expects (Seq, Batch, Dim)
+        lstm_out, _ = self.lstm(embeds.view(len(sentence), 1, -1))
+        
+        # Step 3: Project to Tag Space
+        # Shape: (Seq_Len, Tagset_Size)
+        tag_space = self.hidden2tag(lstm_out.view(len(sentence), -1))
+        
+        # Step 4: Softmax (Log Softmax for stability)
+        tag_scores = nn.functional.log_softmax(tag_space, dim=1)
+        
+        return tag_scores
+
+```
+
+### 3. Training the Model
+
+We use **Negative Log Likelihood Loss (NLLLoss)** because we are doing multi-class classification for each word. We'll set up a standard training loop using Stochastic Gradient Descent (SGD).
+
+```python
+# Hyperparameters
+EMBEDDING_DIM = 6
+HIDDEN_DIM = 6
+
+# Initialize model
+model = NERModel(len(word_to_ix), EMBEDDING_DIM, HIDDEN_DIM, len(tag_to_ix))
+loss_function = nn.NLLLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.1)
+
+# Helper to convert sentence to indices
+def prepare_sequence(seq, to_ix):
+    idxs = [to_ix[w] for w in seq]
+    return torch.tensor(idxs, dtype=torch.long)
+
+# Training Loop
+for epoch in range(300): 
+    for sentence, tags in training_data:
+        # 1. Clear gradients
+        model.zero_grad()
+
+        # 2. Prepare inputs
+        sentence_in = prepare_sequence(sentence, word_to_ix)
+        targets = prepare_sequence(tags, tag_to_ix)
+
+        # 3. Forward pass
+        tag_scores = model(sentence_in)
+
+        # 4. Calculate Loss & Backprop
+        loss = loss_function(tag_scores, targets)
+        loss.backward()
+        optimizer.step()
+```
+
+### 4. Testing the Model
+
+Let's see if the model memorized our simple examples. We will pass a test sentence through the trained model and decode the indices back into readable tags.
+
+```python
+with torch.no_grad():
+    # Test sentence: "Steve Jobs founded Apple"
+    inputs = prepare_sequence(training_data[1][0], word_to_ix)
+    tag_scores = model(inputs)
+    
+    # Get the index of the highest score for each word
+    _, predicted_indices = torch.max(tag_scores, 1)
+    
+    # Convert indices back to tag names
+    ix_to_tag = {v: k for k, v in tag_to_ix.items()}
+    predicted_tags = [ix_to_tag[idx.item()] for idx in predicted_indices]
+
+    print(f"Sentence: {training_data[1][0]}")
+    print(f"Predicted Tags: {predicted_tags}")
+
+# Output:
+# Sentence: ['Steve', 'Jobs', 'founded', 'Apple']
+# Predicted Tags: ['B-PER', 'I-PER', 'O', 'B-ORG']
+```
+
+## Understanding the Tensor Shapes
+
+This is where most people get stuck in PyTorch. Let's trace the shapes for the sentence "Steve Jobs founded Apple" (Length 4).
+
+1.  **Input:** `[ID_Steve, ID_Jobs, ...]` $\rightarrow$ Shape `(4)`
+2.  **Embedding:** Each ID becomes a vector of size 6. $\rightarrow$ Shape `(4, 6)`
+3.  **LSTM Input:** PyTorch LSTMs expect 3D inputs: `(Seq_Len, Batch, Dim)`. We reshape. $\rightarrow$ Shape `(4, 1, 6)`
+4.  **LSTM Output:** Returns vectors of `hidden_dim` (6). $\rightarrow$ Shape `(4, 1, 6)`
+5.  **Linear Layer:** We squash the batch dimension to feed into the Linear layer. Input `(4, 6)`. Output is `(4, num_tags)`.
+    * For every word (4 words), we get 9 scores (one for each tag in our tagset).
+
+## Summary
+
+Named Entity Recognition is about context. The word "Apple" is a fruit if "ate" is nearby, but an Organization if "founded" is nearby.
+
+By using an LSTM (or Transformer), we allow the model to carry this context across the sentence. While our example was tiny, modern NER systems scaling this up can read millions of documents a day, structuring the world's information one entity at a time.

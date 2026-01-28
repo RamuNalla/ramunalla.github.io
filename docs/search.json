@@ -112,69 +112,6 @@
     "text": "Final Thoughts\nBLEU is imperfect. It is rigid, semantically blind, and sometimes fails to match human judgment.\nHowever, it remains widely adopted in machine translation evaluation. It is fast to compute, easy to understand, and language-agnostic. Understanding the mechanics of clipped precision and the brevity penalty gives you the intuition needed to interpret these scores correctly—and to know when it’s time to move on to something more advanced."
   },
   {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "",
-    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Core Concept",
-    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Code: “Vector Search” in Pure Python",
-    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "Moving to Production",
-    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "Download Full CV (PDF)"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ramu Nalla",
-    "section": "",
-    "text": "I am a Senior Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
-  },
-  {
-    "objectID": "index.html#latest-posts",
-    "href": "index.html#latest-posts",
-    "title": "Ramu Nalla",
-    "section": "Latest Posts",
-    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nJan 1, 2026\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n\n\n\n\n\nDec 17, 2025\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#news",
-    "href": "index.html#news",
-    "title": "Ramu Nalla",
-    "section": "News",
-    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Sr. Data Scientist\n\n\n\n\n\n\n    \n\n\nBest to reach out to me over email or DM me on LinkedIn.\n\n\n© 2026 Ramu Nalla. All rights reserved."
-  },
-  {
     "objectID": "posts/multi-head-attention/index.html",
     "href": "posts/multi-head-attention/index.html",
     "title": "Multi-Head Attention: A Tensor-First Walkthrough",
@@ -208,6 +145,111 @@
     "title": "Multi-Head Attention: A Tensor-First Walkthrough",
     "section": "Summary",
     "text": "Summary\nMulti-Head Attention is a sophisticated way of saying “do parallel processing and mix the results.”\nBy splitting the embedding dimension into distinct heads, we allow the Transformer to learn different types of relationships simultaneously. The intricate steps of view and transpose operations is simply the mechanism required to arrange the data efficiently so GPUs can perform this parallel computation and then stitch the diverse insights back together."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ramu Nalla",
+    "section": "",
+    "text": "I am a Senior Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "Ramu Nalla",
+    "section": "Latest Posts",
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nJan 1, 2026\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n\n\n\n\n\nDec 17, 2025\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Ramu Nalla",
+    "section": "News",
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Sr. Data Scientist\n\n\n\n\n\n\n    \n\n\nBest to reach out to me over email or DM me on LinkedIn.\n\n\n© 2026 Ramu Nalla. All rights reserved."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "Download Full CV (PDF)"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "",
+    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Core Concept",
+    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Code: “Vector Search” in Pure Python",
+    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "Moving to Production",
+    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
+  },
+  {
+    "objectID": "posts/named-entity-recognition/index.html",
+    "href": "posts/named-entity-recognition/index.html",
+    "title": "Named Entity Recognition: The ‘Who, What, Where’ of NLP",
+    "section": "",
+    "text": "Published by Ramu Nalla - January 20, 2026\nImagine you are a bank analyst. Every morning, you receive 10,000 news articles about the stock market. Somewhere in that mountain of text is a sentence saying: “Apple Inc. is acquiring a startup in Berlin for $50 million.”\nTo a human, the important facts jump out immediately:\nTo a computer, that sentence is just a string of 62 meaningless characters.\nNamed Entity Recognition (NER) is the sub-field of NLP that bridges this gap. It is the task of locating and classifying specific entities in unstructured text into predefined categories.\nIn this post, I will strip away the complexity of modern Large Language Models and go back to basics. We will understand how NER works under the hood and build a simple, functional NER model using raw PyTorch."
+  },
+  {
+    "objectID": "posts/named-entity-recognition/index.html#why-do-we-need-ner",
+    "href": "posts/named-entity-recognition/index.html#why-do-we-need-ner",
+    "title": "Named Entity Recognition: The ‘Who, What, Where’ of NLP",
+    "section": "Why Do We Need NER?",
+    "text": "Why Do We Need NER?\nNER is rarely the “final product.” It is usually the first step in a larger pipeline. It turns unstructured chaos into structured tables.\n\n1. Customer Support Routing\nIf a user tweets: “My iPhone 14 screen cracked and I need a repair in Chicago,” an NER system detects:\n\nProduct: iPhone 14\nIssue: Screen cracked\nLocation: Chicago\n\nThe system can then automatically route this ticket to the “Hardware Repair Team” in the “Illinois Region,” saving hours of manual sorting.\n\n\n2. Algorithmic Trading\nFinancial bots scrape news feeds milliseconds after they are published. “Tesla (TSLA) announces battery factory expansion in Texas.” The bot identifies ORG: Tesla and LOC: Texas, cross-references this with sentiment analysis, and executes a trade before a human trader has even sipped their coffee.\n\n\n3. Healthcare (Clinical NER)\nDoctors write messy notes. “Patient prescribed 50mg Metoprolol daily.” NER extracts Drug: Metoprolol and Dosage: 50mg to automatically check for dangerous interactions with other drugs the patient is taking."
+  },
+  {
+    "objectID": "posts/named-entity-recognition/index.html#how-it-works-the-bio-scheme",
+    "href": "posts/named-entity-recognition/index.html#how-it-works-the-bio-scheme",
+    "title": "Named Entity Recognition: The ‘Who, What, Where’ of NLP",
+    "section": "How it Works: The “BIO” Scheme",
+    "text": "How it Works: The “BIO” Scheme\nNER is technically a Token Classification task. We don’t classify the whole sentence; we classify every single word.\nBut how do we handle multi-word entities like “New York City”? We can’t just tag “New” as Location, “York” as Location, and “City” as Location, because the model might think they are three separate cities.\nWe use the BIO tagging scheme:\n\nB-XXX (Begin): The first token of an entity.\nI-XXX (Inside): Subsequent tokens of the same entity.\nO (Outside): Not an entity.\n\nExample: “Steve Jobs founded Apple”\n\n\n\nWord\nTag\nMeaning\n\n\n\n\nSteve\nB-PER\nBeginning of Person\n\n\nJobs\nI-PER\nInside of Person\n\n\nfounded\nO\nOutside\n\n\nApple\nB-ORG\nBeginning of Organization"
+  },
+  {
+    "objectID": "posts/named-entity-recognition/index.html#building-a-simple-ner-model-in-pytorch",
+    "href": "posts/named-entity-recognition/index.html#building-a-simple-ner-model-in-pytorch",
+    "title": "Named Entity Recognition: The ‘Who, What, Where’ of NLP",
+    "section": "Building a Simple NER Model in PyTorch",
+    "text": "Building a Simple NER Model in PyTorch\nWe will build a Long Short-Term Memory (LSTM) network. While Transformers are the state-of-the-art, LSTMs remain excellent for understanding the sequential nature of NER (e.g., seeing “New” makes “York” more likely to be a location).\n\n1. The Setup\nFirst, let’s define our “vocabulary” (words the model knows) and our “tag set” (labels we want to predict).\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\n\n# A tiny dummy dataset\n# Sentence: \"Apple is looking at buying U.K. startup for $1 billion\"\ntraining_data = [\n    (\n        \"Apple is looking at buying U.K. startup for $1 billion\".split(),\n        [\"B-ORG\", \"O\", \"O\", \"O\", \"O\", \"B-LOC\", \"O\", \"O\", \"B-MONEY\", \"I-MONEY\", \"I-MONEY\"]\n    ),\n    (\n        \"Steve Jobs founded Apple\".split(),\n        [\"B-PER\", \"I-PER\", \"O\", \"B-ORG\"]\n    )\n]\n\n# Create mappings (Word -&gt; ID, Tag -&gt; ID)\nword_to_ix = {}\nfor sent, tags in training_data:\n    for word in sent:\n        if word not in word_to_ix:\n            word_to_ix[word] = len(word_to_ix)\n\ntag_to_ix = {\n    \"O\": 0, \n    \"B-ORG\": 1, \"I-ORG\": 2, \n    \"B-PER\": 3, \"I-PER\": 4, \n    \"B-LOC\": 5, \"I-LOC\": 6,\n    \"B-MONEY\": 7, \"I-MONEY\": 8\n}\n\n\n2. The Model Architecture\nOur model will have three layers:\n\nEmbedding Layer: Converts word IDs into dense vectors.\nLSTM Layer: Reads the sequence and captures context (history).\nLinear (Hidden) Layer: Projects the LSTM output to the number of tags.\n\nclass NERModel(nn.Module):\n    def __init__(self, vocab_size, embedding_dim, hidden_dim, tagset_size):\n        super(NERModel, self).__init__()\n        self.hidden_dim = hidden_dim\n\n        # 1. Word Embeddings\n        self.word_embeddings = nn.Embedding(vocab_size, embedding_dim)\n\n        # 2. LSTM\n        # Input: Embedding Vector\n        # Output: Hidden Vector (Context)\n        self.lstm = nn.LSTM(embedding_dim, hidden_dim)\n\n        # 3. Output Layer\n        # Maps hidden state -&gt; Tag probability scores\n        self.hidden2tag = nn.Linear(hidden_dim, tagset_size)\n\n    def forward(self, sentence):\n        # Step 1: Embed the words\n        # Shape: (Seq_Len) -&gt; (Seq_Len, Embedding_Dim)\n        embeds = self.word_embeddings(sentence)\n        \n        # Step 2: Run LSTM\n        # view(len, 1, -1) adds a batch dimension of 1 because LSTM expects (Seq, Batch, Dim)\n        lstm_out, _ = self.lstm(embeds.view(len(sentence), 1, -1))\n        \n        # Step 3: Project to Tag Space\n        # Shape: (Seq_Len, Tagset_Size)\n        tag_space = self.hidden2tag(lstm_out.view(len(sentence), -1))\n        \n        # Step 4: Softmax (Log Softmax for stability)\n        tag_scores = nn.functional.log_softmax(tag_space, dim=1)\n        \n        return tag_scores\n\n\n3. Training the Model\nWe use Negative Log Likelihood Loss (NLLLoss) because we are doing multi-class classification for each word. We’ll set up a standard training loop using Stochastic Gradient Descent (SGD).\n# Hyperparameters\nEMBEDDING_DIM = 6\nHIDDEN_DIM = 6\n\n# Initialize model\nmodel = NERModel(len(word_to_ix), EMBEDDING_DIM, HIDDEN_DIM, len(tag_to_ix))\nloss_function = nn.NLLLoss()\noptimizer = optim.SGD(model.parameters(), lr=0.1)\n\n# Helper to convert sentence to indices\ndef prepare_sequence(seq, to_ix):\n    idxs = [to_ix[w] for w in seq]\n    return torch.tensor(idxs, dtype=torch.long)\n\n# Training Loop\nfor epoch in range(300): \n    for sentence, tags in training_data:\n        # 1. Clear gradients\n        model.zero_grad()\n\n        # 2. Prepare inputs\n        sentence_in = prepare_sequence(sentence, word_to_ix)\n        targets = prepare_sequence(tags, tag_to_ix)\n\n        # 3. Forward pass\n        tag_scores = model(sentence_in)\n\n        # 4. Calculate Loss & Backprop\n        loss = loss_function(tag_scores, targets)\n        loss.backward()\n        optimizer.step()\n\n\n4. Testing the Model\nLet’s see if the model memorized our simple examples. We will pass a test sentence through the trained model and decode the indices back into readable tags.\nwith torch.no_grad():\n    # Test sentence: \"Steve Jobs founded Apple\"\n    inputs = prepare_sequence(training_data[1][0], word_to_ix)\n    tag_scores = model(inputs)\n    \n    # Get the index of the highest score for each word\n    _, predicted_indices = torch.max(tag_scores, 1)\n    \n    # Convert indices back to tag names\n    ix_to_tag = {v: k for k, v in tag_to_ix.items()}\n    predicted_tags = [ix_to_tag[idx.item()] for idx in predicted_indices]\n\n    print(f\"Sentence: {training_data[1][0]}\")\n    print(f\"Predicted Tags: {predicted_tags}\")\n\n# Output:\n# Sentence: ['Steve', 'Jobs', 'founded', 'Apple']\n# Predicted Tags: ['B-PER', 'I-PER', 'O', 'B-ORG']"
+  },
+  {
+    "objectID": "posts/named-entity-recognition/index.html#understanding-the-tensor-shapes",
+    "href": "posts/named-entity-recognition/index.html#understanding-the-tensor-shapes",
+    "title": "Named Entity Recognition: The ‘Who, What, Where’ of NLP",
+    "section": "Understanding the Tensor Shapes",
+    "text": "Understanding the Tensor Shapes\nThis is where most people get stuck in PyTorch. Let’s trace the shapes for the sentence “Steve Jobs founded Apple” (Length 4).\n\nInput: [ID_Steve, ID_Jobs, ...] \\(\\rightarrow\\) Shape (4)\nEmbedding: Each ID becomes a vector of size 6. \\(\\rightarrow\\) Shape (4, 6)\nLSTM Input: PyTorch LSTMs expect 3D inputs: (Seq_Len, Batch, Dim). We reshape. \\(\\rightarrow\\) Shape (4, 1, 6)\nLSTM Output: Returns vectors of hidden_dim (6). \\(\\rightarrow\\) Shape (4, 1, 6)\nLinear Layer: We squash the batch dimension to feed into the Linear layer. Input (4, 6). Output is (4, num_tags).\n\nFor every word (4 words), we get 9 scores (one for each tag in our tagset)."
+  },
+  {
+    "objectID": "posts/named-entity-recognition/index.html#summary",
+    "href": "posts/named-entity-recognition/index.html#summary",
+    "title": "Named Entity Recognition: The ‘Who, What, Where’ of NLP",
+    "section": "Summary",
+    "text": "Summary\nNamed Entity Recognition is about context. The word “Apple” is a fruit if “ate” is nearby, but an Organization if “founded” is nearby.\nBy using an LSTM (or Transformer), we allow the model to carry this context across the sentence. While our example was tiny, modern NER systems scaling this up can read millions of documents a day, structuring the world’s information one entity at a time."
   },
   {
     "objectID": "posts/positional-encodings/index.html",
@@ -256,6 +298,6 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\nInformation Extraction\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
   }
 ]
