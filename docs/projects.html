@@ -194,7 +194,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Projects</h1>
-<p class="subtitle lead">A list of my open-source work and experiments.</p>
+<p class="subtitle lead">A list of my open-source projects and experiments.</p>
 </div>
 
 
@@ -212,29 +212,37 @@ window.Quarto = {
 
 
 <style>
-/* 1. RESET ALL CELLS (Uniform Font) */
+/* 1. RESET ALL CELLS */
 table td {
   font-family: "Lora", serif !important;
   font-size: 16px !important;
-  font-weight: 400 !important;      /* Normal weight for everything */
-  color: #d0d0d0 !important;        /* Uniform Grey Color */
-  padding-top: 15px !important;
+  font-weight: 400 !important;
+  color: #d0d0d0 !important;
+  padding-top: 10px !important;
   padding-bottom: 15px !important;
-  vertical-align: top !important;
+  vertical-align: top !important;  /* Align everything to the top */
   line-height: 1.6 !important;
 }
 
-/* 2. MAKE TITLE BOLD (Column 2) */
+/* --- CRITICAL FIX: REMOVE HIDDEN MARGINS --- */
+/* This removes the default gap that pushes Description/Title down */
+table td p {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 2. MAKE TITLE BOLD */
 table td:nth-child(2) {
-  font-weight: 700 !important;      /* BOLD */
-  color: #ffffff !important;        /* White to make it pop */
-  pointer-events: none !important;  /* Unclickable */
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  pointer-events: none !important;
   cursor: text !important;
 }
 
-/* 3. STYLE THE GITHUB LINK (Column 5) */
+/* 3. STYLE THE GITHUB LINK */
 table td:nth-child(5) a {
-  color: #5a9fd4 !important;        /* Blue */
+  color: #5a9fd4 !important;
   font-weight: 600 !important;
   text-decoration: none !important;
 }
@@ -242,18 +250,19 @@ table td:nth-child(5) a:hover {
   text-decoration: underline !important;
 }
 
-/* 4. COLUMN WIDTHS (Adjusted for new order) */
-table th:nth-child(1), table td:nth-child(1) { width: 12%; white-space: nowrap; } /* Date */
-table th:nth-child(2), table td:nth-child(2) { width: 20%; } /* Title */
-table th:nth-child(3), table td:nth-child(3) { width: 40%; } /* Description */
-table th:nth-child(4), table td:nth-child(4) { width: 18%; font-size: 0.95em; color: #aaa !important; } /* Stack */
-table th:nth-child(5), table td:nth-child(5) { width: 10%; text-align: center; } /* Code */
+/* 4. COLUMN WIDTHS */
+table th:nth-child(1), table td:nth-child(1) { width: 15%; white-space: nowrap; } 
+table th:nth-child(2), table td:nth-child(2) { width: 22%; } 
+table th:nth-child(3), table td:nth-child(3) { width: 38%; } 
+table th:nth-child(4), table td:nth-child(4) { width: 15%; font-size: 0.95em; color: #aaa !important; } 
+table th:nth-child(5), table td:nth-child(5) { width: 10%; text-align: center; } 
 
 /* 5. HEADER STYLING */
 table thead th {
   font-weight: 600 !important;
   color: #fff !important;
   border-bottom: 1px solid #444 !important;
+  text-align: left;
 }
 </style>
 <p><br></p>
