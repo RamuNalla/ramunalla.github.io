@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ramu Nalla">
+<meta name="dcterms.date" content="2026-01-25">
+<meta name="description" content="Big models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.">
 
-<title>My Blogs – Ramu Nalla</title>
+<title>Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference – Ramu Nalla</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,30 +23,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-41c6f2ed60929b7f2e2ea835508d19a5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-41c6f2ed60929b7f2e2ea835508d19a5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,35 +107,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -133,14 +140,14 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ramu Nalla</span>
     </a>
   </div>
@@ -150,19 +157,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./posts.html" aria-current="page"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv.html"> 
+    <a class="nav-link" href="../../cv.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -183,25 +190,49 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGVlcCUyMExlYXJuaW5n">Deep Learning <span class="quarto-category-count">(4)</span></div><div class="category" data-category="R2VuQUk=">GenAI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExN">LLM <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWFjaGluZSUyMFRyYW5zbGF0aW9u">Machine Translation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWV0cmljcw==">Metrics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TkxQ">NLP <span class="quarto-category-count">(7)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHlUb3JjaA==">PyTorch <span class="quarto-category-count">(4)</span></div><div class="category" data-category="UkFH">RAG <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VHJhbnNmb3JtZXJz">Transformers <span class="quarto-category-count">(3)</span></div></div></div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">My Blogs</h1>
-<p class="subtitle lead">Deep dives into Agentic AI, MLOps, and Large Language Models.</p>
+<h1 class="title">Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">NLP</div>
+    <div class="quarto-category">Agents</div>
+    <div class="quarto-category">LLM</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Big models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.
+  </div>
 </div>
 
 
+<div class="quarto-title-meta">
 
-<div class="quarto-title-meta column-page-left">
-
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ramu Nalla </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 25, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -211,264 +242,204 @@ window.Quarto = {
 </header>
 
 
-
-
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-title" data-direction="asc">
-        Title
-      </option>
-      <option value="listing-date-sort" data-direction="asc">
-        Date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        Date - Newest
-      </option>
-    </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
+<div class="blog-manual-meta">
+Published by Ramu Nalla - January 25, 2026
 </div>
-<div class="list grid quarto-listing-cols-4">
-<div class="g-col-1" data-index="0" data-categories="TkxQJTJDQWdlbnRzJTJDTExN" data-listing-date-sort="1769279400000" data-listing-file-modified-sort="1769951493383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1031">
-<a href="./posts/knowledge-distillation/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/knowledge-distillation/image.png" class="thumbnail-image card-img" style="height: 250px;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Knowledge Distillation Visualization</figcaption>
+</figure>
+</div>
+<hr>
+<p>We are living in the era of Large Language Models (LLMs). From BERT to GPT-4, the trend has been: “Make it bigger.”</p>
+<p>While these giants achieve state-of-the-art accuracy, they come with a massive price tag. A standard BERT-Base model has <strong>110 million parameters</strong> and weighs over <strong>400MB</strong>. Deploying this on a mobile device or a high-throughput serverless function is a nightmare. You are often forced to choose between high latency (slow user experience) or high costs (expensive GPU instances).</p>
+<p>But what if you didn’t have to choose? What if you could take the “brain” of BERT and transplant it into a tiny, ultra-fast network?</p>
+<p>This is where <strong>Knowledge Distillation (KD)</strong> comes in.</p>
+<p>In this post, I will explain the concept of KD in detail and then walk you through my recent project where I successfully compressed a BERT model by <strong>17x</strong> while speeding it up by <strong>14x</strong>, all by teaching a simple Bi-LSTM to mimic the Transformer.</p>
+<section id="what-is-knowledge-distillation" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-knowledge-distillation">What is Knowledge Distillation?</h2>
+<p>Knowledge Distillation is a compression technique in machine learning where a small, compact model (the <strong>Student</strong>) is trained to reproduce the behavior of a large, complex model (the <strong>Teacher</strong>), or an ensemble of models.</p>
+<section id="the-process---dark-knowledge" class="level3">
+<h3 class="anchored" data-anchor-id="the-process---dark-knowledge">The Process - Dark Knowledge</h3>
+<p>Normally, we train models on <strong>“Hard Targets”</strong> (Ground Truth). If we are doing Sentiment Analysis, the label for “I love this movie” is <code>[1, 0]</code> (Positive). The model is told: “This is positive, and there is zero chance it is negative.”</p>
+<p>However, a trained Teacher model (like BERT) sees the world with more nuance. It might output probabilities like <code>[0.92, 0.08]</code>. That <code>0.08</code> is not just noise. It tells us that while the sentence is positive, there is a <em>hint</em> of negativity or sarcasm. This rich information hidden in the probability distribution is what Geoffrey Hinton called <strong>“Dark Knowledge.”</strong></p>
+<p>In Distillation, the Student is trained on two objectives simultaneously:</p>
+<ol type="1">
+<li><strong>Hard Loss:</strong> Match the actual ground truth (Truth says: Positive).</li>
+<li><strong>Soft Loss:</strong> Match the Teacher’s probability distribution (Teacher says: Mostly positive, but slightly ambiguous).</li>
+</ol>
+</section>
+<section id="why-use-it" class="level3">
+<h3 class="anchored" data-anchor-id="why-use-it">Why use it?</h3>
+<ul>
+<li><strong>Massive Compression:</strong> You can often replace a Transformer with a simple CNN or RNN, reducing RAM usage by 90%+.</li>
+<li><strong>Inference Speed:</strong> Smaller architectures (like LSTMs) are mathematically simpler than Attention mechanisms (<span class="math inline">\(O(n)\)</span> vs <span class="math inline">\(O(n^2)\)</span>), leading to lightning-fast predictions on CPUs.</li>
+<li><strong>Edge Deployment:</strong> It enables modern NLP on IoT devices, mobile phones, and web browsers where GPUs are unavailable.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="project-spotlight-bert-to-bi-lstm" class="level2">
+<h2 class="anchored" data-anchor-id="project-spotlight-bert-to-bi-lstm">Project Spotlight: BERT to Bi-LSTM</h2>
+<p>For my latest project, I wanted to tackle a real-world production bottleneck: <strong>Sentiment Analysis on the Edge.</strong></p>
+<p>My goal was to create a model that was accurate enough for production but fast enough for real-time CPU inference.</p>
+<section id="the-challenge" class="level3">
+<h3 class="anchored" data-anchor-id="the-challenge">The Challenge</h3>
+<ul>
+<li><strong>The Teacher:</strong> A <code>BERT-Base-Uncased</code> model fine-tuned on the SST-2 (Stanford Sentiment Treebank) dataset. It is accurate but heavy (~420MB).</li>
+<li><strong>The Student:</strong> A custom <strong>Bi-Directional LSTM</strong>. It has no attention heads, no massive feed-forward blocks, and weighs only ~25MB.</li>
+</ul>
+<p>Could a simple recurrent network really learn from a Transformer?.</p>
+</section>
+<section id="the-results" class="level3">
+<h3 class="anchored" data-anchor-id="the-results">📊 The Results</h3>
+<p>After training the student using a combination of Cross-Entropy Loss (for truth) and KL-Divergence Loss (for the teacher’s knowledge), I achieved a <strong>97% reduction in parameters</strong>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Teacher (BERT-Base)</th>
+<th style="text-align: left;">Student (Bi-LSTM)</th>
+<th style="text-align: left;">🚀 Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Parameters</strong></td>
+<td style="text-align: left;">109,482,242</td>
+<td style="text-align: left;">2,500,000 (Approx)</td>
+<td style="text-align: left;"><strong>~97% Smaller</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Model Size</strong></td>
+<td style="text-align: left;">~420 MB</td>
+<td style="text-align: left;">~25 MB</td>
+<td style="text-align: left;"><strong>17x Compression</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Inference Latency (CPU)</strong></td>
+<td style="text-align: left;">~166 ms</td>
+<td style="text-align: left;">~12 ms</td>
+<td style="text-align: left;"><strong>14x Speedup</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Throughput</strong></td>
+<td style="text-align: left;">~6 req/sec</td>
+<td style="text-align: left;">~83 req/sec</td>
+<td style="text-align: left;"><strong>High Scalability</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Benchmarks run on a standard Intel CPU environment to simulate serverless constraints.</em></p>
+<p>As you can see, the Student isn’t just slightly faster—it’s an order of magnitude faster. For a high-traffic API, this effectively means handling <strong>14x more users</strong> with the same hardware.</p>
+</section>
+<section id="live-demo" class="level3">
+<h3 class="anchored" data-anchor-id="live-demo">🎥 Live Demo</h3>
+<p>I built an interactive Streamlit dashboard to visualize the difference. You can type in any sentence and see both models predict it side-by-side.</p>
+<p align="center">
+<img src="./streamlit_screenshots/main_page.png" alt="Streamlit Dashboard" width="900">
 </p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference
-</h5>
-<div class="listing-reading-time card-text text-muted">6 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExN'); return false;">LLM</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>Big models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jan 25, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="TkxQJTJDRGVlcCUyMExlYXJuaW5nJTJDUHlUb3JjaA==" data-listing-date-sort="1768847400000" data-listing-file-modified-sort="1769583356118" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1556">
-<a href="./posts/named-entity-recognition/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/named-entity-recognition/image.png" class="thumbnail-image card-img" style="height: 250px;">
+<p align="center">
+<img src="./streamlit_screenshots/results_page.png" alt="Streamlit Dashboard" width="900">
 </p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Named Entity Recognition: The ‘Who, What, Where’ of NLP
-</h5>
-<div class="listing-reading-time card-text text-muted">8 min</div>
-<div class="listing-categories">
+<p>One fascinating observation from the dashboard is how the Student mimics the Teacher’s confidence. If BERT is unsure about a sentence (e.g., “The movie was okay, I guess”), the Bi-LSTM also tends to output lower confidence scores, proving it learned the “nuance” and not just the label.</p>
+<hr>
+</section>
+</section>
+<section id="technical-deep-dive" class="level2">
+<h2 class="anchored" data-anchor-id="technical-deep-dive">Technical Deep Dive</h2>
+<p>For the engineers reading this, here is how the architecture was set up.</p>
+<section id="the-student-architecture-bi-lstm" class="level3">
+<h3 class="anchored" data-anchor-id="the-student-architecture-bi-lstm">The Student Architecture (Bi-LSTM)</h3>
+<p>I chose a Bi-LSTM because it processes text sequentially. While it can’t parallelize training like a Transformer, its inference is incredibly efficient because it doesn’t need to compute an <span class="math inline">\(N \times N\)</span> attention matrix.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Hyperparameter</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Vocabulary Size</strong></td>
+<td style="text-align: left;">30,522</td>
+<td style="text-align: left;">Matches BERT’s <code>WordPiece</code> tokenizer for compatibility.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Embedding Dim</strong></td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">Dense vector representation for input tokens.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Hidden Dimension</strong></td>
+<td style="text-align: left;">256</td>
+<td style="text-align: left;">The size of the LSTM’s internal memory state.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Layers</strong></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Stacked LSTM layers for capturing deeper semantic patterns.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Bidirectional</strong></td>
+<td style="text-align: left;">True</td>
+<td style="text-align: left;">Processes text Left-to-Right and Right-to-Left simultaneously.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-loss-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-loss-function">The Loss Function</h3>
+<p>The magic happens in the loss function. I used a weighted average of two losses:</p>
+<p><span class="math display">\[Loss = \alpha \cdot L_{soft}(Teacher, Student) + (1-\alpha) \cdot L_{hard}(Truth, Student)\]</span></p>
+<ul>
+<li><strong><span class="math inline">\(L_{soft}\)</span>:</strong> Kullback-Leibler (KL) Divergence. This measures how different the Student’s probability distribution is from the Teacher’s.</li>
+<li><strong><span class="math inline">\(L_{hard}\)</span>:</strong> Standard Cross-Entropy loss against the gold labels (0 or 1).</li>
+<li><strong><span class="math inline">\(\alpha\)</span> (Alpha):</strong> A hyperparameter (usually 0.5 or higher) that controls how much we trust the Teacher vs.&nbsp;the Ground Truth.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="try-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself">🛠️ Try It Yourself</h2>
+<p>I have open-sourced the entire training pipeline, the pre-trained student model, and the dashboard.</p>
+<section id="clone-the-repository" class="level3">
+<h3 class="anchored" data-anchor-id="clone-the-repository">1. Clone the Repository</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/RamuNalla/distillation-BERT-to-LSTM.git</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> distillation-BERT-to-LSTM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="install-dependencies" class="level3">
+<h3 class="anchored" data-anchor-id="install-dependencies">2. Install Dependencies</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="run-the-dashboard" class="level3">
+<h3 class="anchored" data-anchor-id="run-the-dashboard">3. Run the Dashboard</h3>
+<p>You can run the Streamlit app locally to play with the models:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">streamlit</span> run app.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="run-benchmarks" class="level3">
+<h3 class="anchored" data-anchor-id="run-benchmarks">4. Run Benchmarks</h3>
+<p>To replicate my speed tests on your own CPU:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> benchmark.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>We often equate “larger” with “better” in AI. But for 90% of real-world business problems, “fast and good enough” beats “perfect and slow.”</p>
+<p>This project demonstrated that we don’t always need to deploy massive Transformers to get the benefits of their intelligence. By using Knowledge Distillation, we can essentially compress the intelligence of a giant into a model that can run on a Raspberry Pi.</p>
+<p>Check out the full code on my <a href="https://github.com/RamuNalla/distillation-BERT-to-LSTM">GitHub</a>.</p>
 
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('RGVlcCUyMExlYXJuaW5n'); return false;">Deep Learning</div>
+</section>
 
-<div class="listing-category" onclick="window.quartoListingCategory('UHlUb3JjaA=='); return false;">PyTorch</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>From messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jan 20, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDTkxQJTJDUHlUb3JjaA==" data-listing-date-sort="1768242600000" data-listing-file-modified-sort="1769583309719" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2552">
-<a href="./posts/positional-encodings/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/positional-encodings/image.png" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Positional Encoding in Transformers: The Geography of Language
-</h5>
-<div class="listing-reading-time card-text text-muted">13 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVlcCUyMExlYXJuaW5n'); return false;">Deep Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('VHJhbnNmb3JtZXJz'); return false;">Transformers</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UHlUb3JjaA=='); return false;">PyTorch</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>How does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jan 13, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUHlUb3JjaCUyQ05MUA==" data-listing-date-sort="1768156200000" data-listing-file-modified-sort="1769070667771" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1911">
-<a href="./posts/multi-head-attention/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/multi-head-attention/image.png" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Multi-Head Attention: A Tensor-First Walkthrough
-</h5>
-<div class="listing-reading-time card-text text-muted">10 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVlcCUyMExlYXJuaW5n'); return false;">Deep Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('VHJhbnNmb3JtZXJz'); return false;">Transformers</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UHlUb3JjaA=='); return false;">PyTorch</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>Why one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jan 12, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="4" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUHlUb3JjaCUyQ05MUA==" data-listing-date-sort="1767983400000" data-listing-file-modified-sort="1768978483896" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1386">
-<a href="./posts/scaled-dot-product-attention/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/scaled-dot-product-attention/image.png" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Scaled Dot-Product Attention: A Tensor-First Approach
-</h5>
-<div class="listing-reading-time card-text text-muted">7 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVlcCUyMExlYXJuaW5n'); return false;">Deep Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('VHJhbnNmb3JtZXJz'); return false;">Transformers</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UHlUb3JjaA=='); return false;">PyTorch</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>Confused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jan 10, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="5" data-categories="TkxQJTJDR2VuQUklMkNNZXRyaWNzJTJDTWFjaGluZSUyMFRyYW5zbGF0aW9u" data-listing-date-sort="1767205800000" data-listing-file-modified-sort="1768795790953" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490">
-<a href="./posts/nlp-evaluation-metrics_deepdive/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/nlp-evaluation-metrics_deepdive/image.png" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-The Definitive Guide to BLEU Score: The Mathematics of Machine Translation
-</h5>
-<div class="listing-reading-time card-text text-muted">8 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('R2VuQUk='); return false;">GenAI</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWV0cmljcw=='); return false;">Metrics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWFjaGluZSUyMFRyYW5zbGF0aW9u'); return false;">Machine Translation</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>A deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jan 1, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="6" data-categories="TkxQJTJDTExNcyUyQ1JBRyUyQ1B5dGhvbg==" data-listing-date-sort="1765909800000" data-listing-file-modified-sort="1768795802222" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="562">
-<a href="./posts/2026-01-17-simple-rag-tutorial/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/2026-01-17-simple-rag-tutorial/image.jfif" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Building a Minimal RAG Pipeline from Scratch
-</h5>
-<div class="listing-reading-time card-text text-muted">3 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UkFH'); return false;">RAG</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">Python</div>
-
-</div>
-<div class="card-text listing-description delink">
-<p>A look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Dec 17, 2025
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/knowledge-distillation/index.html",
       "/posts/named-entity-recognition/index.html",
       "/posts/positional-encodings/index.html",
       "/posts/multi-head-attention/index.html",
@@ -17,6 +18,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/knowledge-distillation/index.html",
       "/posts/named-entity-recognition/index.html",
       "/posts/positional-encodings/index.html",
       "/posts/multi-head-attention/index.html",
