@@ -4,14 +4,14 @@ listing:
   contents: posts
   sort: "date desc"
   type: table
-  max-items: 10
+  max-items: 5
   fields: [date, title]
   field-display-names:
     date: ""
     title: ""
-format:               # <--- Add this section
-  html:               # <--- Add this line
-    body-class: home-page  # <--- THIS IS THE KEY TAG
+format:
+  html:
+    body-class: home-page
 ---
 
 ::: {.grid style="align-items: center; gap: 40px;"}
@@ -19,13 +19,13 @@ format:               # <--- Add this section
 ::: {.g-col-12 .g-col-md-8}
 # <span style="font-weight: 500; color: #fff;">Ramu</span> <span style="font-weight: 400; color: #888;">Nalla</span> {.hero-title}
 
-I am a **Senior Data Scientist** at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.
+I am a **Lead Data Scientist** at [HighLevel](https://www.gohighlevel.com/), where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.
 
-Before HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.
+Before HighLevel, I worked as a **Senior ML Engineer** at [Enphase Energy](https://enphase.com/) for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.
 
 My career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.
 
-I earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.
+I earned my B.Tech and M.Tech, along with an MBA minor, from [IIT Kanpur](https://www.iitk.ac.in/).
 
 I enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures.
 :::
@@ -49,29 +49,9 @@ I enjoy blogging about Machine Learning, and I am currently working on a series 
 
 | Date | Update |
 |:-----|:-------|
-| **Oct 29, 2025** | Joined HighLevel as Sr. Data Scientist |
+| **Oct 29, 2025** | Joined HighLevel as Lead Data Scientist |
 
 <br><br>
-
-::: {.footer-content}
-
-::: {.footer-social-links style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;"}
-<a href="mailto:your@email.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
-<a href="https://github.com/RamuNalla" title="GitHub"><i class="bi bi-github"></i></a>
-<a href="https://linkedin.com/in/ramu-nalla-2959b8b3/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-<a href="https://twitter.com" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-<a href="https://instagram.com" title="Instagram"><i class="bi bi-instagram"></i></a>
-:::
-
-::: {.footer-text style="text-align: center; color: #888; font-size: 0.9rem;"}
-Best to reach out to me over email or DM me on LinkedIn.
-:::
-
-:::{.custom-copyright}
-© 2026 Ramu Nalla. All rights reserved.
-:::
-
-:::
 
 <style>
   nav.navbar .navbar-brand {

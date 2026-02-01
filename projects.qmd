@@ -1,7 +1,71 @@
 ---
 title: "Projects"
+subtitle: "A list of my open-source work and experiments."
 listing:
-  contents: projects
-  type: grid
-  categories: true
+  contents: projects.yml
+  type: table
+  sort: "date desc"
+  page-size: 20
+  categories: false
+  sort-ui: false
+  filter-ui: false
+  # 1. NEW COLUMN ORDER
+  fields: [date, title, description, stack, code]
+  field-display-names:
+    date: "Date"
+    title: "Project Name"
+    description: "Description"
+    stack: "Tech Stack"
+    code: "Code"
+format:
+  html:
+    css: styles.css
 ---
+
+<style>
+/* 1. RESET ALL CELLS (Uniform Font) */
+table td {
+  font-family: "Lora", serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;      /* Normal weight for everything */
+  color: #d0d0d0 !important;        /* Uniform Grey Color */
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  vertical-align: top !important;
+  line-height: 1.6 !important;
+}
+
+/* 2. MAKE TITLE BOLD (Column 2) */
+table td:nth-child(2) {
+  font-weight: 700 !important;      /* BOLD */
+  color: #ffffff !important;        /* White to make it pop */
+  pointer-events: none !important;  /* Unclickable */
+  cursor: text !important;
+}
+
+/* 3. STYLE THE GITHUB LINK (Column 5) */
+table td:nth-child(5) a {
+  color: #5a9fd4 !important;        /* Blue */
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+table td:nth-child(5) a:hover {
+  text-decoration: underline !important;
+}
+
+/* 4. COLUMN WIDTHS (Adjusted for new order) */
+table th:nth-child(1), table td:nth-child(1) { width: 12%; white-space: nowrap; } /* Date */
+table th:nth-child(2), table td:nth-child(2) { width: 20%; } /* Title */
+table th:nth-child(3), table td:nth-child(3) { width: 40%; } /* Description */
+table th:nth-child(4), table td:nth-child(4) { width: 18%; font-size: 0.95em; color: #aaa !important; } /* Stack */
+table th:nth-child(5), table td:nth-child(5) { width: 10%; text-align: center; } /* Code */
+
+/* 5. HEADER STYLING */
+table thead th {
+  font-weight: 600 !important;
+  color: #fff !important;
+  border-bottom: 1px solid #444 !important;
+}
+</style>
+
+<br>

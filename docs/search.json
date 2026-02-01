@@ -4,7 +4,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "No matching items"
+    "text": "Date\n\n\n\nProject Name\n\n\n\nDescription\n\n\n\nTech Stack\n\n\n\nCode\n\n\n\n\n\n\n\n\nJan 25, 2026\n\n\nBERT to LSTM Knowledge Distillation\n\n\n Knowledge distillation to compress 70B teacher models (BERT) into 7B student models (LSTM) using KL Divergence on SST-2 Sentiment analysis.\n\n\nPyTorch, HuggingFace\n\n\nGitHub\n\n\n\n\n\n\nJan 15, 2026\n\n\nMini Transformer from Scratch\n\n\nA Transformer model from scratch in PyTorch, without using pre-built transformers (no AutoModel, no nn.Transformer). Trained it on the CoNLL-2003 dataset for NER task\n\n\nPyTorch, Seqeval, Tensorboard\n\n\nGitHub\n\n\n\n\n\n\nJan 10, 2026\n\n\nSeq2Seq Machine Translation\n\n\nEnglish-to-French Translation with LSTM & Attention Mechanism. Build and compare baseline LSTM with attention-based models. Used Tatoeba English-French Parallel Corpus dataset\n\n\nPyTorch, Sacrebleu, Numpy, Pandas, Streamlit\n\n\nGitHub\n\n\n\n\n\n\nDec 22, 2025\n\n\nWord Embedding Analyzer\n\n\nComparing Word2Vec and GloVe embeddings for word similarity and analogy tasks\n\n\nPyTorch, Gensim, Torchtext, Streamlit\n\n\nGitHub\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/scaled-dot-product-attention/index.html",
@@ -193,21 +193,21 @@
     "href": "index.html",
     "title": "Ramu Nalla",
     "section": "",
-    "text": "I am a Senior Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
+    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
   },
   {
     "objectID": "index.html#latest-posts",
     "href": "index.html#latest-posts",
     "title": "Ramu Nalla",
     "section": "Latest Posts",
-    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nJan 1, 2026\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n\n\n\n\n\nDec 17, 2025\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n\n\n\n\n\nNo matching items"
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#news",
     "href": "index.html#news",
     "title": "Ramu Nalla",
     "section": "News",
-    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Sr. Data Scientist\n\n\n\n\n\n\n    \n\n\nBest to reach out to me over email or DM me on LinkedIn.\n\n\n© 2026 Ramu Nalla. All rights reserved."
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
   },
   {
     "objectID": "posts/knowledge-distillation/index.html",

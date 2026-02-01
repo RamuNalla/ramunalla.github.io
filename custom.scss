@@ -235,15 +235,6 @@ html body .quarto-listing input::placeholder {
   border-color: #5a9fd4 !important; /* Blue border on hover */
 }
 
-/* 2. Card Title - Make it Pop */
-.listing-title {
-  font-family: "Lora", serif !important; 
-  font-weight: 600 !important;
-  font-size: 1.3rem !important;
-  margin-bottom: 0.5rem !important;
-  color: #fff !important;
-  line-height: 1.3;
-}
 
 /* 3. Card Description - Readable Grey */
 .listing-description {
@@ -404,23 +395,8 @@ main table tr td:last-child {
   width: auto !important;         /* Let it fill the rest of the space */
 }
 
-/* 6. CONTENT TEXT STYLING (Force Match) */
-/* Ensure the Link (Post) looks exactly like the Text (News) */
-.listing-title,
-.listing-title a,
-main table tr td:last-child {
-  font-family: "Lora", serif !important;
-  font-size: 16px !important;     /* Must match Date size */
-  font-weight: 400 !important;    /* Normal weight */
-  color: #d0d0d0 !important;
-  text-decoration: none !important;
-  line-height: 1.6 !important;
-}
 
-/* Hover Effect for Titles */
-.listing-title a:hover {
-  color: #5a9fd4 !important;
-}
+
 
 /* --- COPYRIGHT TEXT SIZE FIX --- */
 .custom-copyright,
@@ -576,4 +552,94 @@ h1.hero-title > span {
   font-weight: 600 !important;
   border-left: 2px solid #3b82f6 !important;
   padding-left: 10px !important;
+}
+
+/* ==========================================================================
+   FINAL FIX: SPLIT STYLES FOR HOME (TABLE) VS BLOG (GRID)
+   ========================================================================== */
+
+/* --- A. HOME PAGE STYLING (The Table View) --- */
+
+/* 1. The Date Column (Scoped to Home Page) */
+.home-page .quarto-listing-table td:first-child {
+  vertical-align: top !important;
+  width: 150px !important;
+  padding: 8px 0 !important;
+}
+
+.home-page .quarto-listing-table .listing-date {
+  font-family: "Lora", serif !important;
+  font-size: 17px !important;      
+  font-weight: 700 !important;     
+  color: #e0e0e0 !important;
+  line-height: 1.7 !important;
+}
+
+/* 2. The Blog Title Links (Home Page Only) */
+.home-page .quarto-listing-table .listing-title a {
+  font-family: "Lora", serif !important;
+  font-size: 17px !important;      
+  font-weight: 500 !important;     
+  color: #5a9fd4 !important;       
+  text-decoration: none !important;
+  line-height: 1.7 !important;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;           
+}
+
+/* 3. Hover Effect */
+.home-page .quarto-listing-table .listing-title a:hover {
+  color: #5a9fd4 !important;       
+  text-decoration: underline !important; 
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 4px !important;
+}
+
+
+/* --- B. BLOG PAGE STYLING (The Grid View) --- */
+
+/* 1. The Card Title (Bigger, for the Grid only) */
+.quarto-grid .listing-title {
+  font-family: "Lora", serif !important;
+  font-size: 1.25rem !important;   /* Larger for Grid Cards */
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  margin-bottom: 5px !important;
+}
+
+.quarto-grid .listing-title a {
+  color: #ffffff !important;       /* White text for Cards */
+  text-decoration: none !important;
+}
+
+.quarto-grid .listing-title a:hover {
+  color: #5a9fd4 !important;       /* Blue on hover */
+}
+
+/* 2. Hide Description in Grid */
+.quarto-grid .listing-description {
+  display: none !important;
+}
+
+
+/* --- FIX CATEGORIES FONT STYLE --- */
+
+/* 1. Category Pills on Blog Cards */
+.listing-categories .listing-category {
+  font-family: "Lora", serif !important; /* Force Lora font */
+  font-weight: 500 !important;           /* Slightly bolder for readability */
+  letter-spacing: 0.5px !important;      /* Improve spacing */
+  text-transform: uppercase !important;  /* Keep uppercase style */
+}
+
+/* 2. Category List in Sidebar (Right side) */
+.quarto-listing-category .category {
+  font-family: "Lora", serif !important; /* Force Lora font */
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* 3. Category Title in Sidebar */
+.quarto-listing-category .listing-category-title {
+  font-family: "Lora", serif !important;
 }

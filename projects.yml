@@ -1,0 +1,27 @@
+- title: "BERT to LSTM Knowledge Distillation"
+  date: "2026-01-25"
+  description: " Knowledge distillation to compress 70B teacher models (BERT) into 7B student models (LSTM) using KL Divergence on SST-2 Sentiment analysis."
+  code: "[GitHub](https://github.com/RamuNalla/distillation-BERT-to-LSTM)"
+  stack: "PyTorch, HuggingFace"
+
+- title: "Mini Transformer from Scratch"
+  date: "2026-01-15"
+  description: "A Transformer model from scratch in PyTorch, without using pre-built transformers (no AutoModel, no nn.Transformer). Trained it on the CoNLL-2003 dataset for NER task"
+  code: "[GitHub](https://github.com/RamuNalla/mini-transformer-from-scratch)"
+  stack: "PyTorch, Seqeval, Tensorboard"
+
+- title: "Seq2Seq Machine Translation"
+  date: "2026-01-10"
+  description: "English-to-French Translation with LSTM & Attention Mechanism. Build and compare baseline LSTM with attention-based models. Used Tatoeba English-French Parallel Corpus dataset"
+  code: "[GitHub](https://github.com/RamuNalla/seq2seq-machine-translation)"
+  stack: "PyTorch, Sacrebleu, Numpy, Pandas, Streamlit"
+
+- title: "Word Embedding Analyzer"
+  date: "2025-12-22"
+  description: "Comparing Word2Vec and GloVe embeddings for word similarity and analogy tasks"
+  code: "[GitHub](https://github.com/RamuNalla/word-embedding-analyzer)"
+  stack: "PyTorch, Gensim, Torchtext, Streamlit"
+
+
+
+# Add as many items as you want here...

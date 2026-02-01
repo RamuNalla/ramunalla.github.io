@@ -43,7 +43,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-41c6f2ed60929b7f2e2ea835508d19a5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-38d03fa8751a617e088234052a949a1c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -81,9 +81,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-description','listing-stack','listing-code',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-title-sort'] },{ data: ['listing-date-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-title","listing-date","listing-description","listing-code","listing-stack"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -131,9 +131,10 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -186,14 +187,14 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Projects</h1>
+<p class="subtitle lead">A list of my open-source work and experiments.</p>
 </div>
 
 
@@ -210,14 +211,163 @@ window.Quarto = {
 </header>
 
 
+<style>
+/* 1. RESET ALL CELLS (Uniform Font) */
+table td {
+  font-family: "Lora", serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;      /* Normal weight for everything */
+  color: #d0d0d0 !important;        /* Uniform Grey Color */
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  vertical-align: top !important;
+  line-height: 1.6 !important;
+}
+
+/* 2. MAKE TITLE BOLD (Column 2) */
+table td:nth-child(2) {
+  font-weight: 700 !important;      /* BOLD */
+  color: #ffffff !important;        /* White to make it pop */
+  pointer-events: none !important;  /* Unclickable */
+  cursor: text !important;
+}
+
+/* 3. STYLE THE GITHUB LINK (Column 5) */
+table td:nth-child(5) a {
+  color: #5a9fd4 !important;        /* Blue */
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+table td:nth-child(5) a:hover {
+  text-decoration: underline !important;
+}
+
+/* 4. COLUMN WIDTHS (Adjusted for new order) */
+table th:nth-child(1), table td:nth-child(1) { width: 12%; white-space: nowrap; } /* Date */
+table th:nth-child(2), table td:nth-child(2) { width: 20%; } /* Title */
+table th:nth-child(3), table td:nth-child(3) { width: 40%; } /* Description */
+table th:nth-child(4), table td:nth-child(4) { width: 18%; font-size: 0.95em; color: #aaa !important; } /* Stack */
+table th:nth-child(5), table td:nth-child(5) { width: 10%; text-align: center; } /* Code */
+
+/* 5. HEADER STYLING */
+table thead th {
+  font-weight: 600 !important;
+  color: #fff !important;
+  border-bottom: 1px solid #444 !important;
+}
+</style>
+<p><br></p>
 
 
 
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
+<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
+<table class="quarto-listing-table table">
+<thead>
+<tr>
 
-</div>
+<th>
+Date
+</th>
+
+<th>
+Project Name
+</th>
+
+<th>
+Description
+</th>
+
+<th>
+Tech Stack
+</th>
+
+<th>
+Code
+</th>
+
+</tr>
+</thead>
+<tbody class="list">
+
+<tr data-index="0" data-listing-date-sort="1769279400000" data-listing-title-sort="BERT to LSTM Knowledge Distillation">
+<td>
+<span class="listing-date">Jan 25, 2026</span>
+</td>
+<td>
+<span class="listing-title">BERT to LSTM Knowledge Distillation</span>
+</td>
+<td>
+<span class="listing-description"> Knowledge distillation to compress 70B teacher models (BERT) into 7B student models (LSTM) using KL Divergence on SST-2 Sentiment analysis.</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, HuggingFace</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/distillation-BERT-to-LSTM">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="1" data-listing-date-sort="1768415400000" data-listing-title-sort="Mini Transformer from Scratch">
+<td>
+<span class="listing-date">Jan 15, 2026</span>
+</td>
+<td>
+<span class="listing-title">Mini Transformer from Scratch</span>
+</td>
+<td>
+<span class="listing-description">A Transformer model from scratch in PyTorch, without using pre-built transformers (no AutoModel, no nn.Transformer). Trained it on the CoNLL-2003 dataset for NER task</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Seqeval, Tensorboard</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/mini-transformer-from-scratch">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="2" data-listing-date-sort="1767983400000" data-listing-title-sort="Seq2Seq Machine Translation">
+<td>
+<span class="listing-date">Jan 10, 2026</span>
+</td>
+<td>
+<span class="listing-title">Seq2Seq Machine Translation</span>
+</td>
+<td>
+<span class="listing-description">English-to-French Translation with LSTM &amp; Attention Mechanism. Build and compare baseline LSTM with attention-based models. Used Tatoeba English-French Parallel Corpus dataset</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Sacrebleu, Numpy, Pandas, Streamlit</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/seq2seq-machine-translation">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="3" data-listing-date-sort="1766341800000" data-listing-title-sort="Word Embedding Analyzer">
+<td>
+<span class="listing-date">Dec 22, 2025</span>
+</td>
+<td>
+<span class="listing-title">Word Embedding Analyzer</span>
+</td>
+<td>
+<span class="listing-description">Comparing Word2Vec and GloVe embeddings for word similarity and analogy tasks</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Gensim, Torchtext, Streamlit</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/word-embedding-analyzer">GitHub</a></span>
+</td>
+
+</tr>
+
+</tbody>
+</table>
 <div class="listing-no-matching d-none">No matching items</div>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -621,6 +771,27 @@ window.Quarto = {
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="footer-social-links" style="margin-bottom: 20px;">
+<p><a href="mailto:your@email.com" title="Email" style="margin: 0 12px; color: #888;"><i class="bi bi-envelope-fill"></i></a> <a href="https://github.com/RamuNalla" title="GitHub" style="margin: 0 12px; color: #888;"><i class="bi bi-github"></i></a> <a href="https://linkedin.com/in/ramu-nalla-2959b8b3/" title="LinkedIn" style="margin: 0 12px; color: #888;"><i class="bi bi-linkedin"></i></a> <a href="https://twitter.com" title="Twitter" style="margin: 0 12px; color: #888;"><i class="bi bi-twitter-x"></i></a> <a href="https://instagram.com" title="Instagram" style="margin: 0 12px; color: #888;"><i class="bi bi-instagram"></i></a></p>
+</div>
+<div class="footer-text" style="color: #888; font-size: 0.9rem; margin-bottom: 10px;">
+<p>Best to reach out to me over email or DM me on LinkedIn.</p>
+</div>
+<div class="custom-copyright" style="color: #666; font-size: 0.8rem;">
+<p>© 2026 Ramu Nalla. All rights reserved.</p>
+</div>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

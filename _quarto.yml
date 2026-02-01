@@ -23,6 +23,25 @@ website:
       - icon: linkedin
         href: https://linkedin.com/in/ramu-nalla-2959b8b3/
         target: _blank
+  page-footer:
+    background: "#0f0f0f" # Matches your body background
+    border: false
+    center: |
+      <div class="footer-social-links" style="margin-bottom: 20px;">
+        <a href="mailto:your@email.com" title="Email" style="margin: 0 12px; color: #888;"><i class="bi bi-envelope-fill"></i></a>
+        <a href="https://github.com/RamuNalla" title="GitHub" style="margin: 0 12px; color: #888;"><i class="bi bi-github"></i></a>
+        <a href="https://linkedin.com/in/ramu-nalla-2959b8b3/" title="LinkedIn" style="margin: 0 12px; color: #888;"><i class="bi bi-linkedin"></i></a>
+        <a href="https://twitter.com" title="Twitter" style="margin: 0 12px; color: #888;"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://instagram.com" title="Instagram" style="margin: 0 12px; color: #888;"><i class="bi bi-instagram"></i></a>
+      </div>
+      
+      <div class="footer-text" style="color: #888; font-size: 0.9rem; margin-bottom: 10px;">
+        Best to reach out to me over email or DM me on LinkedIn.
+      </div>
+      
+      <div class="custom-copyright" style="color: #666; font-size: 0.8rem;">
+        © 2026 Ramu Nalla. All rights reserved.
+      </div>
 
 format:
   html:
