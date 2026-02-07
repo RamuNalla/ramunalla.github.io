@@ -147,69 +147,6 @@
     "text": "Summary\nMulti-Head Attention is a sophisticated way of saying “do parallel processing and mix the results.”\nBy splitting the embedding dimension into distinct heads, we allow the Transformer to learn different types of relationships simultaneously. The intricate steps of view and transpose operations is simply the mechanism required to arrange the data efficiently so GPUs can perform this parallel computation and then stitch the diverse insights back together."
   },
   {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "",
-    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Core Concept",
-    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Code: “Vector Search” in Pure Python",
-    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "Moving to Production",
-    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "Download Full CV (PDF)"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ramu Nalla",
-    "section": "",
-    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
-  },
-  {
-    "objectID": "index.html#latest-posts",
-    "href": "index.html#latest-posts",
-    "title": "Ramu Nalla",
-    "section": "Latest Posts",
-    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nJan 10, 2026\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#news",
-    "href": "index.html#news",
-    "title": "Ramu Nalla",
-    "section": "News",
-    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
-  },
-  {
     "objectID": "posts/knowledge-distillation/index.html",
     "href": "posts/knowledge-distillation/index.html",
     "title": "Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference",
@@ -250,6 +187,118 @@
     "title": "Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference",
     "section": "Final Thoughts",
     "text": "Final Thoughts\nWe often equate “larger” with “better” in AI. But for 90% of real-world business problems, “fast and good enough” beats “perfect and slow.”\nThis project demonstrated that we don’t always need to deploy massive Transformers to get the benefits of their intelligence. By using Knowledge Distillation, we can essentially compress the intelligence of a giant into a model that can run on a Raspberry Pi.\nCheck out the full code on my GitHub."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ramu Nalla",
+    "section": "",
+    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "Ramu Nalla",
+    "section": "Latest Posts",
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 29, 2026\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Ramu Nalla",
+    "section": "News",
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "Download Full CV (PDF)"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "",
+    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Core Concept",
+    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Code: “Vector Search” in Pure Python",
+    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "Moving to Production",
+    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html",
+    "href": "posts/lora-and-dora/index.html",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "",
+    "text": "Published by Ramu Nalla - January 29, 2026\nThe promise of Large Language Models is universal capability. The reality is that they are heavy.\nFine-tuning a model like Llama-3 (8B) or even the smaller DistilGPT2 (82M) traditionally meant Full Fine-Tuning (FFT): updating every single weight in the network. For an 8B model, this requires storing 8 billion gradients and 8 billion optimizer states (Adam carries two states per parameter). This quickly exceeds the VRAM of even high-end consumer GPUs.\nBut do we really need to update all 8 billion parameters to teach a model a new writing style?\nIn this post, I am going to deconstruct LoRA (Low-Rank Adaptation). We won’t just look at the high-level concept; we will implement the mathematics in PyTorch, calculate the exact parameter savings, and solve specific engineering hurdles like adapting GPT-2’s Conv1D layers and stabilizing inference loops."
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html#mathematics",
+    "href": "posts/lora-and-dora/index.html#mathematics",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "1. Mathematics",
+    "text": "1. Mathematics\n\nThe Hypothesis: Intrinsic Rank\nLoRA is founded on a hypothesis from the paper Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning (Aghajanyan et al., 2020). It states that pre-trained models have a very low “intrinsic dimension.” The changes required to adapt them to a new task (\\(\\Delta W\\)) exist in a low-rank subspace.\n\n\nThe Decomposition\nLet \\(W_0 \\in \\mathbb{R}^{d \\times k}\\) be a frozen pre-trained weight matrix. Instead of learning the full update matrix \\(\\Delta W\\) (which would also be \\(d \\times k\\)), we decompose it into the product of two much smaller matrices:\n\\[W = W_0 + \\Delta W = W_0 + B A\\]\nWhere:\n\n\\(A \\in \\mathbb{R}^{r \\times k}\\): The “Down-projection” matrix.\n\\(B \\in \\mathbb{R}^{d \\times r}\\): The “Up-projection” matrix.\n\\(r\\): The rank (hyperparameter), typically \\(r \\ll \\min(d, k)\\).\n\nFor example, if \\(W_0\\) is \\(1024 \\times 1024\\) (\\(d=1024\\)):\n\nFull Fine-Tuning: We train \\(1,048,576\\) parameters.\nLoRA (\\(r=8\\)):\n\n\\(A\\): \\(8 \\times 1024 = 8,192\\) params.\n\\(B\\): \\(1024 \\times 8 = 8,192\\) params.\nTotal: \\(16,384\\) parameters.\n\n\nThis is a 98.4% reduction in trainable parameters for that single layer.\n\n\nThe Forward Pass & Scaling\nThe modified forward pass for an input \\(x\\) becomes:\n\\[h = W_0 x + \\frac{\\alpha}{r} (B A x)\\]\nNotice the term \\(\\frac{\\alpha}{r}\\). This is the scaling factor.\n\n\\(\\alpha\\) (Alpha): A constant that determines the strength of the adapter.\nWhy scale? It decouples the hyperparameter search. If you tune your learning rate for \\(r=8\\), scaling by \\(1/r\\) ensures you don’t need to re-tune the learning rate if you try \\(r=16\\) or \\(r=4\\).\nWithout \\(\\alpha\\), if you increased the rank from 8 to 64, the “signal” coming out of the LoRA matrices would become much stronger, potentially blowing up your gradients or overshooting the local minima.\nWith \\(\\alpha\\), because it is part of the fraction \\(\\frac{\\alpha}{r}\\), increasing the rank automatically decreases the scaling factor. This means you can experiment with different ranks (\\(r=8, 16, 32, 64\\)) without having to restart your hyperparameter search for the perfect learning rate every single time. If you decide to increase the rank later to capture more complex patterns, the \\(\\frac{\\alpha}{r}\\) term will keep the “magnitude” of your updates consistent, so your training remains stable"
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html#implementation-of-the-loralinear-layer",
+    "href": "posts/lora-and-dora/index.html#implementation-of-the-loralinear-layer",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "2. Implementation of The LoRALinear Layer",
+    "text": "2. Implementation of The LoRALinear Layer\nImplementing this in PyTorch requires wrapping an existing nn.Linear layer. We must ensure the original weights remain frozen while \\(A\\) and \\(B\\) are trainable.\nimport torch\nimport torch.nn as nn\nimport math\n\nclass LoRALinear(nn.Module):\n    def __init__(self, base_layer: nn.Linear, rank: int = 8, alpha: int = 16):\n        super().__init__()\n        # 1. Capture the existing weights\n        self.base_layer = base_layer\n        \n        # 2. Define LoRA Hyperparameters\n        self.rank = rank\n        self.scaling = alpha / rank\n        \n        # 3. Extract Dimensions\n        # Note: In PyTorch Linear, weights are stored as (out_features, in_features)\n        self.in_features = base_layer.in_features\n        self.out_features = base_layer.out_features\n        \n        # 4. Initialize A and B\n        # Matrix A: (rank, in_features) -&gt; Down projection\n        self.lora_A = nn.Parameter(torch.randn(rank, self.in_features))\n        # Matrix B: (out_features, rank) -&gt; Up projection\n        self.lora_B = nn.Parameter(torch.zeros(self.out_features, rank))\n        \n        # 5. Freeze the Base Layer\n        self.base_layer.weight.requires_grad = False\n        if self.base_layer.bias is not None:\n            self.base_layer.bias.requires_grad = False\n            \n        # 6. Reset Parameters (Crucial Step)\n        self.reset_parameters()\n\n    def reset_parameters(self):\n        # Initialize A with Kaiming Uniform (standard for Relu/Linear networks)\n        nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(5))\n        \n        # Initialize B with ZEROS\n        # This ensures that at step 0, BAx = 0.\n        # The model starts exactly as the pre-trained model.\n        nn.init.zeros_(self.lora_B)\n\n    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:\n        # Standard Path (Frozen)\n        result = self.base_layer(x)\n        \n        # LoRA Path (Trainable)\n        # Equation: (x @ A^T) @ B^T * scaling\n        # Note: PyTorch linear uses x @ W^T, so we transpose A and B\n        lora_out = (x @ self.lora_A.t()) @ self.lora_B.t()\n        \n        return result + (lora_out * self.scaling)\n\nWhy Initialize B to Zero?\nThis is a critical engineering detail. If we initialized both \\(A\\) and \\(B\\) randomly, the untrained adapter would inject random noise into the forward pass before training even began. This would degrade the model’s perplexity instantly. By setting \\(B=0\\), the initial product \\(B \\times A\\) is zero, preserving the pre-trained behavior perfectly at step 0."
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html#architecture-where-does-lora-actually-live",
+    "href": "posts/lora-and-dora/index.html#architecture-where-does-lora-actually-live",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "3. Architecture: Where Does LoRA Actually Live?",
+    "text": "3. Architecture: Where Does LoRA Actually Live?\nWhen we say a model like GPT-2 Small has 124 million parameters, we are essentially saying it stores 124 million individual decimal numbers (weights) in its memory. If you were to open the model’s file, you would see giant grids (matrices) of floating-point numbers.\nTo understand exactly where LoRA injects itself, we need a map of these 124M parameters. Here is the anatomical breakdown of a standard Transformer block.\n\nA. The Embedding Layer (~39M params)\nBefore the model thinks, it converts words into numbers.\n\nWhat it is: A giant lookup table.\nThe Matrix: If the vocabulary is 50,257 words and the hidden size is 768, this is a matrix of shape [50,257, 768].\nLoRA Impact: We typically do not apply LoRA here. These weights remain frozen.\n\n\n\nB. The Transformer Blocks (The Core)\nThis is where the logic happens. A 124M model stacks 12 identical blocks. Each block has two main “rooms” where parameters live, and this is where we apply LoRA.\n\n1. The Attention Room (c_attn)\nThis is the most common target for LoRA (target_modules=[\"c_attn\"]).\n\nThe Weights: This layer holds the matrices for Query, Key, and Value.\nThe Shape: For a hidden size of 768, the c_attn layer is typically one giant matrix of [768, 2304] (since \\(768 \\times 3 = 2304\\) - Query, Key and Values).\nParameter Count: \\(768 \\times 2304 \\approx \\mathbf{1.7 \\text{ million parameters}}\\) per block.\nLoRA Strategy: We freeze these 1.7M numbers. We then inject an Adapter (\\(A\\) and \\(B\\)) that approximates the changes to this layer.\n\n\n\n2. The Feed-Forward Room (mlp)\nAfter each attention layer, data flows through two dense layers.\n\nThe Weights: One layer expands the data (768 \\(\\to\\) 3072) and the second shrinks it back (3072 \\(\\to\\) 768).\nParameter Count: This is actually the “heaviest” part of the block, containing roughly 4.7 million parameters.\nLoRA Strategy: While original LoRA papers focused on Attention, modern implementations (and DoRA) often target these MLP layers as well to capture more stylistic nuance.\n\n\n\n\nC. The Final Head (~39M params)\nAt the very top, the model converts its internal thought vector (768) back into a word prediction (50,257 options).\n\nLoRA Impact: Usually skipped to save parameters, though some fine-tuning strategies target this for vocabulary adaptation."
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html#parameter-reduction-analysis",
+    "href": "posts/lora-and-dora/index.html#parameter-reduction-analysis",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "4. Parameter Reduction Analysis",
+    "text": "4. Parameter Reduction Analysis\nLet’s look at the actual numbers from my DistilGPT2 project. I targeted the Attention Query, Key, Value projection layers.\nBase Model Layer (c_attn):\n\nInput dim: 768\nOutput dim: 2304 (\\(3 \\times 768\\) for Q, K, V)\nParameters: \\(768 \\times 2304 = \\mathbf{1,769,472}\\)\n\nLoRA Adapter (\\(r=8\\)):\n\nMatrix A: \\(8 \\times 768 = 6,144\\)\nMatrix B: \\(2304 \\times 8 = 18,432\\)\nParameters: \\(\\mathbf{24,576}\\)\n\nReduction Factor: \\[1 - \\frac{24,576}{1,769,472} \\approx 98.6\\%\\]\nAcross the entire model, we reduced the trainable count from 82 Million to just ~235,000."
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html#engineering-scars-what-papers-dont-tell-you",
+    "href": "posts/lora-and-dora/index.html#engineering-scars-what-papers-dont-tell-you",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "5. Engineering Scars: What Papers Don’t Tell You",
+    "text": "5. Engineering Scars: What Papers Don’t Tell You\nImplementing LoRA is one thing; training it is another. Here are two major technical hurdles I encountered.\n\nA. The Learning Rate Gap\nIf you use a standard fine-tuning learning rate (e.g., 1e-5) with LoRA, your loss curve will flatline.\nWhy? The gradient signal has to flow through the large frozen \\(W_0\\) before reaching \\(A\\) and \\(B\\). The signal is dampened. The Fix: You must use a significantly higher learning rate for the adapter parameters. I found 8e-4 to be the sweet spot for convergence on the TinyShakespeare dataset.\n    args = TrainingArguments(\n        output_dir=f\"./results_{name}\",\n        num_train_epochs=3,\n        per_device_train_batch_size=8,\n        learning_rate=8e-4,\n        logging_steps=100,\n        report_to=\"none\"\n    )\n\n\nB. Semantic Degeneration (The “Loop”)\nDuring inference, even a well-trained LoRA model can get stuck in loops (e.g., “I am dead. I am dead. I am dead.”).\nWhy? The model is small (DistilGPT2) and the adapter is forcing a very specific stylistic probability distribution that might be “sharp” around certain common n-grams.\nThe Fix: Repetition Penalty. In the generation config, setting repetition_penalty=1.0 (default) allows this behavior. I implemented a penalty of 1.2. This mathematically discounts the logits of tokens that have already been generated:\n\\[P(x_i) = \\frac{\\exp(logit_i / T)}{\\sum \\exp(logit_j / T)} \\rightarrow \\text{if used, } logit_i = \\frac{logit_i}{penalty}\\]\nThis simple change forced the model to break the loop and seek “fresh” vocabulary, instantly restoring Shakespearean syntax.\n    gen_config = {\n        \"max_new_tokens\": 40,\n        \"do_sample\": True,\n        \"temperature\": 0.8,\n        \"top_k\": 50,\n        \"top_p\": 0.9,\n        \"repetition_penalty\": 1.2,\n    }"
+  },
+  {
+    "objectID": "posts/lora-and-dora/index.html#conclusion",
+    "href": "posts/lora-and-dora/index.html#conclusion",
+    "title": "Deep Dive into Low-Rank Adaptation (LoRA)",
+    "section": "Conclusion",
+    "text": "Conclusion\nLoRA is more than just a memory-saving trick. It is a fundamental shift in how we view neural network plasticity. By proving that we can change the behavior of a model by modifying less than 1% of its weights, LoRA suggests that “intelligence” in these models is highly compressible.\nThis means we can build systems where one base model serves 100 different customers, simply by hot-swapping a 2MB LoRA adapter in RAM for each of the request.\nIn the next post, I will explore DoRA, which takes this concept further by decoupling the magnitude and direction of these updates."
   },
   {
     "objectID": "posts/named-entity-recognition/index.html",
@@ -340,6 +389,6 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n6 min\n\n\nNLP\n\nAgents\n\nLLM\n\n\n\nBig models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.\n\n\n\nJan 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n11 min\n\n\nDeep Learning\n\nTransformers\n\nPEFT\n\nNLP\n\nPyTorch\n\n\n\nA mathematical and code-first walkthrough of building LoRA for GPT-2. We explore the linear algebra of low-rank matrices and the engineering reality of training 0.3% of a…\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n6 min\n\n\nNLP\n\nAgents\n\nLLM\n\n\n\nBig models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.\n\n\n\nJan 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
   }
 ]

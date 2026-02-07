@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/lora-and-dora/index.html",
       "/posts/knowledge-distillation/index.html",
       "/posts/named-entity-recognition/index.html",
       "/posts/positional-encodings/index.html",
@@ -18,6 +19,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/lora-and-dora/index.html",
       "/posts/knowledge-distillation/index.html",
       "/posts/named-entity-recognition/index.html",
       "/posts/positional-encodings/index.html",
