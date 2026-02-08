@@ -1,3 +1,9 @@
+- title: "LoRA and DoRA from Scratch"
+  date: "2026-01-31"
+  description: "A first-principles PyTorch implementation of LoRA and Weight-Decomposed LoRA (DoRA) on DistilGPT2, with custom weight injection to achieve parameter-efficient stylistic transfer."
+  code: "[GitHub](https://github.com/RamuNalla/LORA-from-scratch)"
+  stack: "PyTorch, LoRA, Streamlit"
+
 - title: "BERT to LSTM Knowledge Distillation"
   date: "2026-01-25"
   description: " Knowledge distillation to compress 70B teacher models (BERT) into 7B student models (LSTM) using KL Divergence on SST-2 Sentiment analysis."

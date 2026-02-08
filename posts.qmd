@@ -9,7 +9,7 @@ listing:
   type: grid
   grid-columns: 4
   image-height: 250px
-  page-size: 9
+  page-size: 12
   categories: true
   sort-ui: true
   filter-ui: true
