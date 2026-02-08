@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ramu Nalla">
+<meta name="dcterms.date" content="2026-02-01">
+<meta name="description" content="A practical implementation of PEFT from scratch. How I adapted a modern LLM to Elizabethan English using only 0.3% of its parameters, featuring a custom implementation of the 2024 DoRA paper.">
 
-<title>Ramu Nalla</title>
+<title>Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs.&nbsp;DoRA) – Ramu Nalla</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,27 +26,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-38d03fa8751a617e088234052a949a1c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-38d03fa8751a617e088234052a949a1c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,35 +72,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-latest-posts .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-latest-posts'] = new List('listing-latest-posts', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -133,14 +105,14 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="floating nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ramu Nalla</span>
     </a>
   </div>
@@ -150,19 +122,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./posts.html"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv.html"> 
+    <a class="nav-link" href="../../cv.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -185,150 +157,243 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="hero-title title display-7"><span style="font-weight: 500; color: #fff;">Ramu</span> <span style="font-weight: 400; color: #888;">Nalla</span></h1></header>
+<main class="content" id="quarto-document-content">
 
-
-
-
-<div class="grid" style="align-items: center; gap: 40px;">
-<section id="ramu-nalla" class="level1 hero-title g-col-12 g-col-md-8">
-
-<p>I am a <strong>Lead Data Scientist</strong> at <a href="https://www.gohighlevel.com/">HighLevel</a>, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.</p>
-<p>Before HighLevel, I worked as a <strong>Senior ML Engineer</strong> at <a href="https://enphase.com/">Enphase Energy</a> for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.</p>
-<p>My career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.</p>
-<p>I earned my B.Tech and M.Tech, along with an MBA minor, from <a href="https://www.iitk.ac.in/">IIT Kanpur</a>.</p>
-<p>I enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures.</p>
-</section>
-<div class="g-col-12 g-col-md-4 text-center">
-<p><img src="profile.jfif" class="profile-shape img-fluid" style="width:90.0%"></p>
-</div>
-</div>
-<p><br><br></p>
-<section id="latest-posts" class="level2">
-<h2 class="anchored" data-anchor-id="latest-posts">Latest Posts</h2>
-<div id="listing-latest-posts" class="quarto-listing quarto-listing-container-table">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-latest-posts-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-latest-posts'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-date-sort" data-direction="asc">
-        date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        date - Newest
-      </option>
-      <option value="listing-title-sort" data-direction="asc">
-        title
-      </option>
-    </select>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs.&nbsp;DoRA)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLMs</div>
+    <div class="quarto-category">PEFT</div>
+    <div class="quarto-category">PyTorch</div>
   </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
+  </div>
+
+<div>
+  <div class="description">
+    A practical implementation of PEFT from scratch. How I adapted a modern LLM to Elizabethan English using only 0.3% of its parameters, featuring a custom implementation of the 2024 DoRA paper.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ramu Nalla </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 1, 2026</p>
     </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="blog-manual-meta">
+Published by Ramu Nalla - February 1, 2026
 </div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-
-<th>
-<a class="sort" data-sort="listing-date-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">date</a>
-</th>
-
-<th>
-<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">title</a>
-</th>
-
-</tr>
-</thead>
-<tbody class="list">
-
-<tr data-index="0" data-categories="TExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769884200000" data-listing-file-modified-sort="1770535722864" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1214" data-listing-title-sort="Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 1, 2026</span>
-</td>
-<td>
-<a href="./posts/dora-project/index.html" class="title listing-title">Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs.&nbsp;DoRA)</a>
-</td>
-
-</tr>
-
-<tr data-index="1" data-categories="RGVlcCUyMExlYXJuaW5nJTJDTExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769711400000" data-listing-file-modified-sort="1770530595578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1316" data-listing-title-sort="DoRA: Weight Decomposed LoRA" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 30, 2026</span>
-</td>
-<td>
-<a href="./posts/dora/index.html" class="title listing-title">DoRA: Weight Decomposed LoRA</a>
-</td>
-
-</tr>
-
-<tr data-index="2" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUEVGVCUyQ05MUCUyQ1B5VG9yY2g=" data-listing-date-sort="1769625000000" data-listing-file-modified-sort="1770483801401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2010" data-listing-title-sort="Deep Dive into Low-Rank Adaptation (LoRA)" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 29, 2026</span>
-</td>
-<td>
-<a href="./posts/lora-and-dora/index.html" class="title listing-title">Deep Dive into Low-Rank Adaptation (LoRA)</a>
-</td>
-
-</tr>
-
-<tr data-index="3" data-categories="TkxQJTJDQWdlbnRzJTJDTExN" data-listing-date-sort="1769279400000" data-listing-file-modified-sort="1769951493383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1031" data-listing-title-sort="Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 25, 2026</span>
-</td>
-<td>
-<a href="./posts/knowledge-distillation/index.html" class="title listing-title">Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference</a>
-</td>
-
-</tr>
-
-<tr data-index="4" data-categories="TkxQJTJDRGVlcCUyMExlYXJuaW5nJTJDUHlUb3JjaA==" data-listing-date-sort="1768847400000" data-listing-file-modified-sort="1769583356118" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1556" data-listing-title-sort="Named Entity Recognition: The 'Who, What, Where' of NLP" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 20, 2026</span>
-</td>
-<td>
-<a href="./posts/named-entity-recognition/index.html" class="title listing-title">Named Entity Recognition: The ‘Who, What, Where’ of NLP</a>
-</td>
-
-</tr>
-
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Conceptual overview of the PEFT strategy used in this project.</figcaption>
+</figure>
 </div>
-<p><br></p>
+<hr>
+<p>In the age of trillion-parameter models, the idea of “Full Fine-Tuning” is becoming an artifact of the past. Updating every single weight in a neural network is computationally prohibitive for most engineers. The industry has shifted toward <strong>Parameter-Efficient Fine-Tuning (PEFT)</strong>—surgical methods that adapt massive models by touching only a tiny fraction of their weights.</p>
+<p>For my latest project, <strong>PEFT-from-Scratch</strong>, I decided to bypass the high-level libraries (like Hugging Face’s <code>peft</code>) and implement two state-of-the-art techniques from the ground up: <strong>LoRA (Low-Rank Adaptation)</strong> and its 2024 evolution, <strong>DoRA (Weight-Decomposed Low-Rank Adaptation)</strong>.</p>
+<p><strong>The goal?</strong> Transform a standard <strong>DistilGPT2</strong> model into a Shakespearean playwright, training less than <strong>0.3%</strong> of the original parameters while maintaining grammatical coherence.</p>
+<section id="the-architecture-first-principles-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="the-architecture-first-principles-implementation">The Architecture: First Principles Implementation</h2>
+<p>Most tutorials simply import a library. To truly understand the mechanics, I built the adapter logic manually. This involved digging into the PyTorch internals of the GPT-2 architecture.</p>
+<section id="the-challenge-conv1d-vs.-linear" class="level3">
+<h3 class="anchored" data-anchor-id="the-challenge-conv1d-vs.-linear">The Challenge: <code>Conv1D</code> vs.&nbsp;<code>Linear</code></h3>
+<p>One of the first engineering hurdles was the specific architecture of GPT-2. Unlike modern Transformers (like Llama or BERT) that use standard <code>nn.Linear</code> layers, Hugging Face’s GPT-2 implementation uses a custom <code>Conv1D</code> layer.</p>
+<ul>
+<li><strong>Standard Linear:</strong> Weights are stored as <code>(out_features, in_features)</code>.</li>
+<li><strong>GPT-2 Conv1D:</strong> Weights are stored as <code>(in_features, out_features)</code>.</li>
+</ul>
+<p>If you blindly apply standard matrix multiplication, the shapes misalign. I had to write a custom <strong>LoRA Wrapper</strong> that detects the layer type and handles the transposition logic dynamically, ensuring the low-rank matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> injected correctly into the attention mechanism.</p>
 </section>
-<section id="news" class="level2">
-<h2 class="anchored" data-anchor-id="news">News</h2>
+<section id="the-injection-logic" class="level3">
+<h3 class="anchored" data-anchor-id="the-injection-logic">The Injection Logic</h3>
+<p>I wrote a recursive injection script that “surges” through the model’s architecture. It identifies the target modules (specifically the <strong>Attention Blocks</strong>), freezes the massive pre-trained weights (<span class="math inline">\(W_0\)</span>), and injects our trainable adapter pairs alongside them.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="architecture_diagram.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Visualization of where the LoRA adapters sit within the DistilGPT2 Attention Block</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="lora-vs.-dora-the-evolution" class="level2">
+<h2 class="anchored" data-anchor-id="lora-vs.-dora-the-evolution">LoRA vs.&nbsp;DoRA: The Evolution</h2>
+<p>This project wasn’t just about LoRA; it was a comparative study of <strong>DoRA</strong>, a technique published in 2024 that claims to close the gap between PEFT and Full Fine-Tuning.</p>
+<section id="lora-the-baseline" class="level3">
+<h3 class="anchored" data-anchor-id="lora-the-baseline">LoRA (The Baseline)</h3>
+<p>LoRA assumes the update matrix <span class="math inline">\(\Delta W\)</span> has a low intrinsic rank. We learn two small matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that <span class="math inline">\(\Delta W = BA\)</span>.</p>
+<ul>
+<li><strong>Pros:</strong> Extremely efficient.</li>
+<li><strong>Cons:</strong> Coupled updates. To change the “strength” of a feature, LoRA often has to shift its “direction” as well.</li>
+</ul>
+</section>
+<section id="dora-the-upgrade" class="level3">
+<h3 class="anchored" data-anchor-id="dora-the-upgrade">DoRA (The Upgrade)</h3>
+<p>DoRA decomposes the weight update into two distinct components: <strong>Magnitude (<span class="math inline">\(m\)</span>)</strong> and <strong>Direction (<span class="math inline">\(V\)</span>)</strong>. <span class="math display">\[W = m \odot \frac{V + \Delta V}{||V + \Delta V||}\]</span> By freezing the pre-trained direction and applying LoRA only to the directional component (<span class="math inline">\(\Delta V\)</span>), while training the magnitude vector <span class="math inline">\(m\)</span> separately, DoRA allows the model to adjust <em>how much</em> a weight matters without distorting <em>what</em> it represents.</p>
+</section>
+</section>
+<section id="training-configuration-data" class="level2">
+<h2 class="anchored" data-anchor-id="training-configuration-data">Training Configuration &amp; Data</h2>
+<ul>
+<li><strong>Base Model:</strong> DistilGPT2 (82M parameters).</li>
+<li><strong>Dataset:</strong> TinyShakespeare (A corpus of Shakespeare’s plays).</li>
+<li><strong>Rank (<span class="math inline">\(r\)</span>):</strong> 8 (A highly aggressive compression).</li>
+<li><strong>Alpha (<span class="math inline">\(\alpha\)</span>):</strong> 16.</li>
+<li><strong>Target Modules:</strong> <code>c_attn</code> (Attention Q, K, V projections).</li>
+</ul>
+<section id="the-training-efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="the-training-efficiency">The Training efficiency</h3>
+<p>Using a single T4 GPU on Google Colab, I achieved convergence in just <strong>3 epochs</strong>. The final adapter sizes were miniscule:</p>
+<ul>
+<li><strong>LoRA Adapter:</strong> ~2.5 MB</li>
+<li><strong>DoRA Adapter:</strong> ~2.5 MB (+ ~2KB for magnitude vectors)</li>
+</ul>
+<p>This massive reduction (from a 350MB model to a 2.5MB file) makes the result ultra-portable.</p>
+</section>
+</section>
+<section id="engineering-challenges-the-loop-discovery" class="level2">
+<h2 class="anchored" data-anchor-id="engineering-challenges-the-loop-discovery">Engineering Challenges: The “Loop” Discovery</h2>
+<p>The most significant insight from this project wasn’t in the training, but in the <strong>Inference</strong>.</p>
+<p>During early A/B testing, both models suffered from <strong>Semantic Degeneration</strong>. The models would start a sentence strongly but quickly devolve into infinite loops.</p>
+<ul>
+<li><em>Prompt:</em> “To be or not to be”</li>
+<li><em>Output:</em> “To be or not to be. I am dead. I am dead. We’ll go. We’ll go. We’ll go.”</li>
+</ul>
+<section id="the-root-cause" class="level3">
+<h3 class="anchored" data-anchor-id="the-root-cause">The Root Cause</h3>
+<p>The default generation configuration uses a <strong>repetition penalty of 1.0</strong> (neutral). For a small model adapted to such a specific, archaic style with a low rank (<span class="math inline">\(r=8\)</span>), the model became “over-confident” in certain n-grams.</p>
+</section>
+<section id="the-solution" class="level3">
+<h3 class="anchored" data-anchor-id="the-solution">The Solution</h3>
+<p>I implemented a <strong>1.2 repetition penalty</strong> during inference. This divides the logits of previously generated tokens, mathematically forcing the model to explore lower-probability, more “creative” paths. This immediately broke the loops and restored complex Shakespearean syntax.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image2.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Phase A shows the degeneration loops. Phase B (Tuned) shows the restored coherence after applying the 1.2 penalty.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="dora-vs.-lora" class="level2">
+<h2 class="anchored" data-anchor-id="dora-vs.-lora">DoRA vs.&nbsp;LoRA:</h2>
+<p>I built a custom <strong>Streamlit Playground</strong> to A/B test these models side-by-side.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./streamlit_screenshots/image1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>The interactive playground allowing real-time adjustment of Temperature and Penalty.</figcaption>
+</figure>
+</div>
+<section id="quantitative-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="quantitative-comparison">Quantitative Comparison</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Date</th>
-<th style="text-align: left;">Update</th>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">LoRA</th>
+<th style="text-align: left;">DoRA</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Oct 29, 2025</strong></td>
-<td style="text-align: left;">Joined HighLevel as Lead Data Scientist</td>
+<td style="text-align: left;"><strong>Trainable Params</strong></td>
+<td style="text-align: left;">~235,000</td>
+<td style="text-align: left;">~237,000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Reduction</strong></td>
+<td style="text-align: left;">99.7%</td>
+<td style="text-align: left;">99.7%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Validation Loss</strong></td>
+<td style="text-align: left;">~4.12</td>
+<td style="text-align: left;">~4.09</td>
 </tr>
 </tbody>
 </table>
-<p><br><br></p>
-<style>
-  nav.navbar .navbar-brand {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-</style>
-
+</section>
+<section id="qualitative-winner-dora" class="level3">
+<h3 class="anchored" data-anchor-id="qualitative-winner-dora">Qualitative Winner: DoRA</h3>
+<p>While both models learned the <em>theme</em> (kings, death, honor), <strong>DoRA</strong> demonstrated a superior grasp of <em>grammar</em>.</p>
+<ul>
+<li><strong>LoRA</strong> would often mix modern phrasing with archaic words.</li>
+<li><strong>DoRA</strong> correctly used complex pronouns (<em>thy, thee, thou</em>) and verb conjugations (<em>hast, art</em>).</li>
+</ul>
+<p><strong>Why?</strong> The decoupled update allowed DoRA to adjust the magnitude of specific embedding vectors (like “thou”) to increase their probability without skewing their semantic relationship to other words in the vector space.</p>
+</section>
+</section>
+<section id="comparative-results-a-tale-of-two-models" class="level2">
+<h2 class="anchored" data-anchor-id="comparative-results-a-tale-of-two-models">Comparative Results: A Tale of Two Models</h2>
+<p>To truly understand the impact of our engineering decisions (specifically the repetition penalty and the DoRA architecture), we need to look at the raw generation logs. Below are the side-by-side outputs from the model at two distinct stages of the project.</p>
+<section id="phase-a-the-raw-responses-semantic-degeneration" class="level3">
+<h3 class="anchored" data-anchor-id="phase-a-the-raw-responses-semantic-degeneration">Phase A: The Raw Responses (Semantic Degeneration)</h3>
+<p>Before implementing the inference tweaks, the model struggled significantly. Despite having low training loss, the generation phase revealed <strong>Semantic Degeneration</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./streamlit_screenshots/image2.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Comparison of LoRA and DoRA outputs showing semantic degeneration and repetition loops.</figcaption>
+</figure>
+</div>
+<p><strong>Observations:</strong></p>
+<ul>
+<li><strong>The Loop Trap:</strong> Look at Row 1 (LoRA). The model gets stuck in a recursive loop: <em>“I know. What am you, sir? I know. What are you, sir? I know.”</em></li>
+<li><strong>DoRA’s Struggle:</strong> Even DoRA (Row 1) isn’t immune to the raw configuration, outputting staccato, repetitive negatives: <em>“You are not. This is not. Don’t. Tell me.”</em></li>
+<li><strong>Diagnosis:</strong> This confirmed that while the weights were adapted, the <em>decoding strategy</em> (greedy search with no penalty) was too confident in high-probability tokens, causing it to spiral.</li>
+</ul>
+<hr>
+</section>
+<section id="phase-b-the-tuned-playwright-penalty-1.2" class="level3">
+<h3 class="anchored" data-anchor-id="phase-b-the-tuned-playwright-penalty-1.2">Phase B: The Tuned “Playwright” (Penalty = 1.2)</h3>
+<p>By applying a <strong>repetition penalty of 1.2</strong>, we forced the model to abandon those high-probability loops and dig deeper into its vocabulary. The difference is night and day.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./streamlit_screenshots/image3.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Comparison of LoRA and DoRA outputs after tuning, showing coherent Shakespearean syntax.</figcaption>
+</figure>
+</div>
+<p><strong>Observations:</strong></p>
+<ul>
+<li><strong>Coherence Restored:</strong> In Row 1, the LoRA model now constructs complex sentences: <em>“We’ll make my way; I will go!”</em> The infinite loops are completely gone.</li>
+<li><strong>DoRA’s Grammatical Superiority:</strong> This is where DoRA starts to shine. Look at <strong>Row 2 (“Shall I compare thee…”)</strong>:
+<ul>
+<li><strong>LoRA</strong> produces poetic but slightly abstract text: <em>“Is it not an evening… your hand: yours; my hands: hers!”</em></li>
+<li><strong>DoRA</strong> captures the precise archaic grammar: <em>“Thou art so beautiful, young! That was thy birth… Your father… is gone.”</em></li>
+</ul></li>
+</ul>
+<p><strong>The DoRA Advantage:</strong> DoRA’s output feels more “grounded” in the specific entities and relationships of the plays (fathers, sons, birth, death), whereas LoRA sometimes drifts into dream-like abstraction. This supports the hypothesis that decoupling <strong>Magnitude</strong> allows DoRA to emphasize specific “content words” (nouns/verbs) more effectively than LoRA’s coupled updates.</p>
+</section>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>Building PEFT from scratch demystifies the magic of LLMs. It proves that we don’t need massive compute clusters to customize AI. With smart engineering—targeting the right layers, understanding weight decomposition, and tuning inference dynamics—we can achieve state-of-the-art adaptation on consumer hardware.</p>
+<p>Check out the full code on my <a href="https://github.com/RamuNalla/LORA-from-scratch">GitHub</a>.</p>
 
 
 </section>

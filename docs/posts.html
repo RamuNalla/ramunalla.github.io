@@ -82,7 +82,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 9,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
@@ -187,7 +188,7 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGVlcCUyMExlYXJuaW5n">Deep Learning <span class="quarto-category-count">(6)</span></div><div class="category" data-category="R2VuQUk=">GenAI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExN">LLM <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(2)</span></div><div class="category" data-category="TWFjaGluZSUyMFRyYW5zbGF0aW9u">Machine Translation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWV0cmljcw==">Metrics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TkxQ">NLP <span class="quarto-category-count">(8)</span></div><div class="category" data-category="UEVGVA==">PEFT <span class="quarto-category-count">(2)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHlUb3JjaA==">PyTorch <span class="quarto-category-count">(6)</span></div><div class="category" data-category="UkFH">RAG <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VHJhbnNmb3JtZXJz">Transformers <span class="quarto-category-count">(4)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGVlcCUyMExlYXJuaW5n">Deep Learning <span class="quarto-category-count">(6)</span></div><div class="category" data-category="R2VuQUk=">GenAI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExN">LLM <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(3)</span></div><div class="category" data-category="TWFjaGluZSUyMFRyYW5zbGF0aW9u">Machine Translation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWV0cmljcw==">Metrics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TkxQ">NLP <span class="quarto-category-count">(8)</span></div><div class="category" data-category="UEVGVA==">PEFT <span class="quarto-category-count">(3)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHlUb3JjaA==">PyTorch <span class="quarto-category-count">(7)</span></div><div class="category" data-category="UkFH">RAG <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VHJhbnNmb3JtZXJz">Transformers <span class="quarto-category-count">(4)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -239,7 +240,38 @@ window.Quarto = {
     </div>
 </div>
 <div class="list grid quarto-listing-cols-4">
-<div class="g-col-1" data-index="0" data-categories="RGVlcCUyMExlYXJuaW5nJTJDTExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769711400000" data-listing-file-modified-sort="1770530595578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1316">
+<div class="g-col-1" data-index="0" data-categories="TExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769884200000" data-listing-file-modified-sort="1770535722864" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1214">
+<a href="./posts/dora-project/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/dora-project/image.png" class="thumbnail-image card-img" style="height: 250px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs.&nbsp;DoRA)
+</h5>
+<div class="listing-reading-time card-text text-muted">7 min</div>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('UEVGVA=='); return false;">PEFT</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('UHlUb3JjaA=='); return false;">PyTorch</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>A practical implementation of PEFT from scratch. How I adapted a modern LLM to Elizabethan English using only 0.3% of its parameters, featuring a custom implementation of…</p>
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Feb 1, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="RGVlcCUyMExlYXJuaW5nJTJDTExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769711400000" data-listing-file-modified-sort="1770530595578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1316">
 <a href="./posts/dora/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -272,7 +304,7 @@ Jan 30, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUEVGVCUyQ05MUCUyQ1B5VG9yY2g=" data-listing-date-sort="1769625000000" data-listing-file-modified-sort="1770483801401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2010">
+<div class="g-col-1" data-index="2" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUEVGVCUyQ05MUCUyQ1B5VG9yY2g=" data-listing-date-sort="1769625000000" data-listing-file-modified-sort="1770483801401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2010">
 <a href="./posts/lora-and-dora/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -307,7 +339,7 @@ Jan 29, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="TkxQJTJDQWdlbnRzJTJDTExN" data-listing-date-sort="1769279400000" data-listing-file-modified-sort="1769951493383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1031">
+<div class="g-col-1" data-index="3" data-categories="TkxQJTJDQWdlbnRzJTJDTExN" data-listing-date-sort="1769279400000" data-listing-file-modified-sort="1769951493383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1031">
 <a href="./posts/knowledge-distillation/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -338,7 +370,7 @@ Jan 25, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="TkxQJTJDRGVlcCUyMExlYXJuaW5nJTJDUHlUb3JjaA==" data-listing-date-sort="1768847400000" data-listing-file-modified-sort="1769583356118" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1556">
+<div class="g-col-1" data-index="4" data-categories="TkxQJTJDRGVlcCUyMExlYXJuaW5nJTJDUHlUb3JjaA==" data-listing-date-sort="1768847400000" data-listing-file-modified-sort="1769583356118" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1556">
 <a href="./posts/named-entity-recognition/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -369,7 +401,7 @@ Jan 20, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDTkxQJTJDUHlUb3JjaA==" data-listing-date-sort="1768242600000" data-listing-file-modified-sort="1769583309719" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2552">
+<div class="g-col-1" data-index="5" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDTkxQJTJDUHlUb3JjaA==" data-listing-date-sort="1768242600000" data-listing-file-modified-sort="1769583309719" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2552">
 <a href="./posts/positional-encodings/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -402,7 +434,7 @@ Jan 13, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUHlUb3JjaCUyQ05MUA==" data-listing-date-sort="1768156200000" data-listing-file-modified-sort="1769070667771" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1911">
+<div class="g-col-1" data-index="6" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUHlUb3JjaCUyQ05MUA==" data-listing-date-sort="1768156200000" data-listing-file-modified-sort="1769070667771" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1911">
 <a href="./posts/multi-head-attention/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -435,7 +467,7 @@ Jan 12, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUHlUb3JjaCUyQ05MUA==" data-listing-date-sort="1767983400000" data-listing-file-modified-sort="1768978483896" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1386">
+<div class="g-col-1" data-index="7" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUHlUb3JjaCUyQ05MUA==" data-listing-date-sort="1767983400000" data-listing-file-modified-sort="1768978483896" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1386">
 <a href="./posts/scaled-dot-product-attention/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -468,7 +500,7 @@ Jan 10, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="TkxQJTJDR2VuQUklMkNNZXRyaWNzJTJDTWFjaGluZSUyMFRyYW5zbGF0aW9u" data-listing-date-sort="1767205800000" data-listing-file-modified-sort="1768795790953" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490">
+<div class="g-col-1" data-index="8" data-categories="TkxQJTJDR2VuQUklMkNNZXRyaWNzJTJDTWFjaGluZSUyMFRyYW5zbGF0aW9u" data-listing-date-sort="1767205800000" data-listing-file-modified-sort="1768795790953" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490">
 <a href="./posts/nlp-evaluation-metrics_deepdive/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -501,11 +533,11 @@ Jan 1, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="TkxQJTJDTExNcyUyQ1JBRyUyQ1B5dGhvbg==" data-listing-date-sort="1765909800000" data-listing-file-modified-sort="1768795802222" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="562">
+<div class="g-col-1" data-index="9" data-categories="TkxQJTJDTExNcyUyQ1JBRyUyQ1B5dGhvbg==" data-listing-date-sort="1765909800000" data-listing-file-modified-sort="1768795802222" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="562">
 <a href="./posts/2026-01-17-simple-rag-tutorial/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img loading="lazy" src="./posts/2026-01-17-simple-rag-tutorial/image.jfif" class="thumbnail-image card-img" style="height: 250px;">
+<img loading="lazy" data-src="./posts/2026-01-17-simple-rag-tutorial/image.jfif" class="thumbnail-image card-img" style="height: 250px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -536,6 +568,9 @@ Dec 17, 2025
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -1,0 +1,161 @@
+---
+title: "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)"
+description: "A practical implementation of PEFT from scratch. How I adapted a modern LLM to Elizabethan English using only 0.3% of its parameters, featuring a custom implementation of the 2024 DoRA paper."
+categories: [LLMs, PEFT, PyTorch]
+image: "image.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-02-01"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Table of Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - February 1, 2026</div>
+
+![Conceptual overview of the PEFT strategy used in this project.](image.png){width=60% fig-align="center"}
+
+---
+
+In the age of trillion-parameter models, the idea of "Full Fine-Tuning" is becoming an artifact of the past. Updating every single weight in a neural network is computationally prohibitive for most engineers. The industry has shifted toward **Parameter-Efficient Fine-Tuning (PEFT)**—surgical methods that adapt massive models by touching only a tiny fraction of their weights.
+
+For my latest project, **PEFT-from-Scratch**, I decided to bypass the high-level libraries (like Hugging Face's `peft`) and implement two state-of-the-art techniques from the ground up: **LoRA (Low-Rank Adaptation)** and its 2024 evolution, **DoRA (Weight-Decomposed Low-Rank Adaptation)**.
+
+**The goal?** Transform a standard **DistilGPT2** model into a Shakespearean playwright, training less than **0.3%** of the original parameters while maintaining grammatical coherence.
+
+## The Architecture: First Principles Implementation
+
+Most tutorials simply import a library. To truly understand the mechanics, I built the adapter logic manually. This involved digging into the PyTorch internals of the GPT-2 architecture.
+
+### The Challenge: `Conv1D` vs. `Linear`
+One of the first engineering hurdles was the specific architecture of GPT-2. Unlike modern Transformers (like Llama or BERT) that use standard `nn.Linear` layers, Hugging Face's GPT-2 implementation uses a custom `Conv1D` layer.
+
+* **Standard Linear:** Weights are stored as `(out_features, in_features)`.
+* **GPT-2 Conv1D:** Weights are stored as `(in_features, out_features)`.
+
+If you blindly apply standard matrix multiplication, the shapes misalign. I had to write a custom **LoRA Wrapper** that detects the layer type and handles the transposition logic dynamically, ensuring the low-rank matrices $A$ and $B$ injected correctly into the attention mechanism.
+
+### The Injection Logic
+I wrote a recursive injection script that "surges" through the model's architecture. It identifies the target modules (specifically the **Attention Blocks**), freezes the massive pre-trained weights ($W_0$), and injects our trainable adapter pairs alongside them.
+
+![Visualization of where the LoRA adapters sit within the DistilGPT2 Attention Block](architecture_diagram.png){width=60%}
+
+
+## LoRA vs. DoRA: The Evolution
+
+This project wasn't just about LoRA; it was a comparative study of **DoRA**, a technique published in 2024 that claims to close the gap between PEFT and Full Fine-Tuning.
+
+### LoRA (The Baseline)
+LoRA assumes the update matrix $\Delta W$ has a low intrinsic rank. We learn two small matrices $A$ and $B$ such that $\Delta W = BA$.
+
+* **Pros:** Extremely efficient.
+* **Cons:** Coupled updates. To change the "strength" of a feature, LoRA often has to shift its "direction" as well.
+
+### DoRA (The Upgrade)
+DoRA decomposes the weight update into two distinct components: **Magnitude ($m$)** and **Direction ($V$)**.
+$$W = m \odot \frac{V + \Delta V}{||V + \Delta V||}$$
+By freezing the pre-trained direction and applying LoRA only to the directional component ($\Delta V$), while training the magnitude vector $m$ separately, DoRA allows the model to adjust *how much* a weight matters without distorting *what* it represents.
+
+
+
+## Training Configuration & Data
+
+* **Base Model:** DistilGPT2 (82M parameters).
+* **Dataset:** TinyShakespeare (A corpus of Shakespeare's plays).
+* **Rank ($r$):** 8 (A highly aggressive compression).
+* **Alpha ($\alpha$):** 16.
+* **Target Modules:** `c_attn` (Attention Q, K, V projections).
+
+### The Training efficiency
+Using a single T4 GPU on Google Colab, I achieved convergence in just **3 epochs**. The final adapter sizes were miniscule:
+
+* **LoRA Adapter:** ~2.5 MB
+* **DoRA Adapter:** ~2.5 MB (+ ~2KB for magnitude vectors)
+
+This massive reduction (from a 350MB model to a 2.5MB file) makes the result ultra-portable.
+
+
+## Engineering Challenges: The "Loop" Discovery
+
+The most significant insight from this project wasn't in the training, but in the **Inference**.
+
+During early A/B testing, both models suffered from **Semantic Degeneration**. The models would start a sentence strongly but quickly devolve into infinite loops.
+
+* *Prompt:* "To be or not to be"
+* *Output:* "To be or not to be. I am dead. I am dead. We'll go. We'll go. We'll go."
+
+### The Root Cause
+The default generation configuration uses a **repetition penalty of 1.0** (neutral). For a small model adapted to such a specific, archaic style with a low rank ($r=8$), the model became "over-confident" in certain n-grams.
+
+### The Solution
+I implemented a **1.2 repetition penalty** during inference. This divides the logits of previously generated tokens, mathematically forcing the model to explore lower-probability, more "creative" paths. This immediately broke the loops and restored complex Shakespearean syntax.
+
+![Phase A shows the degeneration loops. Phase B (Tuned) shows the restored coherence after applying the 1.2 penalty.](image2.png){width=60%}
+
+
+
+## DoRA vs. LoRA:
+
+I built a custom **Streamlit Playground** to A/B test these models side-by-side.
+
+![The interactive playground allowing real-time adjustment of Temperature and Penalty.](./streamlit_screenshots/image1.png){width=80%}
+
+
+
+### Quantitative Comparison
+
+| Metric | LoRA | DoRA |
+| :--- | :--- | :--- |
+| **Trainable Params** | ~235,000 | ~237,000 |
+| **Reduction** | 99.7% | 99.7% |
+| **Validation Loss** | ~4.12 | ~4.09 |
+
+### Qualitative Winner: DoRA
+While both models learned the *theme* (kings, death, honor), **DoRA** demonstrated a superior grasp of *grammar*.
+
+* **LoRA** would often mix modern phrasing with archaic words.
+* **DoRA** correctly used complex pronouns (*thy, thee, thou*) and verb conjugations (*hast, art*).
+
+**Why?** The decoupled update allowed DoRA to adjust the magnitude of specific embedding vectors (like "thou") to increase their probability without skewing their semantic relationship to other words in the vector space.
+
+
+## Comparative Results: A Tale of Two Models
+
+To truly understand the impact of our engineering decisions (specifically the repetition penalty and the DoRA architecture), we need to look at the raw generation logs. Below are the side-by-side outputs from the model at two distinct stages of the project.
+
+### Phase A: The Raw Responses (Semantic Degeneration)
+Before implementing the inference tweaks, the model struggled significantly. Despite having low training loss, the generation phase revealed **Semantic Degeneration**.
+
+![Comparison of LoRA and DoRA outputs showing semantic degeneration and repetition loops.](./streamlit_screenshots/image2.png){width=60%}
+
+**Observations:**
+
+* **The Loop Trap:** Look at Row 1 (LoRA). The model gets stuck in a recursive loop: *"I know. What am you, sir? I know. What are you, sir? I know."*
+* **DoRA's Struggle:** Even DoRA (Row 1) isn't immune to the raw configuration, outputting staccato, repetitive negatives: *"You are not. This is not. Don't. Tell me."*
+* **Diagnosis:** This confirmed that while the weights were adapted, the *decoding strategy* (greedy search with no penalty) was too confident in high-probability tokens, causing it to spiral.
+
+---
+
+### Phase B: The Tuned "Playwright" (Penalty = 1.2)
+By applying a **repetition penalty of 1.2**, we forced the model to abandon those high-probability loops and dig deeper into its vocabulary. The difference is night and day.
+
+![Comparison of LoRA and DoRA outputs after tuning, showing coherent Shakespearean syntax.](./streamlit_screenshots/image3.png){width=60%}
+
+**Observations:**
+
+* **Coherence Restored:** In Row 1, the LoRA model now constructs complex sentences: *"We'll make my way; I will go!"* The infinite loops are completely gone.
+* **DoRA's Grammatical Superiority:** This is where DoRA starts to shine. Look at **Row 2 ("Shall I compare thee...")**:
+    * **LoRA** produces poetic but slightly abstract text: *"Is it not an evening... your hand: yours; my hands: hers!"*
+    * **DoRA** captures the precise archaic grammar: *"Thou art so beautiful, young! That was thy birth... Your father... is gone."*
+    
+**The DoRA Advantage:** DoRA's output feels more "grounded" in the specific entities and relationships of the plays (fathers, sons, birth, death), whereas LoRA sometimes drifts into dream-like abstraction. This supports the hypothesis that decoupling **Magnitude** allows DoRA to emphasize specific "content words" (nouns/verbs) more effectively than LoRA's coupled updates.
+
+
+## Final Thoughts
+
+Building PEFT from scratch demystifies the magic of LLMs. It proves that we don't need massive compute clusters to customize AI. With smart engineering—targeting the right layers, understanding weight decomposition, and tuning inference dynamics—we can achieve state-of-the-art adaptation on consumer hardware.
+
+Check out the full code on my [GitHub](https://github.com/RamuNalla/LORA-from-scratch).

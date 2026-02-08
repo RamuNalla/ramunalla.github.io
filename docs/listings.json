@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/dora-project/index.html",
       "/posts/dora/index.html",
       "/posts/lora-and-dora/index.html",
       "/posts/knowledge-distillation/index.html",
@@ -20,6 +21,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/dora-project/index.html",
       "/posts/dora/index.html",
       "/posts/lora-and-dora/index.html",
       "/posts/knowledge-distillation/index.html",

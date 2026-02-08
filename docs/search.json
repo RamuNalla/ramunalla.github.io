@@ -189,69 +189,6 @@
     "text": "Final Thoughts\nWe often equate “larger” with “better” in AI. But for 90% of real-world business problems, “fast and good enough” beats “perfect and slow.”\nThis project demonstrated that we don’t always need to deploy massive Transformers to get the benefits of their intelligence. By using Knowledge Distillation, we can essentially compress the intelligence of a giant into a model that can run on a Raspberry Pi.\nCheck out the full code on my GitHub."
   },
   {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "",
-    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Core Concept",
-    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "The Code: “Vector Search” in Pure Python",
-    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
-  },
-  {
-    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
-    "title": "Building a Minimal RAG Pipeline from Scratch",
-    "section": "Moving to Production",
-    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "Download Full CV (PDF)"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ramu Nalla",
-    "section": "",
-    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
-  },
-  {
-    "objectID": "index.html#latest-posts",
-    "href": "index.html#latest-posts",
-    "title": "Ramu Nalla",
-    "section": "Latest Posts",
-    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 30, 2026\n\n\nDoRA: Weight Decomposed LoRA\n\n\n\n\n\n\nJan 29, 2026\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#news",
-    "href": "index.html#news",
-    "title": "Ramu Nalla",
-    "section": "News",
-    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
-  },
-  {
     "objectID": "posts/dora/index.html",
     "href": "posts/dora/index.html",
     "title": "DoRA: Weight Decomposed LoRA",
@@ -299,6 +236,125 @@
     "title": "DoRA: Weight Decomposed LoRA",
     "section": "Conclusion",
     "text": "Conclusion\nDoRA is arguably the “Pro” version of LoRA. For a cost of ~0.01% more parameters, it provides a training trajectory that mimics full fine-tuning much more closely. While it is slightly harder to implement and optimize, the stability gains for complex tasks—like learning an archaic dialect—are undeniable.\nIf your GPU can handle the slight VRAM bump, DoRA is almost always the better choice."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ramu Nalla",
+    "section": "",
+    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "Ramu Nalla",
+    "section": "Latest Posts",
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nFeb 1, 2026\n\n\nTeaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)\n\n\n\n\n\n\nJan 30, 2026\n\n\nDoRA: Weight Decomposed LoRA\n\n\n\n\n\n\nJan 29, 2026\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Ramu Nalla",
+    "section": "News",
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "Download Full CV (PDF)"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "",
+    "text": "Published by Ramu Nalla - December 17, 2025\nIf you have worked with Large Language Models (LLMs) for more than five minutes, you have likely run into their biggest flaw: hallucinations. They sound confident, but they don’t know your private data, and their knowledge cutoff is always in the past.\nRetrieval-Augmented Generation (RAG) is the industry standard solution to this. It bridges the gap between a “frozen” LLM and your dynamic, private data.\nBefore I started using complex vector databases like Pinecone or Milvus, I wanted to understand exactly what was happening under the hood. So, I built a minimal RAG pipeline using nothing but Python and NumPy."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-core-concept",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Core Concept",
+    "text": "The Core Concept\nRAG isn’t a single algorithm; it’s a workflow.\n\nRetrieval: Find the most relevant documents for a user’s question.\nAugmentation: Paste those documents into the LLM’s prompt context.\nGeneration: Ask the LLM to answer the question using only that context.\n\nThe “magic” happens in step 1. How does a computer know that “neural network” and “deep learning” are related? The answer is Vector Embeddings."
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#the-code-vector-search-in-pure-python",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "The Code: “Vector Search” in Pure Python",
+    "text": "The Code: “Vector Search” in Pure Python\nIn a real production environment, we use embedding models (like OpenAI’s text-embedding-3-small) to turn text into massive lists of numbers. For this demo, I’ll manually create small 3-dimensional vectors to visualize the math.\nHere is the entire logic in one script:\nimport numpy as np\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 1. Our \"Knowledge Base\"\n# In reality, this would be thousands of PDF chunks stored in a Vector DB.\ndocuments = [\n    \"RAG bridges the gap between LLMs and private data.\",\n    \"LangChain is a popular framework for building AI agents.\",\n    \"Vector databases like Pinecone store embeddings for fast retrieval.\"\n]\n\n# 2. Mock Embeddings\n# Imagine these are the output of an embedding model.\n# Notice how Doc 1 (0.9, 0.1, ...) and Doc 3 (0.1, 0.2, ...) are mathematically different.\ndoc_vectors = np.array([\n    [0.9, 0.1, 0.1],  # Embedding for Document 1\n    [0.2, 0.8, 0.2],  # Embedding for Document 2\n    [0.1, 0.2, 0.9]   # Embedding for Document 3\n])\n\n# 3. The User's Query\n# \"How do I use private data with LLMs?\" \n# This query is semantically similar to Document 1.\nquery_vector = np.array([[0.85, 0.15, 0.1]]) \n\n# 4. The Retrieval Step (Cosine Similarity)\n# We calculate the angle between the Query and every Document.\n# Higher score = Closer match.\nscores = cosine_similarity(query_vector, doc_vectors).flatten()\n\n# 5. Get the Winner\nbest_match_idx = np.argmax(scores)\nretrieved_doc = documents[best_match_idx]\nconfidence = scores[best_match_idx]\n\nprint(f\"✅ User Query Mapped to: '{retrieved_doc}'\")\nprint(f\"📊 Confidence Score: {confidence:.4f}\")\n\nWhat just happened?\nWhen we ran cosine_similarity, Python calculated the angle between our query vector and the document vectors.\n\nThe query vector [0.85, 0.15, 0.1] was heavily weighted towards the first dimension.\nDocument 1 [0.9, 0.1, 0.1] was also weighted towards the first dimension.\nTherefore, the math says: “These two ideas are related.”"
+  },
+  {
+    "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "href": "posts/2026-01-17-simple-rag-tutorial/index.html#moving-to-production",
+    "title": "Building a Minimal RAG Pipeline from Scratch",
+    "section": "Moving to Production",
+    "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
+  },
+  {
+    "objectID": "posts/dora-project/index.html",
+    "href": "posts/dora-project/index.html",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "",
+    "text": "Published by Ramu Nalla - February 1, 2026\nIn the age of trillion-parameter models, the idea of “Full Fine-Tuning” is becoming an artifact of the past. Updating every single weight in a neural network is computationally prohibitive for most engineers. The industry has shifted toward Parameter-Efficient Fine-Tuning (PEFT)—surgical methods that adapt massive models by touching only a tiny fraction of their weights.\nFor my latest project, PEFT-from-Scratch, I decided to bypass the high-level libraries (like Hugging Face’s peft) and implement two state-of-the-art techniques from the ground up: LoRA (Low-Rank Adaptation) and its 2024 evolution, DoRA (Weight-Decomposed Low-Rank Adaptation).\nThe goal? Transform a standard DistilGPT2 model into a Shakespearean playwright, training less than 0.3% of the original parameters while maintaining grammatical coherence."
+  },
+  {
+    "objectID": "posts/dora-project/index.html#the-architecture-first-principles-implementation",
+    "href": "posts/dora-project/index.html#the-architecture-first-principles-implementation",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "The Architecture: First Principles Implementation",
+    "text": "The Architecture: First Principles Implementation\nMost tutorials simply import a library. To truly understand the mechanics, I built the adapter logic manually. This involved digging into the PyTorch internals of the GPT-2 architecture.\n\nThe Challenge: Conv1D vs. Linear\nOne of the first engineering hurdles was the specific architecture of GPT-2. Unlike modern Transformers (like Llama or BERT) that use standard nn.Linear layers, Hugging Face’s GPT-2 implementation uses a custom Conv1D layer.\n\nStandard Linear: Weights are stored as (out_features, in_features).\nGPT-2 Conv1D: Weights are stored as (in_features, out_features).\n\nIf you blindly apply standard matrix multiplication, the shapes misalign. I had to write a custom LoRA Wrapper that detects the layer type and handles the transposition logic dynamically, ensuring the low-rank matrices \\(A\\) and \\(B\\) injected correctly into the attention mechanism.\n\n\nThe Injection Logic\nI wrote a recursive injection script that “surges” through the model’s architecture. It identifies the target modules (specifically the Attention Blocks), freezes the massive pre-trained weights (\\(W_0\\)), and injects our trainable adapter pairs alongside them.\n\n\n\nVisualization of where the LoRA adapters sit within the DistilGPT2 Attention Block"
+  },
+  {
+    "objectID": "posts/dora-project/index.html#lora-vs.-dora-the-evolution",
+    "href": "posts/dora-project/index.html#lora-vs.-dora-the-evolution",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "LoRA vs. DoRA: The Evolution",
+    "text": "LoRA vs. DoRA: The Evolution\nThis project wasn’t just about LoRA; it was a comparative study of DoRA, a technique published in 2024 that claims to close the gap between PEFT and Full Fine-Tuning.\n\nLoRA (The Baseline)\nLoRA assumes the update matrix \\(\\Delta W\\) has a low intrinsic rank. We learn two small matrices \\(A\\) and \\(B\\) such that \\(\\Delta W = BA\\).\n\nPros: Extremely efficient.\nCons: Coupled updates. To change the “strength” of a feature, LoRA often has to shift its “direction” as well.\n\n\n\nDoRA (The Upgrade)\nDoRA decomposes the weight update into two distinct components: Magnitude (\\(m\\)) and Direction (\\(V\\)). \\[W = m \\odot \\frac{V + \\Delta V}{||V + \\Delta V||}\\] By freezing the pre-trained direction and applying LoRA only to the directional component (\\(\\Delta V\\)), while training the magnitude vector \\(m\\) separately, DoRA allows the model to adjust how much a weight matters without distorting what it represents."
+  },
+  {
+    "objectID": "posts/dora-project/index.html#training-configuration-data",
+    "href": "posts/dora-project/index.html#training-configuration-data",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "Training Configuration & Data",
+    "text": "Training Configuration & Data\n\nBase Model: DistilGPT2 (82M parameters).\nDataset: TinyShakespeare (A corpus of Shakespeare’s plays).\nRank (\\(r\\)): 8 (A highly aggressive compression).\nAlpha (\\(\\alpha\\)): 16.\nTarget Modules: c_attn (Attention Q, K, V projections).\n\n\nThe Training efficiency\nUsing a single T4 GPU on Google Colab, I achieved convergence in just 3 epochs. The final adapter sizes were miniscule:\n\nLoRA Adapter: ~2.5 MB\nDoRA Adapter: ~2.5 MB (+ ~2KB for magnitude vectors)\n\nThis massive reduction (from a 350MB model to a 2.5MB file) makes the result ultra-portable."
+  },
+  {
+    "objectID": "posts/dora-project/index.html#engineering-challenges-the-loop-discovery",
+    "href": "posts/dora-project/index.html#engineering-challenges-the-loop-discovery",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "Engineering Challenges: The “Loop” Discovery",
+    "text": "Engineering Challenges: The “Loop” Discovery\nThe most significant insight from this project wasn’t in the training, but in the Inference.\nDuring early A/B testing, both models suffered from Semantic Degeneration. The models would start a sentence strongly but quickly devolve into infinite loops.\n\nPrompt: “To be or not to be”\nOutput: “To be or not to be. I am dead. I am dead. We’ll go. We’ll go. We’ll go.”\n\n\nThe Root Cause\nThe default generation configuration uses a repetition penalty of 1.0 (neutral). For a small model adapted to such a specific, archaic style with a low rank (\\(r=8\\)), the model became “over-confident” in certain n-grams.\n\n\nThe Solution\nI implemented a 1.2 repetition penalty during inference. This divides the logits of previously generated tokens, mathematically forcing the model to explore lower-probability, more “creative” paths. This immediately broke the loops and restored complex Shakespearean syntax.\n\n\n\nPhase A shows the degeneration loops. Phase B (Tuned) shows the restored coherence after applying the 1.2 penalty."
+  },
+  {
+    "objectID": "posts/dora-project/index.html#dora-vs.-lora",
+    "href": "posts/dora-project/index.html#dora-vs.-lora",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "DoRA vs. LoRA:",
+    "text": "DoRA vs. LoRA:\nI built a custom Streamlit Playground to A/B test these models side-by-side.\n\n\n\nThe interactive playground allowing real-time adjustment of Temperature and Penalty.\n\n\n\nQuantitative Comparison\n\n\n\nMetric\nLoRA\nDoRA\n\n\n\n\nTrainable Params\n~235,000\n~237,000\n\n\nReduction\n99.7%\n99.7%\n\n\nValidation Loss\n~4.12\n~4.09\n\n\n\n\n\nQualitative Winner: DoRA\nWhile both models learned the theme (kings, death, honor), DoRA demonstrated a superior grasp of grammar.\n\nLoRA would often mix modern phrasing with archaic words.\nDoRA correctly used complex pronouns (thy, thee, thou) and verb conjugations (hast, art).\n\nWhy? The decoupled update allowed DoRA to adjust the magnitude of specific embedding vectors (like “thou”) to increase their probability without skewing their semantic relationship to other words in the vector space."
+  },
+  {
+    "objectID": "posts/dora-project/index.html#comparative-results-a-tale-of-two-models",
+    "href": "posts/dora-project/index.html#comparative-results-a-tale-of-two-models",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "Comparative Results: A Tale of Two Models",
+    "text": "Comparative Results: A Tale of Two Models\nTo truly understand the impact of our engineering decisions (specifically the repetition penalty and the DoRA architecture), we need to look at the raw generation logs. Below are the side-by-side outputs from the model at two distinct stages of the project.\n\nPhase A: The Raw Responses (Semantic Degeneration)\nBefore implementing the inference tweaks, the model struggled significantly. Despite having low training loss, the generation phase revealed Semantic Degeneration.\n\n\n\nComparison of LoRA and DoRA outputs showing semantic degeneration and repetition loops.\n\n\nObservations:\n\nThe Loop Trap: Look at Row 1 (LoRA). The model gets stuck in a recursive loop: “I know. What am you, sir? I know. What are you, sir? I know.”\nDoRA’s Struggle: Even DoRA (Row 1) isn’t immune to the raw configuration, outputting staccato, repetitive negatives: “You are not. This is not. Don’t. Tell me.”\nDiagnosis: This confirmed that while the weights were adapted, the decoding strategy (greedy search with no penalty) was too confident in high-probability tokens, causing it to spiral.\n\n\n\n\nPhase B: The Tuned “Playwright” (Penalty = 1.2)\nBy applying a repetition penalty of 1.2, we forced the model to abandon those high-probability loops and dig deeper into its vocabulary. The difference is night and day.\n\n\n\nComparison of LoRA and DoRA outputs after tuning, showing coherent Shakespearean syntax.\n\n\nObservations:\n\nCoherence Restored: In Row 1, the LoRA model now constructs complex sentences: “We’ll make my way; I will go!” The infinite loops are completely gone.\nDoRA’s Grammatical Superiority: This is where DoRA starts to shine. Look at Row 2 (“Shall I compare thee…”):\n\nLoRA produces poetic but slightly abstract text: “Is it not an evening… your hand: yours; my hands: hers!”\nDoRA captures the precise archaic grammar: “Thou art so beautiful, young! That was thy birth… Your father… is gone.”\n\n\nThe DoRA Advantage: DoRA’s output feels more “grounded” in the specific entities and relationships of the plays (fathers, sons, birth, death), whereas LoRA sometimes drifts into dream-like abstraction. This supports the hypothesis that decoupling Magnitude allows DoRA to emphasize specific “content words” (nouns/verbs) more effectively than LoRA’s coupled updates."
+  },
+  {
+    "objectID": "posts/dora-project/index.html#final-thoughts",
+    "href": "posts/dora-project/index.html#final-thoughts",
+    "title": "Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)",
+    "section": "Final Thoughts",
+    "text": "Final Thoughts\nBuilding PEFT from scratch demystifies the magic of LLMs. It proves that we don’t need massive compute clusters to customize AI. With smart engineering—targeting the right layers, understanding weight decomposition, and tuning inference dynamics—we can achieve state-of-the-art adaptation on consumer hardware.\nCheck out the full code on my GitHub."
   },
   {
     "objectID": "posts/lora-and-dora/index.html",
@@ -438,6 +494,6 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nDoRA: Weight Decomposed LoRA\n\n7 min\n\n\nDeep Learning\n\nLLMs\n\nPEFT\n\nPyTorch\n\n\n\nIs LoRA’s coupled update holding your model back? We explore DoRA, the 2024 technique that decouples magnitude and direction to match Full Fine-Tuning performance with…\n\n\n\nJan 30, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n11 min\n\n\nDeep Learning\n\nTransformers\n\nPEFT\n\nNLP\n\nPyTorch\n\n\n\nA mathematical and code-first walkthrough of building LoRA for GPT-2. We explore the linear algebra of low-rank matrices and the engineering reality of training 0.3% of a…\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n6 min\n\n\nNLP\n\nAgents\n\nLLM\n\n\n\nBig models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.\n\n\n\nJan 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nTeaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)\n\n7 min\n\n\nLLMs\n\nPEFT\n\nPyTorch\n\n\n\nA practical implementation of PEFT from scratch. How I adapted a modern LLM to Elizabethan English using only 0.3% of its parameters, featuring a custom implementation of…\n\n\n\nFeb 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nDoRA: Weight Decomposed LoRA\n\n7 min\n\n\nDeep Learning\n\nLLMs\n\nPEFT\n\nPyTorch\n\n\n\nIs LoRA’s coupled update holding your model back? We explore DoRA, the 2024 technique that decouples magnitude and direction to match Full Fine-Tuning performance with…\n\n\n\nJan 30, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n11 min\n\n\nDeep Learning\n\nTransformers\n\nPEFT\n\nNLP\n\nPyTorch\n\n\n\nA mathematical and code-first walkthrough of building LoRA for GPT-2. We explore the linear algebra of low-rank matrices and the engineering reality of training 0.3% of a…\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n6 min\n\n\nNLP\n\nAgents\n\nLLM\n\n\n\nBig models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.\n\n\n\nJan 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
   }
 ]
