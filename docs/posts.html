@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>My Blogs – Ramu Nalla</title>
+<title>posts – Ramu Nalla</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,28 +189,94 @@ window.Quarto = {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGVlcCUyMExlYXJuaW5n">Deep Learning <span class="quarto-category-count">(6)</span></div><div class="category" data-category="R2VuQUk=">GenAI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExN">LLM <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(3)</span></div><div class="category" data-category="TWFjaGluZSUyMFRyYW5zbGF0aW9u">Machine Translation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWV0cmljcw==">Metrics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TkxQ">NLP <span class="quarto-category-count">(8)</span></div><div class="category" data-category="UEVGVA==">PEFT <span class="quarto-category-count">(3)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHlUb3JjaA==">PyTorch <span class="quarto-category-count">(7)</span></div><div class="category" data-category="UkFH">RAG <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VHJhbnNmb3JtZXJz">Transformers <span class="quarto-category-count">(4)</span></div></div></div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="m-0 p-0 header-title title display-7" style="font-size: 3rem;">
+My Blogs
+</h1></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">My Blogs</h1>
-<p class="subtitle lead">Deep dives into Agentic AI, MLOps, and Large Language Models.</p>
+
+
+
+<style>
+  /* 1. Header & Spacing Adjustments */
+  .quarto-title-block, .page-columns {
+    margin-top: -1.5rem !important; 
+    padding-top: 0 !important;
+  }
+
+  /* 2. Badge Style */
+  .badge-gradient {
+    background: linear-gradient(135deg, #5a9fd4 0%, #3a7fba 100%);
+    color: #ffffff;
+    padding: 0.5em 1.2em;
+    border-radius: 50rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(90, 159, 212, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* 3. Title Style */
+  .header-title {
+    font-weight: 800;
+    color: #5a9fd4; 
+    letter-spacing: -0.5px;
+  }
+  
+  /* --- THE FIX START --- */
+  
+  /* 4. NUCLEAR OPTION: Hide the "Categories" title wherever it appears */
+  h5.quarto-listing-category-title {
+    display: none !important;
+  }
+  
+  /* 5. Style the Categories Container (now at the bottom) */
+  .quarto-listing-category {
+    margin-top: 50px !important;    
+    padding-top: 30px !important;
+    border-top: 1px solid #333;     
+    text-align: center;             
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* 6. Add our own cleaner label "EXPLORE TOPICS" at the bottom */
+  .quarto-listing-category::before {
+    content: "Explore Topics";
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  /* --- THE FIX END --- */
+
+</style>
+<div class="d-flex justify-content-between align-items-center mb-2">
+
+<p><span class="badge-gradient"> 14 Posts </span></p>
 </div>
-
-
-
-<div class="quarto-title-meta column-page-left">
-
-    
+<p style="color: #c0c0c0; font-size: 1.2rem; font-weight: 300; margin-bottom: 2.5rem; margin-top: 0;">
+Deep dives into Agentic AI, MLOps, and Large Language Models.
+</p>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Find the main listing container
+  const listing = document.getElementById("listing-listing");
   
-    
-  </div>
-  
+  // 2. Select the category container (the pills)
+  const categories = document.querySelector(".quarto-listing-category");
 
-
-</header>
-
-
+  // 3. Move it to the very end
+  if (listing && categories) {
+    listing.appendChild(categories);
+  }
+});
+</script>
 
 
 

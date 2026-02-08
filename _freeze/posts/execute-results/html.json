@@ -1,0 +1,12 @@
+{
+  "hash": "bad3a02026a731cdd55d12d5db05ba84",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"My Blogs\"\nsubtitle: \"Deep dives into Agentic AI, MLOps, and Large Language Models.\"\npage-layout: full\ntitle-block-banner: false\nlisting:\n  contents: posts/**/*.qmd\n  sort: \"date desc\"\n  type: grid\n  grid-columns: 4\n  image-height: 250px\n  page-size: 12\n  categories: true\n  sort-ui: true\n  filter-ui: true\n  fields: [image, date, title, description, categories, reading-time]\n---\n\n<div class=\"callout callout-style-simple callout-note no-icon\"><div class=\"callout-body d-flex align-items-center justify-content-center\">Currently publishing <strong>&nbsp;10&nbsp;</strong> technical deep dives.</div></div>\n\n\n::: {.column-page} :::\n\n**What this does:**\n* It runs a tiny Python script during the render.\n* It looks into your `posts` folder and counts valid posts.\n* It injects a clean HTML banner at the top of the page saying: *\"Currently publishing **14** technical deep dives.\"*\n\n",
+    "supporting": [
+      "posts_files\\figure-html"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
