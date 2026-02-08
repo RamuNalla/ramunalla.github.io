@@ -189,41 +189,6 @@
     "text": "Final Thoughts\nWe often equate “larger” with “better” in AI. But for 90% of real-world business problems, “fast and good enough” beats “perfect and slow.”\nThis project demonstrated that we don’t always need to deploy massive Transformers to get the benefits of their intelligence. By using Knowledge Distillation, we can essentially compress the intelligence of a giant into a model that can run on a Raspberry Pi.\nCheck out the full code on my GitHub."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ramu Nalla",
-    "section": "",
-    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
-  },
-  {
-    "objectID": "index.html#latest-posts",
-    "href": "index.html#latest-posts",
-    "title": "Ramu Nalla",
-    "section": "Latest Posts",
-    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 29, 2026\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nJan 12, 2026\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#news",
-    "href": "index.html#news",
-    "title": "Ramu Nalla",
-    "section": "News",
-    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "Download Full CV (PDF)"
-  },
-  {
     "objectID": "posts/2026-01-17-simple-rag-tutorial/index.html",
     "href": "posts/2026-01-17-simple-rag-tutorial/index.html",
     "title": "Building a Minimal RAG Pipeline from Scratch",
@@ -250,6 +215,90 @@
     "title": "Building a Minimal RAG Pipeline from Scratch",
     "section": "Moving to Production",
     "text": "Moving to Production\nWhile this numpy example is great for intuition, it doesn’t scale to millions of rows. In my professional work, moving from this proof-of-concept to production involves:\n\nReal Embeddings: Replacing manual vectors with sentence-transformers or OpenAI embeddings.\nVector Store: Using a dedicated database (ChromaDB, Weaviate, or Snowflake) to index millions of vectors.\nReranking: Adding a second step to double-check the relevance of the retrieved documents.\n\nI’ll be writing more about building Agentic workflows on top of this RAG architecture in future posts. Stay tuned!"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "Download Full CV (PDF)"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ramu Nalla",
+    "section": "",
+    "text": "I am a Lead Data Scientist at HighLevel, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.\nBefore HighLevel, I worked as a Senior ML Engineer at Enphase Energy for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.\nMy career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.\nI earned my B.Tech and M.Tech, along with an MBA minor, from IIT Kanpur.\nI enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "Ramu Nalla",
+    "section": "Latest Posts",
+    "text": "Latest Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        date - Oldest\n      \n      \n        date - Newest\n      \n      \n        title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\ndate\n\n\n\ntitle\n\n\n\n\n\n\n\n\nJan 30, 2026\n\n\nDoRA: Weight Decomposed LoRA\n\n\n\n\n\n\nJan 29, 2026\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n\n\n\n\n\nJan 25, 2026\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n\n\n\n\n\nJan 20, 2026\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n\n\n\n\n\nJan 13, 2026\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Ramu Nalla",
+    "section": "News",
+    "text": "News\n\n\n\nDate\nUpdate\n\n\n\n\nOct 29, 2025\nJoined HighLevel as Lead Data Scientist"
+  },
+  {
+    "objectID": "posts/dora/index.html",
+    "href": "posts/dora/index.html",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "",
+    "text": "Published by Ramu Nalla - January 30, 2026\nIn my previous post, I talked about LoRA and how it reduces trainable parameters by 98%. But LoRA has a theoretical flaw: it forces the model to learn magnitude (how strong a connection is) and direction (where the signal goes) simultaneously using the same limited rank.\nIn Full Fine-Tuning (FFT), analysis shows that these two properties often move in opposite directions. LoRA, by design, struggles to mimic this negative correlation.\nEnter DoRA (Weight-Decomposed Low-Rank Adaptation). Published in 2024, DoRA bridges the gap between LoRA’s efficiency and FFT’s performance by splitting the weight update into two distinct mathematical components."
+  },
+  {
+    "objectID": "posts/dora/index.html#mathematics",
+    "href": "posts/dora/index.html#mathematics",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "1. Mathematics",
+    "text": "1. Mathematics\nDoRA is based on the idea that every weight matrix \\(W \\in \\mathbb{R}^{d \\times k}\\) can be mathematically decomposed into:\n\nMagnitude (\\(m\\)): A vector determining the scale of each output feature.\nDirection (\\(V\\)): A normalized matrix determining the orientation.\n\n\nThe Equation\nWe re-parameterize the weight matrix \\(W\\) as:\n\\[W = m \\odot \\frac{V}{||V||_c}\\]\nWhere:\n\n\\(m \\in \\mathbb{R}^{1 \\times k}\\) is the magnitude vector.\n\\(V \\in \\mathbb{R}^{d \\times k}\\) is the directional matrix.\n\\(||V||_c\\) denotes the column-wise norm of \\(V\\).\n\n\n\nThe DoRA Update\nIn standard LoRA, we add \\(BA\\) to \\(W\\). In DoRA, we freeze the original direction \\(V_0\\), and apply LoRA only to the direction component, while training the magnitude \\(m\\) separately.\n\\[W' = m \\odot \\frac{V_0 + \\Delta V}{||V_0 + \\Delta V||_c} = m \\odot \\frac{W_0 + BA}{||W_0 + BA||_c}\\]\nThis looks scary, but it implies a simple intuition: The model can now boost the “volume” of a feature (via \\(m\\)) without changing its “meaning” (via \\(V\\)), or vice-versa."
+  },
+  {
+    "objectID": "posts/dora/index.html#implementation-of-the-doralinear-layer",
+    "href": "posts/dora/index.html#implementation-of-the-doralinear-layer",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "2. Implementation of the DoRALinear Layer",
+    "text": "2. Implementation of the DoRALinear Layer\nUnlike LoRA, which can be implemented as Base(x) + Adapter(x), DoRA requires us to reconstruct the weight matrix \\(W'\\) before the forward pass. This is because the normalization \\(||W_0 + BA||\\) is non-linear.\nimport torch.nn.functional as F\n\nclass DoRALinear(nn.Module):\n    def __init__(self, base_layer, rank=8, alpha=16):\n        super().__init__()\n        self.base_layer = base_layer\n        self.rank = rank\n        self.scaling = alpha / rank\n        \n        # Initialize LoRA components (Directional Update)\n        self.lora_A = nn.Parameter(torch.randn(rank, base_layer.in_features))\n        self.lora_B = nn.Parameter(torch.zeros(base_layer.out_features, rank))\n        \n        # Initialize Magnitude Vector (Scaling)\n        # Shape: (1, out_features)\n        self.m = nn.Parameter(torch.zeros(1, base_layer.out_features))\n        \n        self.reset_parameters()\n\n    def reset_parameters(self):\n        # Standard LoRA init\n        nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(5))\n        nn.init.zeros_(self.lora_B)\n        \n        # DoRA Specific: Initialize 'm' to match the magnitude of the FROZEN weights\n        # This ensures Step 0 identity\n        with torch.no_grad():\n            w_norm = self.base_layer.weight.norm(dim=1, keepdim=True).t()\n            self.m.data.copy_(w_norm)\n\n    def forward(self, x):\n        # 1. Calculate the Directional Component (V + deltaV)\n        # Frozen Weights + LoRA Update\n        lora_weight = self.lora_B @ self.lora_A\n        weight_V = self.base_layer.weight + (lora_weight * self.scaling)\n        \n        # 2. Normalize the Direction\n        norm_V = weight_V.norm(dim=1, keepdim=True)\n        direction = weight_V / (norm_V + 1e-6)\n        \n        # 3. Apply Magnitude Scaling (m * Direction)\n        new_weight = self.m.t() * direction\n        \n        # 4. Standard Linear Forward Pass with new weights\n        return F.linear(x, new_weight, self.base_layer.bias)\n\nKey Engineering Detail: The Overhead\nNotice that we perform a norm() operation inside the forward pass.\n\nLoRA: Matrix multiplication (cheap).\nDoRA: Matrix multiplication + Column-wise Normalization (slightly more expensive).\nImpact: DoRA uses slightly more VRAM during training to store the normalization graph, but inference speed is identical because we can merge the weights back into a standard linear layer after training."
+  },
+  {
+    "objectID": "posts/dora/index.html#parameter-analysis-dora-vs.-lora",
+    "href": "posts/dora/index.html#parameter-analysis-dora-vs.-lora",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "3. Parameter Analysis: DoRA vs. LoRA",
+    "text": "3. Parameter Analysis: DoRA vs. LoRA\nA common misconception is that DoRA is “heavier” than LoRA. Let’s do the math on a single Attention Layer from DistilGPT2 to see exactly what we are paying for.\nLayer Dimensions: \\(768 \\times 2304\\) (\\(d=768, k=2304\\)) Rank (\\(r\\)): 8\n\nLoRA Parameter Count\n\\[Params_{LoRA} = A_{size} + B_{size}\\] \\[Params_{LoRA} = (8 \\times 768) + (2304 \\times 8) = 6,144 + 18,432 = \\mathbf{24,576}\\]\n\n\nDoRA Parameter Count\nDoRA adds exactly one trainable parameter per output feature: the Magnitude Vector (\\(m\\)). \\[Params_{DoRA} = Params_{LoRA} + k\\] \\[Params_{DoRA} = 24,576 + 2,304 = \\mathbf{26,880}\\]\n\n\nThe Verdict\n\nDifference: +2,304 parameters.\nIncrease: \\(\\approx 9.3\\%\\) relative to LoRA.\nGlobal Context: In the full model, this increased our total trainable count from ~235k to ~250k. In exchange for this negligible increase, we gain the ability to decouple magnitude and direction updates."
+  },
+  {
+    "objectID": "posts/dora/index.html#advantages-of-dora-vs.-lora",
+    "href": "posts/dora/index.html#advantages-of-dora-vs.-lora",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "4. Advantages of DoRA vs. LoRA",
+    "text": "4. Advantages of DoRA vs. LoRA\nWhy choose one over the other? Based on my A/B testing with the Shakespeare dataset, here is the breakdown.\n\nAdvantages of LoRA\n\nSimplicity: Easier to implement from scratch (just two matrices).\nStackability: You can easily add multiple LoRA adapters (e.g., “Style” + “Knowledge”) by summing their \\(\\Delta W\\). DoRA’s normalization makes mathematical stacking complex.\nLower Training VRAM: No normalization overhead during backpropagation.\n\n\n\nAdvantages of DoRA\n\nRobustness: In my experiments, DoRA was far less sensitive to the alpha hyperparameter.\nSyntax Mastery: While LoRA captured the theme of Shakespeare, DoRA captured the grammar. It correctly used “thou art” vs “he is” more often, likely because it could adjust the magnitude of specific pronoun embeddings without distorting their vector direction.\nConvergence: DoRA typically reaches lower validation loss faster than LoRA at the same rank."
+  },
+  {
+    "objectID": "posts/dora/index.html#engineering-scars-why-dora-broke-my-code",
+    "href": "posts/dora/index.html#engineering-scars-why-dora-broke-my-code",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "5. Engineering Scars: Why DoRA Broke My Code",
+    "text": "5. Engineering Scars: Why DoRA Broke My Code\nWhen moving from LoRA to DoRA, I hit a specific bug regarding Optimization.\n\nThe Initialization Trap\nIn LoRA, we initialize \\(B=0\\) so the update starts at 0. In DoRA, if you initialize \\(m\\) randomly, you destroy the pre-trained weights immediately. The Fix: You must initialize the learnable vector \\(m\\) to be the column-wise norm of the pre-trained weights. \\[m_{init} = ||W_0||_c\\] This ensures that at step 0, even with the normalization logic, the output \\(W'\\) is mathematically identical to \\(W_0\\).\ndef reset_parameters(self):\n    # Initialize Magnitude (m) to be the Column-wise Norm of W0\n    # Shape of W0 is (Out, In), so we take norm over Dim 1\n    with torch.no_grad():\n        # Calculate L2 norm of each output neuron's weight vector\n        w_norm = self.base_layer.weight.norm(p=2, dim=1, keepdim=True).t()\n        \n        # Copy this norm to our trainable 'm' parameter\n        self.m.data.copy_(w_norm)"
+  },
+  {
+    "objectID": "posts/dora/index.html#conclusion",
+    "href": "posts/dora/index.html#conclusion",
+    "title": "DoRA: Weight Decomposed LoRA",
+    "section": "Conclusion",
+    "text": "Conclusion\nDoRA is arguably the “Pro” version of LoRA. For a cost of ~0.01% more parameters, it provides a training trajectory that mimics full fine-tuning much more closely. While it is slightly harder to implement and optimize, the stability gains for complex tasks—like learning an archaic dialect—are undeniable.\nIf your GPU can handle the slight VRAM bump, DoRA is almost always the better choice."
   },
   {
     "objectID": "posts/lora-and-dora/index.html",
@@ -389,6 +438,6 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n11 min\n\n\nDeep Learning\n\nTransformers\n\nPEFT\n\nNLP\n\nPyTorch\n\n\n\nA mathematical and code-first walkthrough of building LoRA for GPT-2. We explore the linear algebra of low-rank matrices and the engineering reality of training 0.3% of a…\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n6 min\n\n\nNLP\n\nAgents\n\nLLM\n\n\n\nBig models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.\n\n\n\nJan 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nDoRA: Weight Decomposed LoRA\n\n7 min\n\n\nDeep Learning\n\nLLMs\n\nPEFT\n\nPyTorch\n\n\n\nIs LoRA’s coupled update holding your model back? We explore DoRA, the 2024 technique that decouples magnitude and direction to match Full Fine-Tuning performance with…\n\n\n\nJan 30, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nDeep Dive into Low-Rank Adaptation (LoRA)\n\n11 min\n\n\nDeep Learning\n\nTransformers\n\nPEFT\n\nNLP\n\nPyTorch\n\n\n\nA mathematical and code-first walkthrough of building LoRA for GPT-2. We explore the linear algebra of low-rank matrices and the engineering reality of training 0.3% of a…\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nShrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference\n\n6 min\n\n\nNLP\n\nAgents\n\nLLM\n\n\n\nBig models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN.\n\n\n\nJan 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNamed Entity Recognition: The ‘Who, What, Where’ of NLP\n\n8 min\n\n\nNLP\n\nDeep Learning\n\nPyTorch\n\n\n\nFrom messy text to structured data. We explore what NER is, why it powers everything from search engines to trading bots, and build a simple tagger from scratch in PyTorch.\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nPositional Encoding in Transformers: The Geography of Language\n\n13 min\n\n\nDeep Learning\n\nTransformers\n\nNLP\n\nPyTorch\n\n\n\nHow does a Transformer treat ‘The cat ate the fish’ different than ‘The fish ate the cat’? We explore the mathematics of Positional Encoding to see how models learn order…\n\n\n\nJan 13, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nMulti-Head Attention: A Tensor-First Walkthrough\n\n10 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nWhy one attention head isn’t enough. I will take a deep dive into the PyTorch implementation of Multi-Head Attention, tracing tensor shapes to understand how models gain…\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nScaled Dot-Product Attention: A Tensor-First Approach\n\n7 min\n\n\nDeep Learning\n\nTransformers\n\nPyTorch\n\nNLP\n\n\n\nConfused by Query, Key, and Value? I break down the heart of the Transformer architecture with a line-by-line PyTorch walkthrough and a concrete mathematical trace.\n\n\n\nJan 10, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Definitive Guide to BLEU Score: The Mathematics of Machine Translation\n\n8 min\n\n\nNLP\n\nGenAI\n\nMetrics\n\nMachine Translation\n\n\n\nA deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty.\n\n\n\nJan 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Minimal RAG Pipeline from Scratch\n\n3 min\n\n\nNLP\n\nLLMs\n\nRAG\n\nPython\n\n\n\nA look under the hood of Retrieval-Augmented Generation. We build a semantic search engine using just NumPy to understand the core math behind the magic.\n\n\n\nDec 17, 2025\n\n\n\n\n\n\nNo matching items"
   }
 ]
