@@ -28,6 +28,19 @@
   code: "[GitHub](https://github.com/RamuNalla/word-embedding-analyzer)"
   stack: "PyTorch, Gensim, Torchtext, Streamlit"
 
+- title: "Neural Network Crchitecture Explorer"
+  date: "2025-11-02"
+  description: "An educational project for experimenting with neural network depth, width, and hyperparameters using both PyTorch and TensorFlow"
+  code: "[GitHub](https://github.com/RamuNalla/neural-networks-study)"
+  stack: "PyTorch, TensorFlow"
+
+- title: "ML Hyperparameter Optimization Showdown"
+  date: "2025-10-19"
+  description: "comparing multiple hyperparameter optimization methods - Grid Search, Random Search, Bayesian Optimization, and Optuna"
+  code: "[GitHub](https://github.com/RamuNalla/ml-hyperparamater_optimization-showdown)"
+  stack: "PyTorch, Sklearn, Optuna, Streamlit"
+
+
 
 
 # Add as many items as you want here...
