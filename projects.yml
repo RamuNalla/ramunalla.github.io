@@ -36,9 +36,21 @@
 
 - title: "ML Hyperparameter Optimization Showdown"
   date: "2025-10-19"
-  description: "comparing multiple hyperparameter optimization methods - Grid Search, Random Search, Bayesian Optimization, and Optuna"
+  description: "Comparing multiple hyperparameter optimization methods - Grid Search, Random Search, Bayesian Optimization, and Optuna"
   code: "[GitHub](https://github.com/RamuNalla/ml-hyperparamater_optimization-showdown)"
   stack: "PyTorch, Sklearn, Optuna, Streamlit"
+
+- title: "Advanced Customer Churn Prediction Framework"
+  date: "2025-10-17"
+  description: "Enterprise-grade customer churn prediction system designed to identify at-risk customers in the telecommunications sector"
+  code: "[GitHub](https://github.com/RamuNalla/Customer-Churn-Prediction-Framework)"
+  stack: "PyTorch, Sklearn, XGBoost"
+
+- title: "Movie Recommendation System"
+  date: "2025-10-15"
+  description: "Recommendation system implemented various SOTA ML algorithms - collaborative filtering, matrix factorization, content-based filtering, deep learning approaches, and hybrid models on the MovieLens 100k dataset"
+  code: "[GitHub](https://github.com/RamuNalla/movie-recommendation-engine-multiple-algorithms)"
+  stack: "PyTorch, Sklearn, Streamlit"
 
 
 
