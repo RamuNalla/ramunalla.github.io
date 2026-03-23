@@ -81,7 +81,7 @@ listing:
     My Blogs
   </h1>
   <span class="badge-gradient">
-    14 Posts
+    11 Posts
   </span>
 </div>
 

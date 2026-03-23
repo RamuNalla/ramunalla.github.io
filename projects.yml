@@ -52,6 +52,83 @@
   code: "[GitHub](https://github.com/RamuNalla/movie-recommendation-engine-multiple-algorithms)"
   stack: "PyTorch, Sklearn, Streamlit"
 
+- title: "Dimension Reduction Benchmark"
+  date: "2025-10-14"
+  description: "A comprehensive comparison of 10+ dimensionality reduction techniques on the Fashion-MNIST dataset. This project provides quantitative evaluation metrics and performance analysis to choose the best dimensionality reduction method"
+  code: "[GitHub](https://github.com/RamuNalla/dimensionality-reduction-benchmark)"
+  stack: "PyTorch, Sklearn, OpenTSNE, Pytest"
+
+- title: "Financial Market Analysis Dashboard"
+  date: "2025-09-27"
+  description: "A comprehensive data visualization project across 8+ Python visualization libraries through financial market analysis"
+  code: "[GitHub](https://github.com/RamuNalla/financial-market-analysis-dashboard)"
+  stack: "PyTorch, Altair, Folium, Streamlit"
+
+- title: "NLP Similarity Showdown"
+  date: "2025-09-16"
+  description: "A comparison of text similarity methods from classical TF-IDF to modern transformer-based embeddings"
+  code: "[GitHub](https://github.com/RamuNalla/NLP-similarity-showdown)"
+  stack: "PyTorch, Transformer, Sklearn, NLTK"
+
+- title: "Subword Tokenizers From Scratch - BPE and WordPiece"
+  date: "2025-09-08"
+  description: "A thorough implementation of subword tokenization algorithms - Byte-Pair Encoding (BPE) and WordPiece tokenizers, built from scratch for learning and research purposes."
+  code: "[GitHub](https://github.com/RamuNalla/subword-tokenizers-from-scratch---bpe-and-wordpiece)"
+  stack: "PyTorch, Regex, Pytest"
+
+- title: "Financial NER with FiNER-139 Dataset"
+  date: "2025-08-23"
+  description: "A Financial Named Entity Recognition (NER) project using the FiNER-139 dataset, which contains financial texts annotated with 139 different financial entity types."
+  code: "[GitHub](https://github.com/RamuNalla/Financial-News-NER)"
+  stack: "PyTorch, Pandas"
+
+- title: "Sentiment Analysis with GloVe Embeddings"
+  date: "2025-08-16"
+  description: "A simple text classifier that determines if text is positive, negative, or neutral using pre-trained word embeddings and machine learning."
+  code: "[GitHub](https://github.com/RamuNalla/Sentence-Classification-with-Glove-Embeddings)"
+  stack: "PyTorch, Sklearn, NLTK"
+
+- title: "Digit Classification with NN"
+  date: "2025-08-02"
+  description: "A simple digit Classification model trained using Neural Networks"
+  code: "[GitHub](https://github.com/RamuNalla/digit-classification-with-neuralnetworks)"
+  stack: "PyTorch, Sklearn"
+
+- title: "Word Window Classification - NLP"
+  date: "2025-08-02"
+  description: "A simple NLP word Window Classification model. NLP Task to identify location in a given sentence"
+  code: "[GitHub](https://github.com/RamuNalla/word-window-classification-nlp)"
+  stack: "PyTorch, Sklearn"
+
+- title: "Multi-agent research assistant"
+  date: "2025-07-28"
+  description: "A multi-agent research assistant that uses Langgraph and Streamlit. It generates a team of AI analysts to conduct parallel, multi-turn interviews with expert AIs, synthesizing insights from user-selected sources into a final report"
+  code: "[GitHub](https://github.com/RamuNalla/MultiAgent-Research-Assistant)"
+  stack: "PyTorch, Langgraph, Streamlit"
+
+- title: "KUBERNETES AI Support Agent Application"
+  date: "2025-07-27"
+  description: "Kubernetes AI Support Agent built with FastAPI, LangGraph, and Streamlit, featuring RAG, tool use, and full-stack observability (Prometheus, Grafana, OpenTelemetry, Firestore)."
+  code: "[GitHub](https://github.com/RamuNalla/ai-support-agent-system)"
+  stack: "PyTorch, Langgraph, FastAPI, Streamlit, Prometheus, Grafana, OpenTelemetry"
+
+- title: "Mall Customer Segmentation with K-Means Clustering"
+  date: "2025-07-19"
+  description: "KMeans Implementation from Scratch and Scikit-Learn on Mall Customer Dataset"
+  code: "[GitHub](https://github.com/RamuNalla/Customer-Segmentation---KMeans-Clustering)"
+  stack: "Sklearn, Pandas"
+
+- title: "FraudGuard-EnsembleML: Credit Card Fraud Detection"
+  date: "2025-07-14"
+  description: "Credit Card Fraud Detection project with Ensemble Machine Learning (Bagging - Random Forest, Boosting - XGBOOST & LightGBM, Stacking) methods on an imbalanced dataset."
+  code: "[GitHub](https://github.com/RamuNalla/FraudGaurd-Ensemble-ML-Algorithms)"
+  stack: "Sklearn, Pandas, XGBOOST, LightGBM"
+
+- title: "Support Vector Machines (SVM) on Handwritten Digit Recognition"
+  date: "2025-07-08"
+  description: "SVM implementation for Multi-class prediction (digits) in detail with impact of varying C (for Soft Margin SVM) and gamma (for RBF Kernel), Hyperparameter tuning using GridSearchCV"
+  code: "[GitHub](https://github.com/RamuNalla/MNIST-Handwritten-Digit-Recognition-with-SVM-Kernels)"
+  stack: "Sklearn, GridSearchCV"
 
 
 

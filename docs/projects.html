@@ -82,7 +82,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-date','listing-title','listing-description','listing-stack','listing-code',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-title-sort'] },{ data: ['listing-date-sort'] }],
-      
+      page: 20,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-date","listing-description","listing-code","listing-stack"],
     };
 
@@ -280,7 +281,7 @@ table thead th {
 </style>
 <div class="d-flex justify-content-between align-items-center mb-2">
 
-<p><span class="badge-gradient"> 7 Projects </span></p>
+<p><span class="badge-gradient"> 22 Projects </span></p>
 </div>
 <p style="color: #c0c0c0; font-size: 1.2rem; font-weight: 300; margin-bottom: 2.5rem; margin-top: 0;">
 A list of my open-source projects and experiments.
@@ -489,9 +490,259 @@ Code
 
 </tr>
 
+<tr data-index="9" data-listing-date-sort="1760380200000" data-listing-title-sort="Dimension Reduction Benchmark">
+<td>
+<span class="listing-date">Oct 14, 2025</span>
+</td>
+<td>
+<span class="listing-title">Dimension Reduction Benchmark</span>
+</td>
+<td>
+<span class="listing-description">A comprehensive comparison of 10+ dimensionality reduction techniques on the Fashion-MNIST dataset. This project provides quantitative evaluation metrics and performance analysis to choose the best dimensionality reduction method</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Sklearn, OpenTSNE, Pytest</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/dimensionality-reduction-benchmark">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="10" data-listing-date-sort="1758911400000" data-listing-title-sort="Financial Market Analysis Dashboard">
+<td>
+<span class="listing-date">Sep 27, 2025</span>
+</td>
+<td>
+<span class="listing-title">Financial Market Analysis Dashboard</span>
+</td>
+<td>
+<span class="listing-description">A comprehensive data visualization project across 8+ Python visualization libraries through financial market analysis</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Altair, Folium, Streamlit</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/financial-market-analysis-dashboard">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="11" data-listing-date-sort="1757961000000" data-listing-title-sort="NLP Similarity Showdown">
+<td>
+<span class="listing-date">Sep 16, 2025</span>
+</td>
+<td>
+<span class="listing-title">NLP Similarity Showdown</span>
+</td>
+<td>
+<span class="listing-description">A comparison of text similarity methods from classical TF-IDF to modern transformer-based embeddings</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Transformer, Sklearn, NLTK</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/NLP-similarity-showdown">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="12" data-listing-date-sort="1757269800000" data-listing-title-sort="Subword Tokenizers From Scratch - BPE and WordPiece">
+<td>
+<span class="listing-date">Sep 8, 2025</span>
+</td>
+<td>
+<span class="listing-title">Subword Tokenizers From Scratch - BPE and WordPiece</span>
+</td>
+<td>
+<span class="listing-description">A thorough implementation of subword tokenization algorithms - Byte-Pair Encoding (BPE) and WordPiece tokenizers, built from scratch for learning and research purposes.</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Regex, Pytest</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/subword-tokenizers-from-scratch---bpe-and-wordpiece">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="13" data-listing-date-sort="1755887400000" data-listing-title-sort="Financial NER with FiNER-139 Dataset">
+<td>
+<span class="listing-date">Aug 23, 2025</span>
+</td>
+<td>
+<span class="listing-title">Financial NER with FiNER-139 Dataset</span>
+</td>
+<td>
+<span class="listing-description">A Financial Named Entity Recognition (NER) project using the FiNER-139 dataset, which contains financial texts annotated with 139 different financial entity types.</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Pandas</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/Financial-News-NER">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="14" data-listing-date-sort="1755282600000" data-listing-title-sort="Sentiment Analysis with GloVe Embeddings">
+<td>
+<span class="listing-date">Aug 16, 2025</span>
+</td>
+<td>
+<span class="listing-title">Sentiment Analysis with GloVe Embeddings</span>
+</td>
+<td>
+<span class="listing-description">A simple text classifier that determines if text is positive, negative, or neutral using pre-trained word embeddings and machine learning.</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Sklearn, NLTK</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/Sentence-Classification-with-Glove-Embeddings">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="15" data-listing-date-sort="1754073000000" data-listing-title-sort="Digit Classification with NN">
+<td>
+<span class="listing-date">Aug 2, 2025</span>
+</td>
+<td>
+<span class="listing-title">Digit Classification with NN</span>
+</td>
+<td>
+<span class="listing-description">A simple digit Classification model trained using Neural Networks</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Sklearn</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/digit-classification-with-neuralnetworks">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="16" data-listing-date-sort="1754073000000" data-listing-title-sort="Word Window Classification - NLP">
+<td>
+<span class="listing-date">Aug 2, 2025</span>
+</td>
+<td>
+<span class="listing-title">Word Window Classification - NLP</span>
+</td>
+<td>
+<span class="listing-description">A simple NLP word Window Classification model. NLP Task to identify location in a given sentence</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Sklearn</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/word-window-classification-nlp">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="17" data-listing-date-sort="1753641000000" data-listing-title-sort="Multi-agent research assistant">
+<td>
+<span class="listing-date">Jul 28, 2025</span>
+</td>
+<td>
+<span class="listing-title">Multi-agent research assistant</span>
+</td>
+<td>
+<span class="listing-description">A multi-agent research assistant that uses Langgraph and Streamlit. It generates a team of AI analysts to conduct parallel, multi-turn interviews with expert AIs, synthesizing insights from user-selected sources into a final report</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Langgraph, Streamlit</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/MultiAgent-Research-Assistant">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="18" data-listing-date-sort="1753554600000" data-listing-title-sort="KUBERNETES AI Support Agent Application">
+<td>
+<span class="listing-date">Jul 27, 2025</span>
+</td>
+<td>
+<span class="listing-title">KUBERNETES AI Support Agent Application</span>
+</td>
+<td>
+<span class="listing-description">Kubernetes AI Support Agent built with FastAPI, LangGraph, and Streamlit, featuring RAG, tool use, and full-stack observability (Prometheus, Grafana, OpenTelemetry, Firestore).</span>
+</td>
+<td>
+<span class="listing-stack">PyTorch, Langgraph, FastAPI, Streamlit, Prometheus, Grafana, OpenTelemetry</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/ai-support-agent-system">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="19" data-listing-date-sort="1752863400000" data-listing-title-sort="Mall Customer Segmentation with K-Means Clustering">
+<td>
+<span class="listing-date">Jul 19, 2025</span>
+</td>
+<td>
+<span class="listing-title">Mall Customer Segmentation with K-Means Clustering</span>
+</td>
+<td>
+<span class="listing-description">KMeans Implementation from Scratch and Scikit-Learn on Mall Customer Dataset</span>
+</td>
+<td>
+<span class="listing-stack">Sklearn, Pandas</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/Customer-Segmentation---KMeans-Clustering">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="20" data-listing-date-sort="1752431400000" data-listing-title-sort="FraudGuard-EnsembleML: Credit Card Fraud Detection">
+<td>
+<span class="listing-date">Jul 14, 2025</span>
+</td>
+<td>
+<span class="listing-title">FraudGuard-EnsembleML: Credit Card Fraud Detection</span>
+</td>
+<td>
+<span class="listing-description">Credit Card Fraud Detection project with Ensemble Machine Learning (Bagging - Random Forest, Boosting - XGBOOST &amp; LightGBM, Stacking) methods on an imbalanced dataset.</span>
+</td>
+<td>
+<span class="listing-stack">Sklearn, Pandas, XGBOOST, LightGBM</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/FraudGaurd-Ensemble-ML-Algorithms">GitHub</a></span>
+</td>
+
+</tr>
+
+<tr data-index="21" data-listing-date-sort="1751913000000" data-listing-title-sort="Support Vector Machines (SVM) on Handwritten Digit Recognition">
+<td>
+<span class="listing-date">Jul 8, 2025</span>
+</td>
+<td>
+<span class="listing-title">Support Vector Machines (SVM) on Handwritten Digit Recognition</span>
+</td>
+<td>
+<span class="listing-description">SVM implementation for Multi-class prediction (digits) in detail with impact of varying C (for Soft Margin SVM) and gamma (for RBF Kernel), Hyperparameter tuning using GridSearchCV</span>
+</td>
+<td>
+<span class="listing-stack">Sklearn, GridSearchCV</span>
+</td>
+<td>
+<span class="listing-code"><a href="https://github.com/RamuNalla/MNIST-Handwritten-Digit-Recognition-with-SVM-Kernels">GitHub</a></span>
+</td>
+
+</tr>
+
 </tbody>
 </table>
 <div class="listing-no-matching d-none">No matching items</div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

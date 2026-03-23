@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/dola/index.html",
       "/posts/dora-project/index.html",
       "/posts/dora/index.html",
       "/posts/lora-and-dora/index.html",
@@ -21,6 +22,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/dola/index.html",
       "/posts/dora-project/index.html",
       "/posts/dora/index.html",
       "/posts/lora-and-dora/index.html",

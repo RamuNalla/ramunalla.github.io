@@ -110,7 +110,7 @@ table thead th {
     My Projects
   </h1>
   <span class="badge-gradient">
-    7 Projects
+    22 Projects
   </span>
 </div>
 
