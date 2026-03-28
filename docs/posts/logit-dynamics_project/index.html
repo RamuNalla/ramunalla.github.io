@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ramu Nalla">
+<meta name="dcterms.date" content="2026-02-20">
+<meta name="description" content="A deep dive into building a custom PyTorch inference engine from scratch. How I bypassed standard APIs to visualize logit landscapes and forcefully suppress hallucinations using Contrastive Layer Decoding.">
 
-<title>Ramu Nalla</title>
+<title>Logit Dynamics - Mitigating LLM Hallucinations with DoLa and Entropy Control – Ramu Nalla</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,30 +23,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-38d03fa8751a617e088234052a949a1c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fc8d3d93f0a84b7619e1f8ff6eb63d42.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-38d03fa8751a617e088234052a949a1c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,35 +107,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-latest-posts .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-latest-posts'] = new List('listing-latest-posts', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -133,14 +140,14 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="floating nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ramu Nalla</span>
     </a>
   </div>
@@ -150,19 +157,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./posts.html"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv.html"> 
+    <a class="nav-link" href="../../cv.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -185,150 +192,162 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="hero-title title display-7"><span style="font-weight: 500; color: #fff;">Ramu</span> <span style="font-weight: 400; color: #888;">Nalla</span></h1></header>
+<main class="content" id="quarto-document-content">
 
-
-
-
-<div class="grid" style="align-items: center; gap: 40px;">
-<section id="ramu-nalla" class="level1 hero-title g-col-12 g-col-md-8">
-
-<p>I am a <strong>Lead Data Scientist</strong> at <a href="https://www.gohighlevel.com/">HighLevel</a>, where I focus on building and scaling Agentic AI systems using Large Language Models (LLMs). My work involves tackling complex NLP challenges at scale, specifically specializing in engineering production-grade RAG pipelines with tools like LangChain and LangGraph. My work also involves developing AI models to enhance SaaS business intelligence and establishing robust evaluation frameworks for LLM-based systems to drive measurable business impact.</p>
-<p>Before HighLevel, I worked as a <strong>Senior ML Engineer</strong> at <a href="https://enphase.com/">Enphase Energy</a> for nearly five years, where I spearheaded chatbot initiatives and developed AI models to detect hardware-product failures.</p>
-<p>My career has been primarily focused on applied machine learning, bridging the gap between innovation and real-world applications.</p>
-<p>I earned my B.Tech and M.Tech, along with an MBA minor, from <a href="https://www.iitk.ac.in/">IIT Kanpur</a>.</p>
-<p>I enjoy blogging about Machine Learning, and I am currently working on a series of posts about NLP, MLOps, and Agentic AI architectures.</p>
-</section>
-<div class="g-col-12 g-col-md-4 text-center">
-<p><img src="profile.jfif" class="profile-shape img-fluid" style="width:90.0%"></p>
-</div>
-</div>
-<p><br><br></p>
-<section id="latest-posts" class="level2">
-<h2 class="anchored" data-anchor-id="latest-posts">Latest Posts</h2>
-<div id="listing-latest-posts" class="quarto-listing quarto-listing-container-table">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-latest-posts-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-latest-posts'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-date-sort" data-direction="asc">
-        date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        date - Newest
-      </option>
-      <option value="listing-title-sort" data-direction="asc">
-        title
-      </option>
-    </select>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Logit Dynamics - Mitigating LLM Hallucinations with DoLa and Entropy Control</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLMs</div>
+    <div class="quarto-category">Inference</div>
+    <div class="quarto-category">PyTorch</div>
+    <div class="quarto-category">MLOps</div>
   </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
+  </div>
+
+<div>
+  <div class="description">
+    A deep dive into building a custom PyTorch inference engine from scratch. How I bypassed standard APIs to visualize logit landscapes and forcefully suppress hallucinations using Contrastive Layer Decoding.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ramu Nalla </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 20, 2026</p>
     </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="blog-manual-meta">
+Published by Ramu Nalla - February 20, 2026
 </div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-
-<th>
-<a class="sort" data-sort="listing-date-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">date</a>
-</th>
-
-<th>
-<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">title</a>
-</th>
-
-</tr>
-</thead>
-<tbody class="list">
-
-<tr data-index="0" data-categories="TExNcyUyQ0luZmVyZW5jZSUyQ1B5VG9yY2glMkNNTE9wcw==" data-listing-date-sort="1771525800000" data-listing-file-modified-sort="1774719636752" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="920" data-listing-title-sort="Logit Dynamics - Mitigating LLM Hallucinations with DoLa and Entropy Control" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 20, 2026</span>
-</td>
-<td>
-<a href="./posts/logit-dynamics_project/index.html" class="title listing-title">Logit Dynamics - Mitigating LLM Hallucinations with DoLa and Entropy Control</a>
-</td>
-
-</tr>
-
-<tr data-index="1" data-categories="RGVlcCUyMExlYXJuaW5nJTJDTExNcyUyQ1B5VG9yY2glMkNOTFAlMkNJbmZlcmVuY2U=" data-listing-date-sort="1770921000000" data-listing-file-modified-sort="1774252129634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1318" data-listing-title-sort="DoLa: Decoding by Contrasting Layers to Stop LLM Hallucinations" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 13, 2026</span>
-</td>
-<td>
-<a href="./posts/dola/index.html" class="title listing-title">DoLa: Decoding by Contrasting Layers to Stop LLM Hallucinations</a>
-</td>
-
-</tr>
-
-<tr data-index="2" data-categories="TExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769884200000" data-listing-file-modified-sort="1774718738766" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1214" data-listing-title-sort="Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs. DoRA)" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 1, 2026</span>
-</td>
-<td>
-<a href="./posts/dora-project/index.html" class="title listing-title">Teaching DistilGPT2 to Write Like Shakespeare (LoRA vs.&nbsp;DoRA)</a>
-</td>
-
-</tr>
-
-<tr data-index="3" data-categories="RGVlcCUyMExlYXJuaW5nJTJDTExNcyUyQ1BFRlQlMkNQeVRvcmNo" data-listing-date-sort="1769711400000" data-listing-file-modified-sort="1770530595578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1316" data-listing-title-sort="DoRA: Weight Decomposed LoRA" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 30, 2026</span>
-</td>
-<td>
-<a href="./posts/dora/index.html" class="title listing-title">DoRA: Weight Decomposed LoRA</a>
-</td>
-
-</tr>
-
-<tr data-index="4" data-categories="RGVlcCUyMExlYXJuaW5nJTJDVHJhbnNmb3JtZXJzJTJDUEVGVCUyQ05MUCUyQ1B5VG9yY2g=" data-listing-date-sort="1769625000000" data-listing-file-modified-sort="1770483801401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2010" data-listing-title-sort="Deep Dive into Low-Rank Adaptation (LoRA)" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 29, 2026</span>
-</td>
-<td>
-<a href="./posts/lora-and-dora/index.html" class="title listing-title">Deep Dive into Low-Rank Adaptation (LoRA)</a>
-</td>
-
-</tr>
-
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Conceptual overview of the Logit-Dynamics Observatory.</figcaption>
+</figure>
 </div>
-<p><br></p>
+<hr>
+<p>In my previous project, I focused on model <em>adaptation</em>—building LoRA from scratch to teach a model Elizabethan English. But as anyone building RAG systems knows, adapting a model is only half the battle. The other half is <strong>control</strong>.</p>
+<p>Standard generation APIs treat LLMs as black boxes. You throw a prompt in, maybe tweak the temperature, and hope the model doesn’t confidently lie to your users. When hallucinations occur, the industry default is to blame the prompt or the training data.</p>
+<p>For my latest project, <strong>Logit-Dynamics</strong>, I decided to look under the hood. I bypassed Hugging Face’s standard <code>model.generate()</code> API to build a custom PyTorch inference engine.</p>
+<p><strong>The goal?</strong> Expose the raw probability distributions, quantify the model’s uncertainty in real-time using Shannon Entropy, and actively suppress hallucinations using a 2023 technique called <strong>DoLa (Decoding by Contrasting Layers)</strong>.</p>
+<section id="the-architecture-intercepting-the-forward-pass" class="level2">
+<h2 class="anchored" data-anchor-id="the-architecture-intercepting-the-forward-pass">The Architecture: Intercepting the Forward Pass</h2>
+<p>To control an LLM, you have to understand that it doesn’t just output a single word; it outputs a massive vector of raw scores (logits) across its entire vocabulary.</p>
+<p>Standard decoding strategies like <strong>Top-K</strong> or <strong>Nucleus (Top-p) Sampling</strong> operate on these final scores by simply chopping off the bottom of the probability distribution.</p>
+<section id="the-flaw-in-standard-sampling" class="level3">
+<h3 class="anchored" data-anchor-id="the-flaw-in-standard-sampling">The Flaw in Standard Sampling</h3>
+<p>Top-K and Top-P prevent the model from picking completely random words from the “long tail.” But here is the critical flaw: <strong>“plausible-sounding lies” don’t live in the tail.</strong> They live right at the top of the distribution.</p>
+<p>If a model is slightly unsure about a fact, the statistical bias of common words (like generic names or filler syntax) will artificially inflate their scores. If you blindly apply Top-K, you are essentially guaranteeing a confident hallucination.</p>
+<p>To fix this, we need to look deeper into the Transformer’s reasoning hierarchy.</p>
 </section>
-<section id="news" class="level2">
-<h2 class="anchored" data-anchor-id="news">News</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Date</th>
-<th style="text-align: left;">Update</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Oct 29, 2025</strong></td>
-<td style="text-align: left;">Joined HighLevel as Lead Data Scientist</td>
-</tr>
-</tbody>
-</table>
-<p><br><br></p>
-<style>
-  nav.navbar .navbar-brand {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-</style>
-
+</section>
+<section id="dola-fast-thinkers-vs.-deep-thinkers" class="level2">
+<h2 class="anchored" data-anchor-id="dola-fast-thinkers-vs.-deep-thinkers">DoLa: Fast Thinkers vs.&nbsp;Deep Thinkers</h2>
+<p>Language models process information in stages:</p>
+<ul>
+<li><strong>Lower Layers (The Fast Thinker):</strong> Early layers focus on grammar, syntax, and statistical likelihood.</li>
+<li><strong>Higher Layers (The Deep Thinker):</strong> Later layers consolidate global context and retrieve factual knowledge.</li>
+</ul>
+<p><strong>DoLa</strong> fixes hallucinations by actively penalizing the “Fast Thinker.” It calculates the predictions at a mature layer, calculates them at a premature layer, and subtracts the difference.</p>
+<section id="the-contrastive-math" class="level3">
+<h3 class="anchored" data-anchor-id="the-contrastive-math">The Contrastive Math</h3>
+<p>By contrasting the logits, we isolate the pure knowledge signal from the statistical noise:</p>
+<p><span class="math display">\[S(y_t) = z_{\text{mature}} - \alpha \cdot z_{\text{premature}}\]</span></p>
+<p>If a token has a high probability in the mature layer but a low probability in the premature layer, its score goes <strong>up</strong> (factual realization). If a token has a high probability in both layers, its score goes <strong>down</strong> (generic syntax).</p>
+</section>
+<section id="the-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="the-implementation">The Implementation</h3>
+<p>Here is how I implemented the DoLa intervention in PyTorch:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_dola_logits(<span class="va">self</span>, input_text, mature_layer<span class="op">=</span><span class="va">None</span>, premature_layer<span class="op">=</span><span class="va">None</span>, alpha<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> <span class="va">self</span>.tokenizer(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(<span class="va">self</span>.device)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward pass requesting ALL hidden states</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> <span class="va">self</span>.model(<span class="op">**</span>inputs, output_hidden_states<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract the hidden state for the LAST token</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    mature_hidden <span class="op">=</span> outputs.hidden_states[mature_layer][<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, :]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    premature_hidden <span class="op">=</span> outputs.hidden_states[premature_layer][<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, :]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Project hidden states to Vocabulary Logits</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    mature_logits <span class="op">=</span> <span class="va">self</span>.model.lm_head(mature_hidden)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    premature_logits <span class="op">=</span> <span class="va">self</span>.model.lm_head(premature_hidden)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    mature_probs <span class="op">=</span> F.softmax(mature_logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dynamic threshold: Only consider plausible tokens</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    top_k_probs, _ <span class="op">=</span> torch.topk(mature_probs, <span class="dv">50</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> top_k_probs[<span class="op">-</span><span class="dv">1</span>] </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Contrastive Subtraction</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    contrastive_logits <span class="op">=</span> mature_logits <span class="op">-</span> (alpha <span class="op">*</span> premature_logits)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mask out the noise </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> mature_probs <span class="op">&lt;</span> threshold</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    contrastive_logits[mask] <span class="op">=</span> <span class="op">-</span><span class="bu">float</span>(<span class="st">'inf'</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    dola_probs <span class="op">=</span> F.softmax(contrastive_logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dola_probs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="the-hallucination-monitor-shannon-entropy" class="level2">
+<h2 class="anchored" data-anchor-id="the-hallucination-monitor-shannon-entropy">The Hallucination Monitor: Shannon Entropy</h2>
+<p>Fixing the logits is powerful, but in an MLOps context, telemetry is just as important. How do we know <em>when</em> the model is struggling?</p>
+<p>When an LLM is reciting a known fact, its probability distribution is sharp. When it is guessing, the distribution flattens out. I quantified this uncertainty at every single generation step using <strong>Shannon Entropy</strong>.</p>
+<p><span class="math display">\[H(X) = - \sum_{i=1}^{n} P(x_i) \ln P(x_i)\]</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_shannon_entropy(probs, epsilon<span class="op">=</span><span class="fl">1e-9</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    High Entropy = Flat Distribution = High Hallucination Risk.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Low Entropy = Sharp Distribution = High Confidence.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    entropy <span class="op">=</span> <span class="op">-</span>torch.<span class="bu">sum</span>(probs <span class="op">*</span> torch.log(probs <span class="op">+</span> epsilon))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> entropy.item()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>By tracking this metric over time, we can create a literal lie detector for the model.</p>
+</section>
+<section id="the-logit-dynamics-observatory" class="level2">
+<h2 class="anchored" data-anchor-id="the-logit-dynamics-observatory">The Logit-Dynamics Observatory</h2>
+<p>To bring this all together, I built a custom Streamlit dashboard that visualizes this data in real-time.</p>
+<p><img src="image1.png" class="img-fluid quarto-figure quarto-figure-center" style="width:80.0%" alt="The interactive Streamlit dashboard showing the dual-chart telemetry."> <img src="image2.png" class="img-fluid quarto-figure quarto-figure-center" style="width:80.0%" alt="The interactive Streamlit dashboard showing the dual-chart telemetry."></p>
+<section id="the-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="the-heatmap">The Heatmap</h3>
+<p>The app dynamically injects HTML to color-code the generated text. Green indicates low entropy (confidence). When the model starts guessing—often right before generating a fake entity or hallucinated API call—the text bleeds red.</p>
+</section>
+<section id="the-token-inspector" class="level3">
+<h3 class="anchored" data-anchor-id="the-token-inspector">The Token Inspector</h3>
+<p>The dashboard allows you to scrub through the generated sequence. You can select any individual token and view the exact Top-15 probability landscape at that precise microsecond, watching how DoLa re-ranked the options to save the model from a hallucination loop.</p>
+</section>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>By breaking open the inference loop, writing the sampling math from first principles, and applying contrastive layer decoding, we can engineer truth directly into the generation process.</p>
+<p>Check out the full repository and mathematical breakdowns on my <a href="https://https://github.com/RamuNalla/Logit-Dynamics-Advanced-Decoding-Entropy-Controls">GitHub</a>.</p>
 
 
 </section>
