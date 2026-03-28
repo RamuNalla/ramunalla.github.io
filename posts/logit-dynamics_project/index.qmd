@@ -16,7 +16,7 @@ format:
 
 <div class="blog-manual-meta">Published by Ramu Nalla - February 20, 2026</div>
 
-![Conceptual overview of the Logit-Dynamics Observatory.](image.png){width=60% fig-align="center"}
+![Conceptual overview of the Logit-Dynamics Observatory.](hero_image.png){width=60% fig-align="center"}
 
 ---
 
