@@ -1,3 +1,9 @@
+- title: "DeBERTa - Multitask learning"
+  date: "2026-02-28"
+  description: "PyTorch XLA implementation of a Multi-Task Learning (MTL) DeBERTa-v3 model using task-specific LoRA adapters and Homoscedastic Task Uncertainty Weighting to dynamically balance gradients across Sentiment, POS, and Intent tasks on TPUs"
+  code: "[GitHub](https://github.com/RamuNalla/deberta-multitask-learning)"
+  stack: "PyTorch, TPUs, PEFT, Streamlit"
+
 - title: "Logit Dynamics - DoLa"
   date: "2026-02-20"
   description: "Research-grade project to analyze and control LLM inference mechanics, focusing on hallucination mitigation via Contrastive Layer Decoding (DoLa) and Entropy quantification."
