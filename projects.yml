@@ -1,3 +1,9 @@
+- title: "BitRouter-158 - Edge-First Ternary Routing"
+  date: "2026-04-15"
+  description: "Custom PyTorch implementation of BitNet b1.58 ternary quantization utilizing a Straight-Through Estimator (STE) to bypass zero-gradient rounding. Integrated as a conditional gatekeeper within LangGraph, achieving a 93.3% memory footprint reduction for local CPU inference."
+  code: "[GitHub](https://github.com/RamuNalla/bitrouter-158)"
+  stack: "PyTorch, LangGraph, Transformers, Model Compression, MLOps"
+
 - title: "DeBERTa - Multitask learning"
   date: "2026-02-28"
   description: "PyTorch XLA implementation of a Multi-Task Learning (MTL) DeBERTa-v3 model using task-specific LoRA adapters and Homoscedastic Task Uncertainty Weighting to dynamically balance gradients across Sentiment, POS, and Intent tasks on TPUs"
