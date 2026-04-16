@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/rope-blog/index.html",
       "/posts/bitrouter158_project/index.html",
       "/posts/nlu_multitasklearning_project/index.html",
       "/posts/logit-dynamics_project/index.html",
@@ -25,6 +26,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/rope-blog/index.html",
       "/posts/bitrouter158_project/index.html",
       "/posts/nlu_multitasklearning_project/index.html",
       "/posts/logit-dynamics_project/index.html",
