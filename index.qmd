@@ -36,22 +36,16 @@ I enjoy blogging about Machine Learning, and I am currently working on a series 
 
 :::
 
-<br><br>
-
 ## Latest Posts
 
 ::: {#latest-posts}
 :::
-
-<br>
 
 ## News
 
 | Date | Update |
 |:-----|:-------|
 | **Oct 29, 2025** | Joined HighLevel as Lead Data Scientist |
-
-<br><br>
 
 <style>
   nav.navbar .navbar-brand {
@@ -60,3 +54,16 @@ I enjoy blogging about Machine Learning, and I am currently working on a series 
     opacity: 0 !important;
   }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var root = document.getElementById("quarto-document-content");
+  if (!root) return;
+  root.querySelectorAll("a[href]").forEach(function (a) {
+    var h = a.getAttribute("href");
+    if (!h || h.startsWith("#") || h.startsWith("javascript:") || h.startsWith("mailto:")) return;
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener noreferrer");
+  });
+});
+</script>

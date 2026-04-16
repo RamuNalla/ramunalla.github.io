@@ -29,6 +29,23 @@ html, body {
   font-family: bootstrap-icons !important;
 }
 
+/* Posts / Projects header count pill — tight, dark-aware (no light halo) */
+.badge-gradient {
+  display: inline-block;
+  background: linear-gradient(145deg, #4e93c9 0%, #3472a8 100%);
+  color: #ffffff;
+  padding: 0.45em 1.1em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  filter: none;
+}
+
 // 2. PARAGRAPH STYLING
 p {
   font-size: 1.05rem; 
@@ -595,6 +612,49 @@ h1.hero-title > span {
   text-underline-offset: 4px !important;
 }
 
+/* --- HOME: pull Latest Posts + News up, compact listing rows --- */
+body.home-page #quarto-document-content > .grid {
+  margin-bottom: 0 !important;
+}
+
+body.home-page section#latest-posts h2 {
+  margin-top: 0.35rem !important;
+  margin-bottom: 0.45rem !important;
+}
+
+body.home-page section#news h2 {
+  margin-top: 0.85rem !important;
+  margin-bottom: 0.45rem !important;
+}
+
+body.home-page section#latest-posts .quarto-listing {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+body.home-page .listing-actions-group {
+  margin-bottom: 0.35rem !important;
+}
+
+body.home-page .quarto-listing-table tbody tr td {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+
+body.home-page .quarto-listing-table .listing-date {
+  line-height: 1.35 !important;
+}
+
+body.home-page .quarto-listing-table .listing-title a {
+  line-height: 1.35 !important;
+}
+
+/* News table (markdown) — match tighter row rhythm */
+body.home-page #quarto-document-content > table tbody tr td {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+
 
 /* --- B. BLOG PAGE STYLING (The Grid View) --- */
 
@@ -642,4 +702,225 @@ h1.hero-title > span {
 /* 3. Category Title in Sidebar */
 .quarto-listing-category .listing-category-title {
   font-family: "Lora", serif !important;
+}
+
+/* ==========================================================================
+   POSTS ARCHIVE: 5-column compact grid + responsive breakpoints
+   ========================================================================== */
+
+/* Scoped via quarto-listing-cols-5 (posts page only in this site) */
+.quarto-listing-container-grid .list.grid.quarto-listing-cols-5 {
+  display: grid !important;
+  gap: 1rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.quarto-listing-container-grid .list.grid.quarto-listing-cols-5 > .g-col-1 {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1399.98px) {
+  .quarto-listing-container-grid .list.grid.quarto-listing-cols-5 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .quarto-listing-container-grid .list.grid.quarto-listing-cols-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .quarto-listing-container-grid .list.grid.quarto-listing-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .quarto-listing-container-grid .list.grid.quarto-listing-cols-5 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- Posts grid: equal-height rows, flex column card --- */
+.quarto-listing-cols-5 a.quarto-grid-link {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  text-decoration: none !important;
+  color: inherit !important;
+  border-radius: 12px;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item.card {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border: 1px solid #353535 !important;
+  border-radius: 12px !important;
+  background-color: #1c1c1c !important;
+  background-image: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+  overflow: hidden !important;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item .card-img-top {
+  position: relative;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  overflow: hidden;
+  border-bottom: 1px solid #2e2e2e;
+  background: #111;
+}
+
+/* Very light fade at bottom of image only — keeps thumbnails visible */
+.quarto-listing-cols-5 .quarto-grid-item .card-img-top::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background: linear-gradient(to top, rgba(15, 15, 15, 0.35), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item .card-img-top .card-img,
+.quarto-listing-cols-5 .quarto-grid-item .card-img-top img {
+  width: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.35s ease;
+}
+
+.quarto-listing-cols-5 a.quarto-grid-link:hover .card-img-top .card-img,
+.quarto-listing-cols-5 a.quarto-grid-link:hover .card-img-top img {
+  transform: scale(1.03);
+}
+
+.quarto-listing-cols-5 .quarto-grid-item:hover {
+  transform: translateY(-3px) !important;
+  border-color: #5a9fd4 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Body: title → [growing space] → tags (above footer) → time | date */
+.quarto-listing-cols-5 .quarto-grid-item .card-body.post-contents {
+  padding: 0.7rem 0.8rem 0.55rem !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 0.4rem 0.75rem;
+  align-content: start;
+}
+
+.quarto-listing-cols-5 .listing-title {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+  line-height: 1.22 !important;
+  letter-spacing: 0.025em;
+  margin: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.quarto-listing-cols-5 .listing-title a,
+.quarto-listing-cols-5 .listing-title {
+  color: #ffffff !important;
+}
+
+.quarto-listing-cols-5 a.quarto-grid-link:hover .listing-title,
+.quarto-listing-cols-5 a.quarto-grid-link:hover .listing-title a {
+  color: #7ebef3 !important;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item .listing-categories {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-content: flex-end;
+  align-self: end;
+  gap: 0.18rem 0.28rem !important;
+  margin: 0 !important;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item .listing-categories .listing-category {
+  font-size: 0.52rem !important;
+  padding: 0.06rem 0.28rem !important;
+  border-radius: 3px !important;
+  background: #222 !important;
+  color: #9a9a9a !important;
+  border: 1px solid #333 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase !important;
+  line-height: 1.35 !important;
+  transition: border-color 0.15s ease, color 0.15s ease !important;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item .listing-categories .listing-category:hover {
+  background: #262626 !important;
+  color: #5a9fd4 !important;
+  border-color: #4a7aa8 !important;
+}
+
+/* Bottom row: reading time (left) + date (right); DOM order is time before date */
+.quarto-listing-cols-5 .quarto-grid-item .listing-reading-time {
+  grid-column: 1;
+  grid-row: 4;
+  justify-self: start;
+  align-self: end;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  font-size: 0.68rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  text-transform: none !important;
+  border-radius: 0;
+  background: transparent !important;
+  color: #8e8e8e !important;
+  border: none !important;
+  line-height: 1.2 !important;
+}
+
+.quarto-listing-cols-5 .card-attribution.card-text-small {
+  grid-column: 2;
+  grid-row: 4;
+  justify-self: end;
+  align-self: end;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top: none !important;
+  text-align: right !important;
+}
+
+.quarto-listing-cols-5 .quarto-grid-item .listing-date {
+  font-size: 0.68rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  text-transform: none !important;
+  color: #8e8e8e !important;
+  line-height: 1.2 !important;
+}
+
+/* Posts page: empty title block when title is blank */
+#title-block-header.quarto-title-block:empty {
+  display: none !important;
 }
