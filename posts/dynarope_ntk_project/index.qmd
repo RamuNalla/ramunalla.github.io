@@ -1,5 +1,5 @@
 ---
-title: "DynaRoPE - Extending LLM Context Windows with Dynamic NTK Scaling"
+title: "DynaRoPE - Dynamic LLM Context Window Extension"
 description: "A deep dive into fixing Out-of-Distribution attention collapse. How I implemented Dynamic Neural Tangent Kernel interpolation in PyTorch to safely extend context lengths without retraining."
 categories: [LLMs, NLP, PyTorch, MLOps, Agentic AI]
 image: "hero_image.png"
