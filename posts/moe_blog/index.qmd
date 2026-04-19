@@ -2,7 +2,7 @@
 title: "Sparse Mixture of Experts (MoE) in Transformers"
 description: "A code-first tour of MoE: why we route tokens to experts, the load-balancing loss, and a minimal PyTorch block you can read in one sitting."
 categories: [Deep Learning, Transformers, MoE, PyTorch, NLP]
-image: "assets/router_collapse.png"
+image: "hero_image.png"
 draft: false
 author: "Ramu Nalla"
 date: "2026-04-19"
