@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/moe_blog/index.html",
       "/posts/dynarope_ntk_project/index.html",
       "/posts/rope-blog/index.html",
       "/posts/bitrouter158_project/index.html",
@@ -27,6 +28,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/moe_blog/index.html",
       "/posts/dynarope_ntk_project/index.html",
       "/posts/rope-blog/index.html",
       "/posts/bitrouter158_project/index.html",
