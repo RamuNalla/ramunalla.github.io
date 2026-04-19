@@ -1,5 +1,5 @@
 ---
-title: "Logit Dynamics - Mitigating LLM Hallucinations with DoLa and Entropy Control"
+title: "Logit Dynamics - Controlling LLM Hallucinations with DoLa"
 description: "A deep dive into building a custom PyTorch inference engine from scratch. How I bypassed standard APIs to visualize logit landscapes and forcefully suppress hallucinations using Contrastive Layer Decoding."
 categories: [LLMs, Inference, PyTorch, MLOps]
 image: "hero_image.png"

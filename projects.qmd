@@ -107,43 +107,55 @@ A list of my open-source projects and experiments.
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   var countEl = document.getElementById("project-count-value");
-  if (!countEl) return;
 
-  function setFromListInstance() {
+  function setCountFromListInstance() {
     var inst = window["quarto-listings"] && window["quarto-listings"]["listing-listing"];
     if (inst && typeof inst.size === "function") {
-      countEl.textContent = String(inst.size());
+      if (countEl) countEl.textContent = String(inst.size());
       return true;
     }
     return false;
   }
 
-  /* List.js pagination removes non-visible rows from tbody; inst.size() is the full count */
-  if (setFromListInstance()) return;
-
-  var rows = document.querySelectorAll("#listing-listing tbody.list tr");
-  if (rows.length) {
-    countEl.textContent = String(rows.length);
-    return;
+  if (countEl) {
+    if (!setCountFromListInstance()) {
+      var rows = document.querySelectorAll("#listing-listing tbody.list tr");
+      if (rows.length) {
+        countEl.textContent = String(rows.length);
+      } else {
+        fetch(new URL("listings.json", window.location.href))
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (data) {
+            var entry = data.find(function (x) {
+              return x.listing === "/projects.html" ||
+                (typeof x.listing === "string" && x.listing.endsWith("/projects.html"));
+            });
+            if (entry && Array.isArray(entry.items) && entry.items.length) {
+              countEl.textContent = String(entry.items.length);
+            } else {
+              countEl.textContent = "?";
+            }
+          })
+          .catch(function () {
+            countEl.textContent = "?";
+          });
+      }
+    }
   }
 
-  fetch(new URL("listings.json", window.location.href))
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      var entry = data.find(function (x) {
-        return x.listing === "/projects.html" ||
-          (typeof x.listing === "string" && x.listing.endsWith("/projects.html"));
-      });
-      if (entry && Array.isArray(entry.items) && entry.items.length) {
-        countEl.textContent = String(entry.items.length);
-      } else {
-        countEl.textContent = "?";
-      }
-    })
-    .catch(function () {
-      countEl.textContent = "?";
+  function markProjectRepoLinks() {
+    document.querySelectorAll("#listing-listing .listing-code a[href^='http']").forEach(function (a) {
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
     });
+  }
+
+  markProjectRepoLinks();
+  var listInst = window["quarto-listings"] && window["quarto-listings"]["listing-listing"];
+  if (listInst && typeof listInst.on === "function") {
+    listInst.on("updated", markProjectRepoLinks);
+  }
 });
 </script>

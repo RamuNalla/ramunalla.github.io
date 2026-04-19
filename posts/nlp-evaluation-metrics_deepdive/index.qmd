@@ -1,5 +1,5 @@
 ---
-title: "The Definitive Guide to BLEU Score: The Mathematics of Machine Translation"
+title: "BLEU Score: The Mathematics of Machine Translation"
 description: "A deep dive for data scientists into the most famous, and often misunderstood, metric in NLP. We unpack the math of n-grams, clipped precision, and the brevity penalty."
 categories: [NLP, GenAI, Metrics, Machine Translation]
 image: "image.png"

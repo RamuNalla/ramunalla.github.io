@@ -1,5 +1,5 @@
 ---
-title: "Shrinking Giants: Distilling BERT into a Tiny Bi-LSTM for 14x Faster Inference"
+title: "BERT to Bi-LSTM: 14x Faster NLP with Distillaton"
 description: "Big models are smart, but small models are fast. A deep dive into Knowledge Distillation and my journey compressing a 110M parameter Transformer into a 2.5M parameter RNN."
 categories: [NLP, Agents, LLM]
 image: "image.png"

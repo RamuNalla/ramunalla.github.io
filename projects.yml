@@ -1,3 +1,9 @@
+- title: "DynaRoPE - Dynamic NTK Context Extension"
+  date: "2026-04-18"
+  description: "Advanced PyTorch implementation of Dynamic NTK-Aware Interpolation for Rotary Positional Embeddings (RoPE). Intercepts transformer attention pipelines to mathematically compress OOD sequence geometry, extending context windows by 4x without requiring model retraining or fine-tuning."
+  code: "[GitHub](https://github.com/RamuNalla/dynarope-ntk)"
+  stack: "PyTorch, Transformers, LLM Scaling, Linear Algebra, MLOps"
+
 - title: "BitRouter-158 - Edge-First Ternary Routing"
   date: "2026-04-15"
   description: "Custom PyTorch implementation of BitNet b1.58 ternary quantization utilizing a Straight-Through Estimator (STE) to bypass zero-gradient rounding. Integrated as a conditional gatekeeper within LangGraph, achieving a 93.3% memory footprint reduction for local CPU inference."

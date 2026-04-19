@@ -1,5 +1,5 @@
 ---
-title: "BitRouter-158 - Crushing LLM Memory by 93% with Ternary Quantization"
+title: "BitRouter-158 - 93% Less RAM with Ternary Quantization"
 description: "A deep dive into building a 1.58-bit edge router from scratch. How I implemented the Straight-Through Estimator in PyTorch and deployed it inside LangGraph to bypass cloud API costs."
 categories: [LLMs, Inference, PyTorch, MLOps, LangGraph]
 image: "hero_image.png"
