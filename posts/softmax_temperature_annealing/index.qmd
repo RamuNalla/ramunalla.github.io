@@ -1,0 +1,139 @@
+---
+title: "Temperature Annealing"
+description: "Why sparse MoE routers use temperature schedules over the gate softmax: router collapse, exploration, and staying aligned with hard top-k dispatch."
+categories: [Deep Learning, Transformers, MoE, PyTorch, NLP]
+image: "assets/soft_start_annealing.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-04-19"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - April 19, 2026</div>
+
+![Temperature annealing on the expert gate spreads routing mass early, then sharpens toward the discrete top-k behavior you evaluate.](hero_image.png){#fig-hero width=80%}
+
+---
+
+If you have worked with a sparse Mixture-of-Experts block, you already know the rhythm: a router scores every expert for each token, you take top-k, and only those feed-forward experts actually run. Under the hood there is still a softmax story—usually a full distribution when you need importance or an auxiliary loss, and a smaller softmax over just the k chosen logits when you mix their outputs.
+
+Temperature annealing is the idea that you should not treat that softmax as fixed forever. You divide logits by a temperature T before the exponential, and you let T change over training. Early on you often want a softer gate so mass does not pile onto one expert by accident; later you want something closer to the sharp, discrete routing you will actually evaluate. Nothing here replaces load balancing or good initialization, but temperature is a simple knob on how “spread out” the router feels week to week.
+
+The rest of this post stays in that lane:
+
+* Why that knob matters for MoE routing
+* What temperature does to the gate, in plain terms
+* What people usually mean by a **schedule**
+* Where temperature sits next to top-k and auxiliary losses
+* A few ways things go wrong when the pieces do not line up
+
+---
+
+## 1. Why bother with temperature for routing?
+
+A few failure modes show up often enough that it helps to name them:
+
+* **Router collapse** — the gate peaks on a handful of experts almost immediately; top-k keeps sending traffic there, other experts rarely see gradients through their FFNs, and you paid for a wide layer that only trains like a narrow one.
+* **A gate that stays too soft** — if T stays large forever, specialization can feel mushy compared to the hard top-k path you actually execute, unless you trained with that mismatch in mind.
+* **Train vs eval skew** — auxiliary loss uses one temperature and top-k uses another; at eval the router no longer matches what training seemed to optimize.
+
+Annealing is one response to the first two. Roughly:
+
+* Start with **T above one** so the full softmax spreads mass and more experts get meaningful probability under the metrics you log or regularize.
+* **Drift T down** toward one (or whatever you use at evaluation) so the gate moves toward peaked behavior that matches hard routing and stable expert roles.
+* You often get a **gentler optimization landscape early**—less winner-take-all while the router and experts are still moving fast.
+
+I still treat auxiliary load balancing and sensible hyperparameters as the main line of defense. Temperature is an extra lever on the *shape* of the gate over time, not a substitute for them.
+
+---
+
+## 2. What temperature does to the gate
+
+Write router logits as z over E experts and pick a positive temperature T. The familiar softmax is p_i proportional to exp(z_i / T). In words:
+
+* **T > 1** — logits are scaled down before exp, so the distribution **softens** and more experts share mass.
+* **T = 1** — ordinary softmax; the usual reference point.
+* **T < 1** — the distribution **sharpens**; largest logits dominate more (winner-take-all among experts).
+
+In an actual system, two questions get answered differently:
+
+* **Full softmax over E experts** — where you need the whole vector (importance, auxiliary losses); temperature lives here when you scale logits before exp.
+* **Top-k dispatch** — which experts actually run; logits may be raw or scaled—**pick one story** and use it consistently between train and eval.
+
+Top-k answers “which experts run”; the full softmax answers “how the gate distributes belief.” Those two should be wired so you can explain them in one sentence to your future self.
+
+---
+
+## 3. Schedules in plain language
+
+Annealing just means **T is not constant**—it depends on step or epoch. A common pattern is to warm up with T_start above one so the early phase does not collapse the gate, then decay toward T_end (often one) so you finish near what you will measure at eval.
+
+People use different shapes for that decay:
+
+* **Linear** — T steps from T_start to T_end over N optimizer steps.
+* **Cosine or smooth curves** — same intent, fewer kinks in the schedule.
+* **Plateau then drop** — hold T > 1 for a fixed window, then step or ramp down.
+
+Plenty of stacks **never touch T** and instead rely on load-balancing loss, noise, or capacity tweaks alone. That is fine. Temperature is optional; it helps to know what a recipe means when it mentions T, and to treat it as **one knob among several**.
+
+---
+
+## 4. Where this lands in the pipeline
+
+Per token and per MoE layer, the router emits logits g. In practice the pieces stack like this:
+
+* **Full distribution** — for monitoring or auxiliary terms, you may use g_scaled = g / T before softmax over all E experts.
+* **Dispatch** — top-k on the logits your codebase has chosen (raw or scaled); training and eval should agree.
+* **Mixture weights** — often a softmax over **only the k selected** logits; some teams temperature-scale that step too.
+
+None of this turns sparse MoE into “run all experts softly for cheap.” You still execute k experts per token unless you deliberately build a dense mixture.
+
+---
+
+## 5. Where things go sideways
+
+The frustrating bugs are usually inconsistency:
+
+* **Mismatched aux loss** — load balancing uses softmax at T = 1 on g, but another branch uses g / T; you are no longer optimizing quite the same statistics you think you are.
+* **T decays too fast** — the gate sharpens mid-training and **collapse** can reappear.
+* **T stays high too long** — training stays softer than the hard top-k behavior you care about; experts may not specialize as cleanly.
+
+Temperature also does not remove the need for a real **load-balancing** term, sensible **k** and expert count, and a stable setup for the **full model**. It is easy to add; making the whole MoE block behave is still the larger job.
+
+---
+
+## 6. A small code sketch
+
+Here is the one-liner people mean when they say “temperature on the gate softmax”:
+
+```python
+import torch.nn.functional as F
+
+def gate_softmax_with_temperature(
+    gate_logits: torch.Tensor, temperature: float
+) -> torch.Tensor:
+    return F.softmax(gate_logits / temperature, dim=-1)
+```
+
+When you wire this in:
+
+* Pass **temperature** from something like `schedule(step)` in the training loop.
+* Keep **top-k** as its own step—often `torch.topk(...)` on the same logits policy you use at evaluation.
+* **Match** that policy to whatever the auxiliary loss uses so the gate does not train on one story and deploy on another.
+
+---
+
+## Conclusion
+
+Temperature annealing in MoE is really about **scheduling how peaked the router’s distribution is** over experts: room to explore early, then sharper behavior that matches top-k routing and stable roles. It works best when the story is coherent—one rule for the full softmax, one for top-k, and auxiliary losses that see the same scaling the router trains on.
+
+If you walk away with a short checklist:
+
+* **Anneal T on purpose** and document the schedule.
+* **Be explicit** where T applies (full softmax vs logits fed to top-k).
+* **Do not** expect temperature to replace load balancing or the rest of MoE engineering—it is a lever, not the whole machine.
