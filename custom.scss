@@ -412,7 +412,59 @@ main table tr td:last-child {
   width: auto !important;         /* Let it fill the rest of the space */
 }
 
+/* 6. BLOG POST DATA TABLES — scoped wrapper undoes home/news `main table` rules */
+#quarto-document-content .blog-content-table {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
 
+#quarto-document-content .blog-content-table table {
+  width: 100%;
+  max-width: 32rem;
+  border-collapse: collapse !important;
+  margin: 0 auto 0.5rem;
+}
+
+#quarto-document-content .blog-content-table table thead {
+  display: table-header-group !important;
+}
+
+#quarto-document-content .blog-content-table table th,
+#quarto-document-content .blog-content-table table td {
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  background: rgba(15, 15, 15, 0.6) !important;
+  padding: 0.45rem 0.65rem !important;
+  vertical-align: middle !important;
+  text-align: right !important;
+  font-size: 0.98rem !important;
+  font-weight: 400 !important;
+  line-height: 1.45 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: #c8c8c8 !important;
+}
+
+#quarto-document-content .blog-content-table table th {
+  background: rgba(50, 90, 120, 0.35) !important;
+  font-weight: 600 !important;
+  color: #eaeaea !important;
+  border-bottom: 1px solid rgba(90, 159, 212, 0.35) !important;
+  text-align: center !important;
+}
+
+#quarto-document-content .blog-content-table table tr th:first-child,
+#quarto-document-content .blog-content-table table tr td:first-child {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  text-align: center !important;
+}
+
+#quarto-document-content .blog-content-table table tr th:last-child,
+#quarto-document-content .blog-content-table table tr td:last-child {
+  padding-left: 0.65rem !important;
+  width: auto !important;
+}
 
 
 /* --- COPYRIGHT TEXT SIZE FIX --- */
