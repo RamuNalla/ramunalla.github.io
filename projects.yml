@@ -1,3 +1,9 @@
+- title: "BitMoE-158 - 1.58-bit MoE via Triton"
+  date: "2026-04-23"
+  description: "Engineered a custom Asymmetric MoE architecture compressing FFNs to 1.58-bit ternary precision via a custom STE. Developed a fused Triton GPU kernel to eliminate PyTorch sparse dispatch bottlenecks, achieving a 75.5% reduction in peak VRAM and a 5x throughput acceleration at long context windows."
+  code: "[GitHub](https://github.com/RamuNalla/bitmoe-kernel)"
+  stack: "PyTorch, OpenAI Triton, CUDA Optimization, Model Quantization, LLM Scaling"
+
 - title: "DynaRoPE - Dynamic NTK Context Extension"
   date: "2026-04-18"
   description: "Advanced PyTorch implementation of Dynamic NTK-Aware Interpolation for Rotary Positional Embeddings (RoPE). Intercepts transformer attention pipelines to mathematically compress OOD sequence geometry, extending context windows by 4x without requiring model retraining or fine-tuning."
