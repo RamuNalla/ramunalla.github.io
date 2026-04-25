@@ -1,0 +1,225 @@
+---
+title: "KV Cache: From O(n²) to O(n) in LLM Inference"
+description: "A code-first deep dive into the math, memory bottlenecks, and implementation of the KV Cache in autoregressive Transformers."
+categories: [Deep Learning, Transformers, LLM Inference, PyTorch, Performance]
+image: "hero_image.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-04-25"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - April 25, 2026</div>
+
+![KV Cache Latency Comparison](hero_image.png){width=80% fig-align="center"}
+
+---
+
+Scaling language model inference fundamentally comes down to battling two major bottlenecks: **Compute (FLOPs)** and **Memory Bandwidth (VRAM)**. 
+
+When a Transformer generates text, it does so autoregressively—one token at a time. The naive approach to this generation is mathematically elegant but computationally disastrous. If we ask a model to generate the 100th token, the naive approach recalculates the attention scores for tokens 1 through 99 all over again. 
+
+The **KV Cache (Key-Value Cache)** is the industry-standard architectural hack that solves this compute bottleneck. By caching the intermediate mathematical states of past tokens, we reduce the time complexity of generation from a quadratically growing $O(n^2)$ nightmare into a flat, predictable $O(n)$ operation.
+
+In this post, I will walk through the **concept**, the **foundational math**, a **from-scratch PyTorch implementation**, and a deep dive into the **hardware-level profiling** of what actually happens in VRAM when we turn the cache on versus off.
+
+## 1. The Math: Why Autoregressive Generation is Slow
+
+### The Attention Mechanism
+In a standard Transformer, the core dot-product attention equation is:
+
+$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+
+During the **Prefill Phase** (processing the initial prompt), the model reads the entire sequence in parallel. The Queries ($Q$), Keys ($K$), and Values ($V$) are all $N \times d$ matrices (where $N$ is sequence length and $d$ is embedding dimension). The $QK^T$ multiplication results in an $N \times N$ attention matrix. 
+
+### The Generation Bottleneck (No Cache)
+During the **Decoding Phase**, the model predicts the next token. If we do not use a cache, the input sequence length grows by 1 every step. 
+
+* To generate token 100, we pass an input of size $100$. The model computes a $100 \times 100$ attention matrix.
+* To generate token 101, we pass an input of size $101$. The model computes a $101 \times 101$ attention matrix.
+
+The model is redundantly re-computing the Keys and Values for tokens 1 through 100. This results in $O(n^2)$ time complexity. As $N$ grows, the compute required to generate a single word skyrockets.
+
+### The KV Cache Solution
+The mathematical realization behind the KV cache is that for a newly generated token, its Query vector only needs to attend to the Key vectors of *past* tokens. The past tokens' Keys and Values do not change. 
+
+If we store (cache) the $K$ and $V$ tensors of all previous tokens in memory:
+
+1. The new input is just the single newly generated token ($1 \times d$).
+2. We project this single token into a $1 \times d$ Query, Key, and Value.
+3. We append the new $1 \times d$ Key and Value to our cached history.
+4. We multiply the $1 \times d$ Query against the $N \times d$ cached Keys. 
+
+The resulting attention matrix is $1 \times N$. The compute time drops to $O(n)$, and latency flattens out entirely.
+
+## 2. Minimal PyTorch Implementation
+
+To see this in action, I built a stripped-down Attention module and a state manager to route the memory.
+
+### The Cache State Manager
+This module intercepts the Keys and Values for the newly generated token and forcefully concatenates them to the existing history.
+
+```python
+import torch
+from typing import Tuple, Optional
+
+class StandardKVCache:
+    """
+    Implements a standard, contiguous KV-Cache.
+    Tensors grow linearly with each generation step.
+    """
+    def __init__(self):
+        self.k_cache: Optional[torch.Tensor] = None
+        self.v_cache: Optional[torch.Tensor] = None
+
+    def update(self, k_new: torch.Tensor, v_new: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Appends new keys and values to the contiguous cache."""
+        if self.k_cache is None or self.v_cache is None:
+            self.k_cache = k_new
+            self.v_cache = v_new
+        else:
+            # Concatenate along the sequence length dimension (dim=2)
+            self.k_cache = torch.cat([self.k_cache, k_new], dim=2)
+            self.v_cache = torch.cat([self.v_cache, v_new], dim=2)
+            
+        return self.k_cache, self.v_cache
+
+    def reset(self):
+        self.k_cache = None
+        self.v_cache = None
+```
+
+### The Model Backbone
+This implements the core attention math, conditionally routing it through the cache. Notice the torch.cat bottleneck under the hood.
+
+```python
+import torch
+import torch.nn as nn
+import math
+
+class MinimalAttention(nn.Module):
+    def __init__(self, embed_dim=256, num_heads=8):
+        super().__init__()
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        
+        self.q_proj = nn.Linear(embed_dim, embed_dim)
+        self.k_proj = nn.Linear(embed_dim, embed_dim)
+        self.v_proj = nn.Linear(embed_dim, embed_dim)
+        self.out_proj = nn.Linear(embed_dim, embed_dim)
+
+    def forward(self, x: torch.Tensor, kv_cache: StandardKVCache = None) -> torch.Tensor:
+        batch_size, seq_len, embed_dim = x.shape
+        
+        # 1. Project Q, K, V
+        q = self.q_proj(x).view(batch_size, seq_len, self.num_heads, self.head_dim).transpose(1, 2)
+        k = self.k_proj(x).view(batch_size, seq_len, self.num_heads, self.head_dim).transpose(1, 2)
+        v = self.v_proj(x).view(batch_size, seq_len, self.num_heads, self.head_dim).transpose(1, 2)
+
+        # 2. KV-Cache Routing
+        if kv_cache is not None:
+            # Standard Cache active: append new K, V and fetch full history
+            k, v = kv_cache.update(k, v)
+        
+        # 3. Core Attention Math
+        scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.head_dim)
+        
+        if kv_cache is None and seq_len > 1:
+            mask = torch.tril(torch.ones(seq_len, seq_len, device=x.device)).view(1, 1, seq_len, seq_len)
+            scores = scores.masked_fill(mask == 0, float('-inf'))
+            
+        attn_weights = torch.softmax(scores, dim=-1)
+        out = torch.matmul(attn_weights, v)
+        
+        # 4. Reassemble and project
+        out = out.transpose(1, 2).contiguous().view(batch_size, seq_len, embed_dim)
+        return self.out_proj(out)
+```
+
+### The Profiling Harness
+To prove the math, we run a 1000-step autoregressive loop, tracking the Time-Per-Output-Token (TPOT).
+
+```python
+import torch
+import time
+import matplotlib.pyplot as plt
+
+def simulate_inference(attention_layer, prefix_len, gen_steps, use_cache=False, device='cpu'):
+    embed_dim = 256
+    latencies = []
+    
+    # Context Phase (Prefill)
+    prefix_tokens = torch.randn(1, prefix_len, embed_dim, device=device)
+    cache = StandardKVCache() if use_cache else None
+    
+    start_time = time.perf_counter()
+    _ = attention_layer(prefix_tokens, kv_cache=cache)
+    ttft = time.perf_counter() - start_time
+    
+    # Generation Phase
+    current_seq_len = prefix_len
+    
+    for _ in range(gen_steps):
+        step_start = time.perf_counter()
+        
+        if use_cache:
+            next_token = torch.randn(1, 1, embed_dim, device=device)
+            _ = attention_layer(next_token, kv_cache=cache)
+        else:
+            current_seq_len += 1
+            full_sequence = torch.randn(1, current_seq_len, embed_dim, device=device)
+            _ = attention_layer(full_sequence, kv_cache=None)
+            
+        step_time = time.perf_counter() - step_start
+        latencies.append(step_time * 1000)
+        
+    return ttft * 1000, latencies
+
+# ... (Execution wrapper omitted for brevity) ...
+```
+
+## 3. Hardware Realities: Reading the Profiler Plot
+
+When we execute the above code on hardware (in this case, an Apple Silicon Mac via the MPS backend), the resulting latency plot reveals a story that is much messier than the theoretical $O(n^2)$ math.
+
+![](stage1_baseline_latency.png){width=70% fig-align="center"}
+
+**Aggregate timings from the run** (prefix prefill for TTFT, then 1000 decode steps; same harness as the code above, MPS on Apple Silicon):
+
+::: {.blog-content-table}
+
+|  | TTFT (ms) | Avg TPOT (ms) |
+|:--|----------:|-------------:|
+| **No cache** | 220.12 | 65.29 |
+| **With cache** | 5.11 | 6.20 |
+
+:::
+
+* **Average TPOT (time per output token)** is the average time to produce one new token during generation. Here: **65.29 ms** without a cache versus **6.20 ms** with it—about **10×** faster with the cache, because each step reuses stored keys and values instead of recomputing attention over the full sequence so far.
+
+* **TTFT (time to first token)** is how long the initial prefill takes before the first token is ready. Here: **220.12 ms** without a cache versus **5.11 ms** with it—about **43×** faster with the cache, because the cached path does not pay the same one-shot cost before decode can start.
+
+### The "Memory Quake" (The 7000ms Spike)
+
+Around step 520, the No Cache (red) line hits a massive 7-second latency wall. Why? Because the bottleneck here isn't actually the FLOPs required to multiply the matrices—it is PyTorch's Caching Memory Allocator.
+
+In the "No Cache" loop, we ask the hardware to calculate a continuously growing $N \times N$ attention grid. At step 520, the operating system ran out of readily available contiguous VRAM. It had to "stop the world," trigger garbage collection, defragment the memory, and allocate a massive new contiguous block before inference could resume.
+
+### The Post-Spike Drop
+
+Notice how the red line's baseline latency actually drops and flattens out after the 7000ms spike. Because PyTorch successfully negotiated a massive, fresh block of VRAM during that pause, the subsequent hundreds of steps no longer suffer from constant OS-level memory allocation overhead. The latency becomes purely compute-bound, proving that in LLM inference, memory management often dictates speed more than raw compute capability.
+
+### The Flatline of the KV Cache
+
+The blue line (Standard KV-Cache) bypasses the $N \times N$ grid entirely, maintaining a rock-solid $\sim6\text{ms}$ latency. The memory allocator handles the tiny $1 \times N$ requests effortlessly.
+
+## Conclusion
+
+The KV Cache perfectly solves the compute scaling problem of autoregressive generation. However, it is not a silver bullet. As we saw in our code, the StandardKVCache relies on torch.cat, meaning it continuously requests linearly larger blocks of contiguous memory.
+
+While it solves the compute bottleneck, the standard KV cache introduces a massive memory capacity bottleneck: VRAM fragmentation. Pre-allocating contiguous VRAM for maximum sequence lengths wastes incredible amounts of memory, which is exactly why modern inference engines have abandoned this approach in favor of advanced OS-style block memory management (PagedAttention).

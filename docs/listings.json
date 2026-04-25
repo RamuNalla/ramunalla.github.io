@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/kv_cache/index.html",
       "/posts/bitmoe_kernel_project/index.html",
       "/posts/softmax_temperature_annealing/index.html",
       "/posts/moe_blog/index.html",
@@ -30,6 +31,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/kv_cache/index.html",
       "/posts/bitmoe_kernel_project/index.html",
       "/posts/softmax_temperature_annealing/index.html",
       "/posts/moe_blog/index.html",
