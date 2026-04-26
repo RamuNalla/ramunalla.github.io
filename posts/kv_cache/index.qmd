@@ -1,7 +1,7 @@
 ---
 title: "KV Cache: From O(n²) to O(n) in LLM Inference"
 description: "A code-first deep dive into the math, memory bottlenecks, and implementation of the KV Cache in autoregressive Transformers."
-categories: [Deep Learning, Transformers, LLM Inference, PyTorch, Performance]
+categories: [Deep Learning, Transformers, Inference, PyTorch, LLMs]
 image: "hero_image.png"
 draft: false
 author: "Ramu Nalla"
