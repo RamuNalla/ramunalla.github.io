@@ -1,7 +1,7 @@
 ---
 title: "The Inference Architect: Breaking the Memory Wall"
 description: "A deep technical dive into optimizing LLM autoregressive decoding. How I built an OS-style Paged Memory Manager and an Asymmetric INT8 Triton kernel to achieve a 2.6x speedup and eliminate VRAM fragmentation."
-categories: [LLMs, Inference, PyTorch, Triton, MLOps, Performance]
+categories: [LLMs, Inference, PyTorch, Triton, MLOps]
 image: "hero_image.png"
 draft: false
 author: "Ramu Nalla"
