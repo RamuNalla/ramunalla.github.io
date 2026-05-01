@@ -1,3 +1,9 @@
+- title: "The Inference Architect: Paged KV & INT8 Kernels"
+  date: "2026-05-01"
+  description: "Built a custom LLM inference engine solving $O(n^2)$ compute bottlenecks. Implemented an OS-style Paged Memory Manager (PagedAttention) eliminating 50% VRAM fragmentation. Engineered an asymmetric INT8 Triton kernel to break the memory bandwidth wall, achieving a 4x capacity increase and 2.6x latency speedup."
+  code: "[GitHub](https://github.com/RamuNalla/asym-int8-paged-kv)"
+  stack: "PyTorch, OpenAI Triton, Memory Profiling, Hardware Optimization, LLM Decoding"
+
 - title: "BitMoE-158 - 1.58-bit MoE via Triton"
   date: "2026-04-23"
   description: "Engineered a custom Asymmetric MoE architecture compressing FFNs to 1.58-bit ternary precision via a custom STE. Developed a fused Triton GPU kernel to eliminate PyTorch sparse dispatch bottlenecks, achieving a 75.5% reduction in peak VRAM and a 5x throughput acceleration at long context windows."
