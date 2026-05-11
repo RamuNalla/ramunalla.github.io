@@ -1,0 +1,116 @@
+---
+title: "System 2 Distillation: Chain-of-Thought to Test-Time Scaling"
+description: "A deep dive into the mechanics of deliberative reasoning in LLMs, exploring the transition from zero-shot prompting to inference-time compute scaling and the efficiency of Chain-of-Draft."
+categories: [Reasoning, Inference Scaling, Deep Learning]
+image: "cot_hero.png"
+draft: false
+author: "Ramu Nalla"
+date: "2026-05-08"
+format:
+  html:
+    toc: false
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+---
+
+<div class="blog-manual-meta">Published by Ramu Nalla - May 8, 2026</div>
+
+![Chain-of-Thought vs Direct Answering](cot_hero.png){width=80% fig-align="center"}
+
+---
+
+Standard language model inference is often described as "System 1" thinking—fast, instinctive, and reactive. When you ask a vanilla GPT-4 or Llama-3 model a question, it begins predicting the answer token-by-token in a single forward pass. While this works for creative writing, it fails catastrophically for multi-step logic.
+
+The industry has moved toward **Chain-of-Thought (CoT)** and its successor, **Inference-Time Compute Scaling**, to elicit "System 2" thinking—deliberative, slow, and logical. By allowing a model to "think" before it "speaks," we unlock reasoning capabilities that are fundamentally inaccessible to models restricted to direct answering.
+
+In this post, I will explore the **origins** of CoT, the **mathematical justification** for why it works, the move toward **Majority Voting**, and the new frontier of production efficiency: **Chain-of-Draft (CoD)**.
+
+## 1. The Origins
+
+Chain-of-Thought didn't start as a modeling breakthrough; it started as a discovery in prompt engineering. 
+
+### The Google Brain Revelation (2022)
+In early 2022, researchers at Google Brain published *“Chain-of-Thought Prompting Elicits Reasoning in Large Language Models.”* They found that Large Language Models (LLMs) were failing simple arithmetic not because they lacked the "knowledge," but because they lacked the **working memory**.
+
+By providing a few examples where the solution was explained step-by-step (**Few-Shot CoT**), the model's accuracy on the GSM8K benchmark jumped from mediocre to state-of-the-art.
+
+### Zero-Shot CoT: The "Magic" of Deliberation
+Shortly after, researchers discovered that you didn't even need examples. By simply appending the string **"Let’s think step by step"** to a prompt, the model would self-induce a reasoning trajectory. 
+
+**Example:**
+
+*   **Direct Prompt:** "If John has 5 apples and eats 2, then buys 3 more, how many does he have?" -> **Answer: 6.**
+*   **CoT Prompt:** "Let's think step by step." -> **Answer: John starts with 5. He eats 2 (5-2=3). He buys 3 (3+3=6). Final answer: 6.**
+
+## 2. The Modeling Pivot: Distilling the Habit
+
+Today, we no longer rely on prompting tricks. We now **distill** reasoning into models through **Supervised Fine-Tuning (SFT)** and **Reinforcement Learning (RL)**.
+
+### Why CoT Works: The Token-as-Compute Theory
+Why does writing out steps make a model smarter? It comes down to the Transformer architecture. A Transformer has a fixed amount of computation (FLOPs) it can perform per token generated.
+
+If a model answers "6" immediately, it has exactly one forward pass to calculate the entire logic of the problem. If the model writes 50 tokens of reasoning, it has performed **50 forward passes** before committing to the final answer. **Chain-of-Thought is essentially a way to scale the "depth" of the model's processing through sequence length.**
+
+### The Evolution into "o1" and DeepSeek-R1
+The modern era (2025-2026) has moved beyond Distillation toward **RL-based Reasoning**. Models like OpenAI’s o1 and DeepSeek-R1 are trained with rewards for correct answers, allowing them to discover their own reasoning strategies—including backtracking, self-correction, and "double-checking."
+
+```text
+<thought> 
+Step 1: Calculate initial state.
+Step 2: Apply first transformation.
+[reflection] Wait, did I account for the tax? Let me re-calculate...
+Step 3: Apply second transformation.
+</thought>
+<answer> Final Result </answer>
+```
+
+## 3. Scaling Compute During Inference
+
+The most significant shift in LLM research is the **Inference Scaling Law**. We have learned that if we give a model more "time to think" at inference time, its intelligence increases even without further training.
+
+### Majority Voting (Self-Consistency)
+One of the most robust ways to use CoT today is **Self-Consistency (Majority CoT)**. Instead of generating one reasoning path, we generate $N$ paths (e.g., $N=5$).
+
+1.  **Path A:** ... logic ... Answer: 42
+2.  **Path B:** ... logic ... Answer: 42
+3.  **Path C:** ... logic ... Answer: 40
+4.  **Path D:** ... logic ... Answer: 42
+5.  **Path E:** ... logic ... Answer: 40
+
+By taking the **Majority Vote (42)**, we filter out "stochastic errors"—instances where the model understood the logic but made a minor calculation slip in a single path.
+
+### Pass@N and Verifiers
+In high-stakes environments, we use a **Verifier model** (a Reward Model) to score the logical consistency of each path. This allows us to scale "test-time compute" to solve problems that a single-pass model would find impossible.
+
+## 4. Chain-of-Draft (CoD): The Production Frontier
+
+While CoT is powerful, it is **expensive**. In production, paying for 200 "thinking tokens" for every query is unsustainable. This led to the development of **Chain-of-Draft (CoD)**.
+
+### The Concept: Minimalist Reasoning
+CoD is based on the idea that once a model is "smart" enough, it doesn't need to explain its logic in full natural language sentences. It can use a **shorthand "draft" notation**.
+
+*   **Full CoT:** "First, I will take the 50 units and find 20 percent. 20 percent of 50 is 10. Then I subtract 10 from 50 to get 40..."
+*   **Chain-of-Draft:** "50*0.2=10 -> 50-10=40 -> 40+15=55"
+
+### Technical Justification for CoD
+CoD distillation aims to maintain the **computational benefits** of CoT (using multiple tokens to "think") while stripping away the **linguistic overhead**.
+
+::: {.blog-content-table}
+
+| Feature | Full Chain-of-Thought | Chain-of-Draft |
+|:---|:---:|:---:|
+| **Token Usage** | High (100-500 tokens) | Low (15-30 tokens) |
+| **Latency** | 5s - 20s | 0.5s - 2s |
+| **Logic Fidelity** | High | High (if distilled correctly) |
+| **Human Readability** | High | Low (Symbolic) |
+
+:::
+
+By distilling a large model's full CoT into a small model's CoD, we achieve a "System 2" capability that is fast enough for edge deployment and real-time agents.
+
+## Conclusion: The Path Forward
+
+The future of LLM reasoning is not about bigger models, but about **better thinking**. Chain-of-Thought has evolved from a simple "Let's think step by step" prompt into a sophisticated modeling framework where we scale compute at the moment of inference.
+
+Whether through **Majority Voting** for high-accuracy research or **Chain-of-Draft** for low-latency production, the ability to orchestrate a model's internal monologue is the defining skill of the modern AI engineer. We are no longer just training models to "know"; we are training them to "deliberate."
