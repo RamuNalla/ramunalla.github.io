@@ -349,6 +349,20 @@ pre.sourceCode {
   padding: 15px !important;
 }
 
+/* Plain fenced blocks (e.g. ```text): not wrapped in .sourceCode; theme can leave code almost black on dark bg */
+pre.text {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+}
+
+pre.text code {
+  color: #e0e0e0 !important;
+  font-family: "JetBrains Mono", "Fira Code", monospace !important;
+  font-size: 0.9rem;
+}
+
 code.sourceCode {
   font-family: "JetBrains Mono", "Fira Code", monospace !important; 
   font-size: 0.9rem;
