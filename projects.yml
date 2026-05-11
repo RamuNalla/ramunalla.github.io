@@ -1,3 +1,9 @@
+- title: "The Deliberate SLM: System 2 CoT & CoD Optimization"
+  date: "2026-05-11"
+  description: "Engineered a multi-stage alignment pipeline to distill System 2 reasoning into Qwen2.5-3B. Implemented 'o1-style' test-time compute scaling (Best-of-N) to achieve a 30% accuracy gain on GSM8K. Developed a production-grade Chain-of-Draft (CoD) distillation, slashing token consumption by 74% and achieving a 3.8x latency speedup."
+  code: "[GitHub](https://github.com/RamuNalla/deliberate-slm)"
+  stack: "Unsloth, QLoRA, TRL, Inference Scaling, Huggingface"
+
 - title: "The Inference Architect: Paged KV & INT8 Kernels"
   date: "2026-05-01"
   description: "Built a custom LLM inference engine solving $O(n^2)$ compute bottlenecks. Implemented an OS-style Paged Memory Manager (PagedAttention) eliminating 50% VRAM fragmentation. Engineered an asymmetric INT8 Triton kernel to break the memory bandwidth wall, achieving a 4x capacity increase and 2.6x latency speedup."
