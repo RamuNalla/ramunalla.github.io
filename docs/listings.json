@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/deliberate_slm_project/index.html",
       "/posts/cot_cod/index.html",
       "/posts/asym-int8-paged-kv_project/index.html",
       "/posts/paged_attention/index.html",
@@ -34,6 +35,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/deliberate_slm_project/index.html",
       "/posts/cot_cod/index.html",
       "/posts/asym-int8-paged-kv_project/index.html",
       "/posts/paged_attention/index.html",
