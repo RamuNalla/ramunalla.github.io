@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ramu Nalla">
+<meta name="dcterms.date" content="2026-05-14">
+<meta name="description" content="A deep technical dive into Direct Preference Optimization (DPO). How I built an automated RLAIF flywheel with algorithmic length-debiasing to cure EOS hallucinations in a 3B SLM, cutting token verbosity by 47% with zero alignment tax.">
+
+<title>DPO Alignment: Curing LLM Verbosity via RLAIF – Ramu Nalla</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0cda25dcbb8fe09c7138904322940710.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-44173b9775a90ee61f86e20e9b2f7a27.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="floating nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Ramu Nalla</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/RamuNalla" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://linkedin.com/in/ramu-nalla-2959b8b3/" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DPO Alignment: Curing LLM Verbosity via RLAIF</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLM Alignment</div>
+    <div class="quarto-category">LLMs</div>
+    <div class="quarto-category">DPO</div>
+    <div class="quarto-category">RLHF</div>
+    <div class="quarto-category">Unsloth</div>
+    <div class="quarto-category">AI Safety</div>
+    <div class="quarto-category">PyTorch</div>
+    <div class="quarto-category">Huggingface</div>
+    <div class="quarto-category">PEFT</div>
+    <div class="quarto-category">Reasoning</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A deep technical dive into Direct Preference Optimization (DPO). How I built an automated RLAIF flywheel with algorithmic length-debiasing to cure EOS hallucinations in a 3B SLM, cutting token verbosity by 47% with zero alignment tax.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ramu Nalla </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 14, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="blog-manual-meta">
+Published by Ramu Nalla - May 14, 2026
+</div>
+<div class="quarto-figure quarto-figure-center" style="margin: 20px auto; display: block;">
+<figure class="figure">
+<p><img src="hero_image_dpo.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Conceptual architecture of the RLAIF Data Flywheel and Direct Preference Optimization pipeline.</figcaption>
+</figure>
+</div>
+<hr>
+<p>Supervised Fine-Tuning (SFT) is excellent at teaching a language model <em>how</em> to reason, but it struggles to teach a model <em>when to stop</em>.</p>
+<p>When I trained my initial Qwen2.5-3B reasoning model, it successfully learned to solve complex logic puzzles. However, it quickly developed a critical behavioral flaw: <strong>EOS (End of Sequence) Hallucinations</strong>. Instead of answering a question and stopping, the model would invent new XML tags like <code>&lt;suggestion&gt;</code> and ramble endlessly until it hit its hard 512-token limit.</p>
+<p>To deploy models in production, they must be aligned. We need them to be concise, polite, and format-compliant. Historically, the industry used <strong>RLHF</strong> (Reinforcement Learning from Human Feedback) to achieve this. Today, we use <strong>DPO</strong> (Direct Preference Optimization).</p>
+<p>In this post, I will break down the math behind DPO, explain why RLHF is notoriously unstable, and walk through the codebase of my <strong>DPO Alignment Flywheel</strong>—a project that cured my model’s hallucination loops, slashed inference costs by nearly 50%, and incurred <strong>zero “Alignment Tax.”</strong></p>
+<section id="the-alignment-problem-why-sft-fails" class="level2">
+<h2 class="anchored" data-anchor-id="the-alignment-problem-why-sft-fails">1. The Alignment Problem: Why SFT Fails</h2>
+<p>Imagine a base LLM as a brilliant scholar who has memorized the entire internet. <strong>Supervised Fine-Tuning (SFT)</strong> teaches this scholar a specific format. You feed it 10,000 pairs of questions and answers. The model learns to mimic the distribution of that data via maximum likelihood estimation (MLE).</p>
+<p><strong>The Flaw:</strong> SFT only teaches <em>mimicry</em>. It does not teach human <em>preferences</em>. If your SFT dataset contains a few verbose or rambling answers, the model learns that rambling is an acceptable behavior. To fix this, we must shift from training on absolute ground truths to training on relative preferences.</p>
+</section>
+<section id="from-rlhf-to-dpo-taming-the-beast" class="level2">
+<h2 class="anchored" data-anchor-id="from-rlhf-to-dpo-taming-the-beast">2. From RLHF to DPO: Taming the Beast</h2>
+<section id="the-instability-of-rlhf" class="level3">
+<h3 class="anchored" data-anchor-id="the-instability-of-rlhf">The Instability of RLHF</h3>
+<p>OpenAI popularized RLHF to build ChatGPT. It involves three steps:</p>
+<ol type="1">
+<li>Generate multiple answers for a prompt.</li>
+<li>Train a separate <strong>Reward Model (RM)</strong> to mimic human scoring of those answers.</li>
+<li>Use <strong>Proximal Policy Optimization (PPO)</strong> to update the LLM’s weights so it chases higher scores from the RM.</li>
+</ol>
+<p>While effective, RLHF is a hardware and math nightmare. You must load three massive models into VRAM simultaneously (Active Model, Reference Model, Reward Model). Furthermore, PPO is highly unstable and prone to <strong>Mode Collapse</strong>—where the LLM discovers a bizarre hack (like repeating the word “the” 100 times) that accidentally tricks the Reward Model into giving it a perfect score.</p>
+</section>
+<section id="the-mathematical-elegance-of-dpo" class="level3">
+<h3 class="anchored" data-anchor-id="the-mathematical-elegance-of-dpo">The Mathematical Elegance of DPO</h3>
+<p>In 2023, Stanford researchers published a breakthrough: <strong>Direct Preference Optimization (DPO)</strong>. They mathematically proved that the Language Model <em>itself</em> can act as the Reward Model.</p>
+<p>Instead of a complex PPO loop, DPO uses a straightforward classification loss function acting directly on datasets of <code>Chosen</code> and <code>Rejected</code> responses:</p>
+<p><span class="math display">\[ \mathcal{L}_{DPO}(\pi_\theta; \pi_{ref}) = -\mathbb{E}_{(x, y_w, y_l) \sim D} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w | x)}{\pi_{ref}(y_w | x)} - \beta \log \frac{\pi_\theta(y_l | x)}{\pi_{ref}(y_l | x)} \right) \right] \]</span></p>
+<p><strong>What this math actually does:</strong></p>
+<ul>
+<li><strong><span class="math inline">\(\pi_\theta(y_w | x)\)</span>:</strong> The active model increases the probability of the winning (<code>Chosen</code>) tokens.</li>
+<li><strong><span class="math inline">\(\pi_\theta(y_l | x)\)</span>:</strong> The active model decreases the probability of the losing (<code>Rejected</code>) tokens.</li>
+<li><strong><span class="math inline">\(\beta\)</span> (KL Penalty):</strong> The beta parameter acts as an anchor to the <span class="math inline">\(\pi_{ref}\)</span> (Reference Model). It tells the optimizer: <em>“Prefer the chosen response, but do not change your internal vocabulary distribution too far from the original model.”</em> This prevents the model from destroying its own grammar to win a reward.</li>
+</ul>
+</section>
+</section>
+<section id="stage-1-the-rlaif-data-flywheel-length-debiasing" class="level2">
+<h2 class="anchored" data-anchor-id="stage-1-the-rlaif-data-flywheel-length-debiasing">3. Stage 1: The RLAIF Data Flywheel &amp; Length Debiasing</h2>
+<p>You cannot align a model using off-the-shelf data; you must correct <em>your</em> model’s specific bad habits. To do this, I built an automated <strong>RLAIF (Reinforcement Learning from AI Feedback)</strong> data flywheel.</p>
+<ol type="1">
+<li><strong>Dual Generation:</strong> I prompted my SFT model to solve 500 GSM8K math puzzles at a high temperature (<span class="math inline">\(T=0.8\)</span>). This forced the model to generate two distinct reasoning paths per question.</li>
+<li><strong>LLM-as-a-Judge:</strong> Instead of paying humans, I used the Groq API to prompt Llama-3.3-70B as an impartial judge. It evaluated the paths based on logical accuracy, format compliance, and conciseness, outputting <code>Chosen</code> and <code>Rejected</code> pairs.</li>
+</ol>
+<section id="the-killer-feature-algorithmic-length-debiasing" class="level3">
+<h3 class="anchored" data-anchor-id="the-killer-feature-algorithmic-length-debiasing">The “Killer” Feature: Algorithmic Length-Debiasing</h3>
+<p>DPO has a famous vulnerability: <strong>Length Bias</strong>. LLM judges naturally associate longer answers with higher quality. If you blindly train DPO on this data, your model learns a terrible hack—<em>just generate more tokens to get a higher reward.</em></p>
+<p>To prevent this, I engineered a strict programmatic filter into the flywheel:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Length-Debiasing Logic in the Flywheel</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>chosen_len <span class="op">=</span> <span class="bu">len</span>(tokenizer.encode(chosen))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rejected_len <span class="op">=</span> <span class="bu">len</span>(tokenizer.encode(rejected))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> chosen_len <span class="op">&gt;</span> rejected_len:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[Filtered] Chosen path was longer (</span><span class="sc">{</span>chosen_len<span class="sc">}</span><span class="ss"> vs </span><span class="sc">{</span>rejected_len<span class="sc">}</span><span class="ss">). Discarding."</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>By literally throwing away any data pair where the winning answer was longer, I forced the DPO algorithm to learn a pure mathematical correlation: <strong>Conciseness + Accuracy = Reward.</strong></p>
+</section>
+</section>
+<section id="stage-2-hardware-aware-dpo-training" class="level2">
+<h2 class="anchored" data-anchor-id="stage-2-hardware-aware-dpo-training">4. Stage 2: Hardware-Aware DPO Training</h2>
+<p>Running DPO on a 16GB T4 GPU is traditionally impossible because of the need to keep both the Active and Reference models in memory. I bypassed this using <strong>Unsloth</strong> and <strong>QLoRA</strong>.</p>
+<p>Unsloth provides a highly optimized <code>PatchDPOTrainer</code>. During the forward pass, it dynamically un-patches the LoRA adapters to calculate the Reference log-probs, and then re-patches them to calculate the Active log-probs. This entirely eliminates the memory footprint of the Reference Model.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unsloth <span class="im">import</span> PatchDPOTrainer</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>PatchDPOTrainer() <span class="co"># The magic line for single-GPU DPO</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>dpo_args <span class="op">=</span> DPOConfig(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    gradient_accumulation_steps <span class="op">=</span> <span class="dv">4</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    learning_rate <span class="op">=</span> <span class="fl">5e-5</span>, <span class="co"># DPO requires much lower LR than SFT</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> <span class="fl">0.1</span>, <span class="co"># Standard KL penalty</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    report_to <span class="op">=</span> <span class="st">"wandb"</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="telemetry-tracking-the-reward-margin" class="level3">
+<h3 class="anchored" data-anchor-id="telemetry-tracking-the-reward-margin">Telemetry: Tracking the Reward Margin</h3>
+<p>In SFT, we watch the Loss curve. In DPO, Loss is deceptive. The true metric of learning is the <strong>Reward Margin</strong>—the difference between the model’s implicit reward for the chosen response versus the rejected one.</p>
+<p>I streamed the telemetry to Weights &amp; Biases (W&amp;B). As shown below, the reward margin trended cleanly upward, proving the model was actively separating good logic from rambling hallucinations.</p>
+<div class="quarto-figure quarto-figure-center" style="margin: 20px auto; display: block;">
+<figure class="figure">
+<p><img src="wandb_reward_margin.png" class="img-fluid figure-img" style="width:65.0%"></p>
+<figcaption>W&amp;B Reward Margin Chart: Clear separation of Chosen vs Rejected rewards over time.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="stage-3-defeating-the-alignment-tax" class="level2">
+<h2 class="anchored" data-anchor-id="stage-3-defeating-the-alignment-tax">5. Stage 3: Defeating the “Alignment Tax”</h2>
+<p>The <strong>Alignment Tax</strong> is the tendency for models to lose core intelligence (like coding or math skills) when heavily aligned for safety or formatting.</p>
+<p>To prove the efficacy of my length-debiased flywheel, I ran a deterministic benchmark against the base SFT model across 50 unseen complex logic queries.</p>
+<div class="blog-content-table">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: center;">SFT Base Model</th>
+<th style="text-align: center;">DPO Aligned Model</th>
+<th style="text-align: center;">Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Accuracy (Win Rate)</strong></td>
+<td style="text-align: center;">70.0%</td>
+<td style="text-align: center;"><strong>70.0%</strong></td>
+<td style="text-align: center;"><strong>0.0% (No Alignment Tax)</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Format Compliance</strong></td>
+<td style="text-align: center;">88.0%</td>
+<td style="text-align: center;"><strong>94.0%</strong></td>
+<td style="text-align: center;"><strong>+6.0%</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Avg Verbosity (Tokens)</strong></td>
+<td style="text-align: center;">289</td>
+<td style="text-align: center;"><strong>153</strong></td>
+<td style="text-align: center;"><strong>-136 (~47% Savings)</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The results were flawless. By tuning <span class="math inline">\(\beta\)</span> correctly and sanitizing the preference data, the DPO model successfully eliminated formatting hallucinations and slashed token generation costs by nearly 50%, while maintaining a <strong>100% retention of its mathematical reasoning capabilities.</strong></p>
+</section>
+<section id="the-alignment-arena-visual-proof" class="level2">
+<h2 class="anchored" data-anchor-id="the-alignment-arena-visual-proof">6. The Alignment Arena (Visual Proof)</h2>
+<p>Numbers are great, but seeing is believing. For the final deliverable, I built a local Streamlit A/B testing UI called the <strong>Alignment Arena</strong>.</p>
+<p>To run this locally without crashing my Mac’s Unified Memory, I utilized <code>PeftModel</code> dynamic LoRA swapping. The app loads the heavy 6GB base Qwen model just once, and physically swaps the 100MB SFT and DPO adapters into the active context in milliseconds based on which column is generating text.</p>
+<div class="quarto-figure quarto-figure-center" style="margin: 20px auto; display: block;">
+<figure class="figure">
+<p><img src="arena_demo.gif" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Streamlit Alignment Arena: The SFT model looping infinitely on the left, while the DPO model stops perfectly on the right.</figcaption>
+</figure>
+</div>
+<p>As seen in the demo, the SFT model (left) correctly answers the prompt but proceeds to fall into an EOS hallucination, repeating variations of the logic endlessly. The DPO model (right) outputs concise logic, provides the answer, and halts immediately.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Alignment is what bridges the gap between a research experiment and a deployable product. Through this project, I demonstrated that <strong>Direct Preference Optimization</strong>, when paired with programmatic data curation (Length-Debiasing) and automated generation (RLAIF), is an incredibly powerful tool for shaping SLM behavior without incurring an alignment tax.</p>
+<p>You can explore the full data flywheel scripts, the DPO Unsloth configurations, and the Streamlit Arena UI in the <a href="https://github.com/RamuNalla/dpo-alignment-flywheel">dpo-alignment-flywheel</a> repository on GitHub. I stored the live dpo-aligned model weights in Huggingface <a href="https://huggingface.co/nallaramu/deliberate-qwen-2.5-3b-dpo">deliberate-qwen-2.5-3b-dpo</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="footer-social-links" style="margin-bottom: 20px;">
+<p><a href="mailto:your@email.com" title="Email" style="margin: 0 12px; color: #888;"><i class="bi bi-envelope-fill"></i></a> <a href="https://github.com/RamuNalla" title="GitHub" style="margin: 0 12px; color: #888;"><i class="bi bi-github"></i></a> <a href="https://linkedin.com/in/ramu-nalla-2959b8b3/" title="LinkedIn" style="margin: 0 12px; color: #888;"><i class="bi bi-linkedin"></i></a> <a href="https://twitter.com" title="Twitter" style="margin: 0 12px; color: #888;"><i class="bi bi-twitter-x"></i></a> <a href="https://instagram.com" title="Instagram" style="margin: 0 12px; color: #888;"><i class="bi bi-instagram"></i></a></p>
+</div>
+<div class="footer-text" style="color: #888; font-size: 0.9rem; margin-bottom: 10px;">
+<p>Best to reach out to me over email or DM me on LinkedIn.</p>
+</div>
+<div class="custom-copyright" style="color: #666; font-size: 0.8rem;">
+<p>© 2026 Ramu Nalla. All rights reserved.</p>
+</div>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
