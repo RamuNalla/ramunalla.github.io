@@ -1,7 +1,7 @@
 ---
 title: "Deliberate-SLM: System 2 Reasoning and Production efficiency"
 description: "From a 70B teacher’s reflective CoT to Qwen2.5-3B: Best-of-N scaling lifted oracle accuracy from 55% to 85%; Chain-of-Draft cut average latency from 17.4s to 4.5s with 74% fewer thought tokens; accuracy retention stayed at 96.2% vs full reasoning."
-categories: [LLMs, Fine-Tuning, Unsloth, Distillation, Inference, Huggingface]
+categories: [LLMs, Fine-Tuning, Unsloth, Distillation, Huggingface]
 image: "hero_image.png"
 draft: false
 author: "Ramu Nalla"

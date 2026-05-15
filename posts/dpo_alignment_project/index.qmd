@@ -2,7 +2,7 @@
 ---
 title: "DPO Alignment: Curing LLM Verbosity via RLAIF"
 description: "A deep technical dive into Direct Preference Optimization (DPO). How I built an automated RLAIF flywheel with algorithmic length-debiasing to cure EOS hallucinations in a 3B SLM, cutting token verbosity by 47% with zero alignment tax."
-categories: [LLM Alignment, LLMs, DPO, RLHF, Unsloth, AI Safety, PyTorch, Huggingface, PEFT, Reasoning]
+categories: [LLMs, DPO, RLHF, Unsloth, PyTorch, Huggingface, PEFT]
 image: "hero_image_dpo.png"
 draft: false
 author: "Ramu Nalla"
