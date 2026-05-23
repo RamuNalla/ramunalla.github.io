@@ -1,3 +1,9 @@
+- title: "SentinelRAG: Agentic Self-Correcting Gateway"
+  date: "2026-05-23"
+  description: "Architected an agentic LangGraph state machine featuring active hallucination grading and CRAG web-fallbacks. Integrated a semantic vector cache that slashed inference latency by >99%. Achieved 100% factual faithfulness on Ragas evaluations, fully instrumented via Arize Phoenix."
+  code: "[GitHub](https://github.com/RamuNalla/sentinel-RAG)"
+  stack: "LangGraph, CRAG, ChromaDB, Arize Phoenix, Ragas, HuggingFace"
+
 - title: "DPO Alignment Flywheel: Length-Debiased DPO"
   date: "2026-05-14"
   description: "Engineered a RLAIF data flywheel to cure EOS hallucinations and verbosity in Qwen2.5-3B SLM. Applied strict algorithmic length-debiasing and trained via Unsloth's hardware-aware DPOTrainer, reducing token consumption by 47% with zero alignment tax. Features a dynamic LoRA-swapping Streamlit A/B Arena."
