@@ -434,9 +434,35 @@ main table tr td:last-child {
 
 #quarto-document-content .blog-content-table table {
   width: 100%;
-  max-width: 32rem;
+  max-width: 100%;
   border-collapse: collapse !important;
   margin: 0 auto 0.5rem;
+}
+
+/* Ragas — per question: prompts left; scores centered */
+#quarto-document-content .blog-content-table.ragas-per-question table th:nth-child(1),
+#quarto-document-content .blog-content-table.ragas-per-question table td:nth-child(1) {
+  text-align: left !important;
+}
+
+#quarto-document-content .blog-content-table.ragas-per-question table th:nth-child(2),
+#quarto-document-content .blog-content-table.ragas-per-question table td:nth-child(2),
+#quarto-document-content .blog-content-table.ragas-per-question table th:nth-child(3),
+#quarto-document-content .blog-content-table.ragas-per-question table td:nth-child(3) {
+  text-align: center !important;
+}
+
+/* Ragas — summary row: Metric + Impact left; score centered */
+#quarto-document-content .blog-content-table.ragas-summary table th:nth-child(1),
+#quarto-document-content .blog-content-table.ragas-summary table td:nth-child(1),
+#quarto-document-content .blog-content-table.ragas-summary table th:nth-child(3),
+#quarto-document-content .blog-content-table.ragas-summary table td:nth-child(3) {
+  text-align: left !important;
+}
+
+#quarto-document-content .blog-content-table.ragas-summary table th:nth-child(2),
+#quarto-document-content .blog-content-table.ragas-summary table td:nth-child(2) {
+  text-align: center !important;
 }
 
 #quarto-document-content .blog-content-table table thead {

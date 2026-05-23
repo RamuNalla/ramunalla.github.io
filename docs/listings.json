@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/sentinelRAG_project/index.html",
       "/posts/dpo_alignment_project/index.html",
       "/posts/deliberate_slm_project/index.html",
       "/posts/cot_cod/index.html",
@@ -36,6 +37,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/sentinelRAG_project/index.html",
       "/posts/dpo_alignment_project/index.html",
       "/posts/deliberate_slm_project/index.html",
       "/posts/cot_cod/index.html",
