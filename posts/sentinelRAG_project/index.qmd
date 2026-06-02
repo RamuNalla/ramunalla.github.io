@@ -1,5 +1,5 @@
 ---
-title: "Curing RAG Hallucinations: A Self-Reflective Agentic Gateway"
+title: "Curing RAG Hallucinations: A Self-Reflective Gateway"
 description: "A deep technical dive into moving beyond Naive RAG. How I engineered SentinelRAG with LangGraph, Corrective Web Fallbacks (CRAG), and Semantic Caching to drop latency by 99% and eliminate hallucinations."
 categories: [LLMs, RAG, LangGraph, AI Agents, Observability]
 image: "hero_image_sentinel.png"
