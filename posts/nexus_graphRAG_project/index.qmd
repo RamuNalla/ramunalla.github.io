@@ -1,5 +1,5 @@
 ---
-title: "Architecting a Hybrid GraphRAG System - To Defeat 'Lost in the Middle' Problem"
+title: "Architecting a Hybrid GraphRAG System"
 description: "A deep technical dive into Nexus-GraphRAG. How I engineered a hybrid Knowledge Graph and Vector Database architecture using Neo4j, LlamaIndex, and a ReAct routing agent to master multi-hop financial reasoning."
 categories: [LLMs, GraphRAG, Neo4j, LangGraph, AI Agents]
 image: "hero_image_nexus.png"
