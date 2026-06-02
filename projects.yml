@@ -1,3 +1,9 @@
+- title: "Nexus-GraphRAG: Hybrid Graph-Vector Reasoning Engine"
+  date: "2026-06-01"
+  description: "Built a hybrid Graph-Vector RAG engine with a ReAct agent routing financial queries between Neo4j (multi-hop Cypher) and Qdrant (semantic search). Groq-powered text-to-Cypher pipeline extracts entity graphs from SEC 10-K filings. Outperformed Naive RAG by +93% on Answer Relevancy via Ragas 0.4.3."
+  code: "[GitHub](https://github.com/RamuNalla/nexus-graphRAG)"
+  stack: "Neo4j, Qdrant, FastAPI, LLaMA, Langchain, fastembed, Ragas, Docker"
+
 - title: "SentinelRAG: Agentic Self-Correcting Gateway"
   date: "2026-05-23"
   description: "Architected an agentic LangGraph state machine featuring active hallucination grading and CRAG web-fallbacks. Integrated a semantic vector cache that slashed inference latency by >99%. Achieved 100% factual faithfulness on Ragas evaluations, fully instrumented via Arize Phoenix."
