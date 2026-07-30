@@ -1,3 +1,9 @@
+- title: "RAG-Guard NLI: CPU-Native Hallucination Detector"
+  date: "2026-07-29"
+  description: "Eliminated LLM-as-a-judge overhead with a 3-stage NLI pipeline (claim extraction → semantic routing → DeBERTa-v3 Cross-Encoder). ONNX INT8 quantization delivers a 3.19× speedup and 70% model compression at zero accuracy loss. Achieves 91.2% hallucination recall on HaluEval-1K."
+  code: "[GitHub](https://github.com/RamuNalla/rag-guard-NLI)"
+  stack: "DeBERTa-v3, ONNX Runtime, spaCy, sentence-transformers, LangChain, LlamaIndex"
+
 - title: "Nexus-GraphRAG: Hybrid Graph-Vector Reasoning Engine"
   date: "2026-06-01"
   description: "Built a hybrid Graph-Vector RAG engine with a ReAct agent routing financial queries between Neo4j (multi-hop Cypher) and Qdrant (semantic search). Groq-powered text-to-Cypher pipeline extracts entity graphs from SEC 10-K filings. Outperformed Naive RAG by +93% on Answer Relevancy via Ragas 0.4.3."
