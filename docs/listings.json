@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/rag-guard-nli_project/index.html",
       "/posts/nexus_graphRAG_project/index.html",
       "/posts/sentinelRAG_project/index.html",
       "/posts/dpo_alignment_project/index.html",
@@ -38,6 +39,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/rag-guard-nli_project/index.html",
       "/posts/nexus_graphRAG_project/index.html",
       "/posts/sentinelRAG_project/index.html",
       "/posts/dpo_alignment_project/index.html",
