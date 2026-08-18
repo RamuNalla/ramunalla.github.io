@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/orthogonal-moe-adapters-project/index.html",
       "/posts/rag-guard-nli_project/index.html",
       "/posts/nexus_graphRAG_project/index.html",
       "/posts/sentinelRAG_project/index.html",
@@ -39,6 +40,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/orthogonal-moe-adapters-project/index.html",
       "/posts/rag-guard-nli_project/index.html",
       "/posts/nexus_graphRAG_project/index.html",
       "/posts/sentinelRAG_project/index.html",
