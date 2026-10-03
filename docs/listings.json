@@ -6,6 +6,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/vit-from-scratch-project/index.html",
       "/posts/orthogonal-moe-adapters-project/index.html",
       "/posts/rag-guard-nli_project/index.html",
       "/posts/nexus_graphRAG_project/index.html",
@@ -40,6 +41,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/vit-from-scratch-project/index.html",
       "/posts/orthogonal-moe-adapters-project/index.html",
       "/posts/rag-guard-nli_project/index.html",
       "/posts/nexus_graphRAG_project/index.html",
