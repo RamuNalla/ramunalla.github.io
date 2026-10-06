@@ -50,7 +50,7 @@ The pipeline has four stages:
 3. **Transformer encoder:** a stack of Pre-Norm blocks, each with Multi-Head Self-Attention (MHSA) and an MLP with GELU.
 4. **Classification head:** take the final `[CLS]` representation and map it to 100 class logits.
 
-```
+```text
 [Input Image: 3 x 32 x 32]
       │
       ▼ (Conv2d Patchify)
