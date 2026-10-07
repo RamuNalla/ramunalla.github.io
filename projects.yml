@@ -1,3 +1,9 @@
+- title: "Vision Transformer From Scratch"
+  date: "2026-10-03"
+  description: "Built a Vision Transformer in pure PyTorch, with patch embedding, multi-head self-attention and Pre-Norm encoder blocks all written by hand. Trained on CIFAR-100 from scratch to 30.4% validation accuracy in 5 epochs, with pytest shape tests for every layer."
+  code: "[GitHub](https://github.com/RamuNalla/vit-from-scratch)"
+  stack: "PyTorch, Vision Transformer, CIFAR-100, Pytest"
+
 - title: "Orthogonal MoE Adapters: Fine-Tune Forever, Forget Nothing"
   date: "2026-08-18"
   description: "Solved Catastrophic Forgetting in LLMs via SVD subspace extraction and orthogonal gradient projection (G⊥ = G − GUUᵀ). A MoE router isolates each task in its own frozen expert. TinyLlama-1.1B gained 37% on medical and 24% on SQL perplexity sequentially with zero degradation to general knowledge."
